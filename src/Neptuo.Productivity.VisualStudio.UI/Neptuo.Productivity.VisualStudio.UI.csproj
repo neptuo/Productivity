@@ -122,7 +122,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GuidList.cs" />
+    <Compile Include="VsPackage.GuidList.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
