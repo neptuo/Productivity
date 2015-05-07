@@ -21,13 +21,20 @@ namespace Neptuo.Productivity.FriendlyNamespaces
             SyntaxNode root = tree.GetRoot();
             foreach (NamespaceDeclarationSyntax namespaceSyntax in root.ChildNodes().OfType<NamespaceDeclarationSyntax>())
             {
+                List<IdentifierNameSyntax> toRemove = new List<IdentifierNameSyntax>();
                 foreach (IdentifierNameSyntax identifierSyntax in namespaceSyntax.Name.ChildNodes())
                 {
+                    
                     if(identifierSyntax.Identifier.Text.StartsWith("_"))
-                    {
-                        //identifierSyntax.ReplaceNode(identifierSyntax.Identifier, NameSyntax.)
-                    }
+                        toRemove.Add(identifierSyntax);
                 }
+
+                //TODO: Use SyntaxFactory....
+                NameSyntax result = namespaceSyntax.Name;
+                foreach (IdentifierNameSyntax item in toRemove)
+                    result = result.RemoveNode(item, SyntaxRemoveOptions.KeepNoTrivia);
+
+                NamespaceDeclarationSyntax newNamespaceSyntax = namespaceSyntax.ReplaceNode(namespaceSyntax.Name, result);
             }
 
             UnderScoreVisitor visitor = new UnderScoreVisitor();
