@@ -12,6 +12,7 @@ using System.ComponentModel.Composition;
 using EnvDTE;
 using EnvDTE80;
 using System.Windows.Forms;
+using Neptuo.Productivity.FriendlyNamespaces;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -36,6 +37,8 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed partial class VsPackage : Package
     {
+        private DTE dte;
+
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
         #region Package Members
@@ -49,7 +52,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
 
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
@@ -122,25 +125,34 @@ namespace Neptuo.Productivity.VisualStudio.UI
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            UnderScoreRemover underScore = new UnderScoreRemover();
+
+            TextDocument doc = (TextDocument)(dte.ActiveDocument.Object("TextDocument"));
+            var p = doc.StartPoint.CreateEditPoint();
+            string s = p.GetText(doc.EndPoint);
+
+            underScore.FixNamespace(s);
+
+
             // Show a Message Box to prove we were here
-            IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
-            Guid clsid = Guid.Empty;
-            int result;
-            ErrorHandler.ThrowOnFailure(
-                uiShell.ShowMessageBox(
-                    0,
-                    ref clsid,
-                    "Productivity",
-                    string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
-                    string.Empty,
-                    0,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-                    OLEMSGICON.OLEMSGICON_INFO,
-                    0,        // false
-                    out result
-                )
-            );
+            //IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
+            //Guid clsid = Guid.Empty;
+            //int result;
+            //ErrorHandler.ThrowOnFailure(
+            //    uiShell.ShowMessageBox(
+            //        0,
+            //        ref clsid,
+            //        "Productivity",
+            //        string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
+            //        string.Empty,
+            //        0,
+            //        OLEMSGBUTTON.OLEMSGBUTTON_OK,
+            //        OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
+            //        OLEMSGICON.OLEMSGICON_INFO,
+            //        0,        // false
+            //        out result
+            //    )
+            //);
         }
     }
 }

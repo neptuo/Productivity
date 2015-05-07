@@ -161,6 +161,12 @@
     <Resource Include="Resources\Images.png" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Productivity\Neptuo.Productivity.csproj">
+      <Project>{b76af700-51b5-435d-8e32-9292a8726895}</Project>
+      <Name>Neptuo.Productivity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
