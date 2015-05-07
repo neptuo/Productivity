@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Neptuo.Neptuo_Productivity_VisualStudio_UI {
+namespace Neptuo.Productivity.VisualStudio.UI {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Neptuo.Neptuo_Productivity_VisualStudio_UI {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Neptuo.Neptuo_Productivity_VisualStudio_UI.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Neptuo.Productivity.VisualStudio.UI.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

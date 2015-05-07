@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783CCB
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		src\Neptuo.Productivity.VisualStudio.UI\VsPackage.cs = src\Neptuo.Productivity.VisualStudio.UI\VsPackage.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.VisualStudio.UI", "src\Neptuo.Productivity.VisualStudio.UI\Neptuo.Productivity.VisualStudio.UI.csproj", "{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}"
