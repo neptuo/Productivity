@@ -104,8 +104,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FriendlyNamespaces\UnderScoreRemover.cs" />
-    <Compile Include="FriendlyNamespaces\UnderScoreVisitor.cs" />
+    <Compile Include="FriendlyNamespaces\UnderscoreRewriter.cs" />
+    <Compile Include="FriendlyNamespaces\UnderscoreRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

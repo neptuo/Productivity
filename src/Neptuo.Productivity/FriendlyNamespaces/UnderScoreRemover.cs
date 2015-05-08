@@ -9,36 +9,23 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.FriendlyNamespaces
 {
-    public class UnderScoreRemover
+    public class UnderscoreRemover
     {
-        public void FixNamespace(string textContent)
+        public string FixNamespace(string textContent)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(
                 textContent, 
                 new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
             );
 
+            UnderscoreRewriter rewriter = new UnderscoreRewriter();
             SyntaxNode root = tree.GetRoot();
-            foreach (NamespaceDeclarationSyntax namespaceSyntax in root.ChildNodes().OfType<NamespaceDeclarationSyntax>())
-            {
-                List<IdentifierNameSyntax> toRemove = new List<IdentifierNameSyntax>();
-                foreach (IdentifierNameSyntax identifierSyntax in namespaceSyntax.Name.ChildNodes())
-                {
-                    
-                    if(identifierSyntax.Identifier.Text.StartsWith("_"))
-                        toRemove.Add(identifierSyntax);
-                }
+            SyntaxNode newRoot = rewriter.Visit(root);
 
-                //TODO: Use SyntaxFactory....
-                NameSyntax result = namespaceSyntax.Name;
-                foreach (IdentifierNameSyntax item in toRemove)
-                    result = result.RemoveNode(item, SyntaxRemoveOptions.KeepNoTrivia);
+            if (rewriter.HasRewrites)
+                return newRoot.NormalizeWhitespace().ToFullString();
 
-                NamespaceDeclarationSyntax newNamespaceSyntax = namespaceSyntax.ReplaceNode(namespaceSyntax.Name, result);
-            }
-
-            UnderScoreVisitor visitor = new UnderScoreVisitor();
-            visitor.Visit(root);
+            return textContent;
         }
     }
 }

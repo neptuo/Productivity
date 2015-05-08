@@ -125,13 +125,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            UnderScoreRemover underScore = new UnderScoreRemover();
+            UnderscoreRemover underScore = new UnderscoreRemover();
 
             TextDocument doc = (TextDocument)(dte.ActiveDocument.Object("TextDocument"));
             var p = doc.StartPoint.CreateEditPoint();
             string s = p.GetText(doc.EndPoint);
 
-            underScore.FixNamespace(s);
+            string newTextContent = underScore.FixNamespace(s);
+            p.ReplaceText(doc.EndPoint, newTextContent, 0);
 
 
             // Show a Message Box to prove we were here
