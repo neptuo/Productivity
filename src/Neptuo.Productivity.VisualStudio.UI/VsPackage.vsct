@@ -34,19 +34,28 @@
     group; your package should define its own command set in order to avoid collisions  
     with command ids defined by other packages. -->
 
+        <Menus>
+            <Menu guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Menu1">
+                <Parent guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Group2"/>
+                <Strings>
+                    <ButtonText>Neptuo Productivity</ButtonText>
+                </Strings>
+            </Menu>
+        </Menus>
+
 
         <!-- In this section you can define new menu groups. A menu group is a container for 
          other menus or buttons (commands); from a visual point of view you can see the 
          group as the part of a menu contained between two lines. The parent of a group 
          must be a menu. -->
         <Groups>
-
-            <Group guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Group1" priority="0x0600">
+            <Group guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Group2" priority="0x0600">
                 <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
             </Group>
-
-
-
+            
+            <Group guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Group1" priority="0x0600">
+                <Parent guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Menu1"/>
+            </Group>
         </Groups>
 
         <!--Buttons section. -->
@@ -68,8 +77,6 @@
                     <ButtonText>Remove underscores from namespace</ButtonText>
                 </Strings>
             </Button>
-
-
 
         </Buttons>
 
@@ -96,8 +103,9 @@
 
         <!-- This is the guid used to group the menu commands together -->
         <GuidSymbol name="VsPackage.CommandSet1" value="{37fa6823-584f-4b27-b4c4-f19ad81189ff}">
-
+            <IDSymbol name="VsPackage.CommandSet1.Menu1" value="0x1021"/>
             <IDSymbol name="VsPackage.CommandSet1.Group1" value="0x1020" />
+            <IDSymbol name="VsPackage.CommandSet1.Group2" value="0x1022" />
             <IDSymbol name="VsPackage.CommandSet1.Command1" value="0x0100" />
         </GuidSymbol>
 

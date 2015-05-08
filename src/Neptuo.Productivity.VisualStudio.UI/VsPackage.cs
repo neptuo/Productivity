@@ -126,12 +126,15 @@ namespace Neptuo.Productivity.VisualStudio.UI
         {
             UnderscoreRemover underScore = new UnderscoreRemover();
 
-            TextDocument doc = (TextDocument)(dte.ActiveDocument.Object("TextDocument"));
-            var p = doc.StartPoint.CreateEditPoint();
-            string s = p.GetText(doc.EndPoint);
+            if (dte.ActiveDocument != null)
+            {
+                TextDocument doc = (TextDocument)(dte.ActiveDocument.Object("TextDocument"));
+                var p = doc.StartPoint.CreateEditPoint();
+                string s = p.GetText(doc.EndPoint);
 
-            string newTextContent = underScore.FixNamespace(s);
-            p.ReplaceText(doc.EndPoint, newTextContent, 0);
+                string newTextContent = underScore.FixNamespace(s);
+                p.ReplaceText(doc.EndPoint, newTextContent, 0);
+            }
 
 
             // Show a Message Box to prove we were here
