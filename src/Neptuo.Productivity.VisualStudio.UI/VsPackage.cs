@@ -32,12 +32,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [Guid(Constants.PackageString)]
+    [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed partial class VsPackage : Package
     {
-        private DTE dte;
         private UnderscoreService underscoreService;
 
         /////////////////////////////////////////////////////////////////////////////
@@ -53,33 +52,23 @@ namespace Neptuo.Productivity.VisualStudio.UI
             base.Initialize();
 
             // Initialize services.
-            dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
+            OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            
+            // Underscore service
             underscoreService = new UnderscoreService(dte);
-
+            underscoreService.WireAutoEvents(csharpProjectItemsEvents);
+            if (commandService != null)
+                underscoreService.WireUpMenuCommands(commandService);
 
 
 
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
-            ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
-
-            csharpProjectItemsEvents.ItemAdded += SolutionItemsEvents_ItemAdded;
             dte.Events.DocumentEvents.DocumentOpened += DocumentEvents_DocumentOpened;
             dte.Events.BuildEvents.OnBuildBegin += BuildEvents_OnBuildBegin;
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-
-            // Run all initialization methods.
-            InitializeCommands();
-        }
-
-        private void InitializeCommands()
-        {
-            OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
-            {
-                // Register all command handlers.
-                underscoreService.WireUpMenuCommands(commandService);
-            }
         }
 
         void SolutionEvents_ProjectAdded(Project project)
@@ -87,7 +76,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             //if (project.ConfigurationManager != null)
             //    project.ConfigurationManager.AddPlatform("x64", "Any CPU", true);
 
-            MessageBox.Show("ProjectAdded: " + project.Name);
+            //MessageBox.Show("ProjectAdded: " + project.Name);
         }
 
         private Stopwatch timer = new Stopwatch();
@@ -108,11 +97,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
             MessageBox.Show("DocumentOpened: " + document.FullName);
         }
 
-        void SolutionItemsEvents_ItemAdded(ProjectItem projectItem)
-        {
-            MessageBox.Show("ItemAddded: " + projectItem.Name);
-            //throw new NotImplementedException();
-        }
         #endregion
 
     }
