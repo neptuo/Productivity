@@ -64,11 +64,13 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
 
 
+#if DEBUG
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
             dte.Events.DocumentEvents.DocumentOpened += DocumentEvents_DocumentOpened;
             dte.Events.BuildEvents.OnBuildBegin += BuildEvents_OnBuildBegin;
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
+#endif
         }
 
         void SolutionEvents_ProjectAdded(Project project)
