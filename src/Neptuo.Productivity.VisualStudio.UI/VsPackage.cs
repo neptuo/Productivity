@@ -12,6 +12,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Forms;
 using Neptuo.Productivity.FriendlyNamespaces;
 using EnvDTE;
+using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -37,6 +38,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     public sealed partial class VsPackage : Package
     {
         private DTE dte;
+        private UnderscoreService underscoreService;
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
@@ -48,12 +50,16 @@ namespace Neptuo.Productivity.VisualStudio.UI
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
+            // Initialize services.
             dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
+            underscoreService = new UnderscoreService(dte);
 
+
+
+
+            //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
 
             csharpProjectItemsEvents.ItemAdded += SolutionItemsEvents_ItemAdded;
@@ -62,31 +68,24 @@ namespace Neptuo.Productivity.VisualStudio.UI
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
 
-            //foreach (Project project in dte.Solution.Projects)
-            //{
-            //    project.
-            //}
-
+            // Run all initialization methods.
             InitializeCommands();
         }
 
         private void InitializeCommands()
         {
-            // Add our command handlers for menu (commands must exist in the .vsct file)
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (null != mcs)
+            OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (commandService != null)
             {
-                // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(Constants.CommandSet1Guid, Constants.CommandSet1.Command1);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
-                mcs.AddCommand(menuItem);
+                // Register all command handlers.
+                underscoreService.WireUpMenuCommands(commandService);
             }
         }
 
         void SolutionEvents_ProjectAdded(Project project)
         {
-            if (project.ConfigurationManager != null)
-                project.ConfigurationManager.AddPlatform("x64", "Any CPU", true);
+            //if (project.ConfigurationManager != null)
+            //    project.ConfigurationManager.AddPlatform("x64", "Any CPU", true);
 
             MessageBox.Show("ProjectAdded: " + project.Name);
         }
@@ -116,46 +115,5 @@ namespace Neptuo.Productivity.VisualStudio.UI
         }
         #endregion
 
-
-        /// <summary>
-        /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// See the Initialize method to see how the menu item is associated to this function using
-        /// the OleMenuCommandService service and the MenuCommand class.
-        /// </summary>
-        private void MenuItemCallback(object sender, EventArgs e)
-        {
-            UnderscoreRemover underScore = new UnderscoreRemover();
-
-            if (dte.ActiveDocument != null)
-            {
-                TextDocument doc = (TextDocument)(dte.ActiveDocument.Object("TextDocument"));
-                var p = doc.StartPoint.CreateEditPoint();
-                string s = p.GetText(doc.EndPoint);
-
-                string newTextContent = underScore.FixNamespace(s);
-                p.ReplaceText(doc.EndPoint, newTextContent, 0);
-            }
-
-
-            // Show a Message Box to prove we were here
-            //IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
-            //Guid clsid = Guid.Empty;
-            //int result;
-            //ErrorHandler.ThrowOnFailure(
-            //    uiShell.ShowMessageBox(
-            //        0,
-            //        ref clsid,
-            //        "Productivity",
-            //        string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
-            //        string.Empty,
-            //        0,
-            //        OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //        OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-            //        OLEMSGICON.OLEMSGICON_INFO,
-            //        0,        // false
-            //        out result
-            //    )
-            //);
-        }
     }
 }

@@ -122,7 +122,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VsPackage.GuidList.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -162,6 +161,10 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Productivity.VisualStudio\Neptuo.Productivity.VisualStudio.csproj">
+      <Project>{f8c1e27d-d0d3-4585-a002-9591de17918d}</Project>
+      <Name>Neptuo.Productivity.VisualStudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Productivity\Neptuo.Productivity.csproj">
       <Project>{b76af700-51b5-435d-8e32-9292a8726895}</Project>
       <Name>Neptuo.Productivity</Name>
