@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="99b35d3b-db21-443d-83d6-aba92f91491d" Version="1.0" Language="en-US" Publisher="Neptuo" />
+        <Identity Id="99b35d3b-db21-443d-83d6-aba92f91491d" Version="0.1.0" Language="en-US" Publisher="Neptuo" />
         <DisplayName>Neptuo.Productivity.VisualStudio.UI</DisplayName>
         <Description>Productivity tools for Neptuo.</Description>
     </Metadata>
