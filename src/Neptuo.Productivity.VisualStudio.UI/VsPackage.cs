@@ -9,10 +9,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using System.ComponentModel.Composition;
-using EnvDTE;
-using EnvDTE80;
 using System.Windows.Forms;
 using Neptuo.Productivity.FriendlyNamespaces;
+using EnvDTE;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
