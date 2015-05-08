@@ -63,7 +63,7 @@
 
             <Button guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Command1" priority="0x0100" type="Button">
                 <Parent guid="VsPackage.CommandSet1" id="VsPackage.CommandSet1.Group1" />
-                <Icon guid="VsPackage.Images1" id="VsPackage.Images1.Image3" />
+                <!--<Icon guid="VsPackage.Images1" id="VsPackage.Images1.Image3" />-->
                 <Strings>
                     <ButtonText>Remove underscores from namespace</ButtonText>
                 </Strings>
