@@ -43,9 +43,14 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
             if (projectItem.Kind == KindPhysicalFile)
             {
                 if (projectItem.Document != null)
+                {
                     RunRemover(projectItem.Document);
+                    projectItem.Save();
+                }
                 else
+                {
                     ScheduleDelayRunRemover(projectItem);
+                }
             }
         }
 
@@ -53,7 +58,7 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
         {
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1);
                 OnItemAdded(projectItem);
             });
         }
