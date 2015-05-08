@@ -12,21 +12,25 @@ using Thread = System.Threading.Thread;
 
 namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
 {
+    /// <summary>
+    /// Service integrating <see cref="UnderscoreRemover"/> into Visual Studio.
+    /// </summary>
     public class UnderscoreService
     {
         public const string KindPhysicalFile = "{6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C}";
 
         private readonly DTE dte;
-        private ProjectItemsEvents events;
+        private ProjectItemsEvents events; // important to store events as field (to prevent garbage collection).
 
         public UnderscoreService(DTE dte)
         {
+            Ensure.NotNull(dte, "dte");
             this.dte = dte;
         }
 
         public void WireUpMenuCommands(OleMenuCommandService commandService)
         {
-            // Create the command for the menu item.
+            Ensure.NotNull(commandService, "commandService");
             CommandID menuCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.UnderscoreRemover);
             MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
             commandService.AddCommand(menuItem);
@@ -34,6 +38,7 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
 
         public void WireAutoEvents(ProjectItemsEvents events)
         {
+            Ensure.NotNull(events, "events");
             this.events = events;
             events.ItemAdded += OnItemAdded;
         }
