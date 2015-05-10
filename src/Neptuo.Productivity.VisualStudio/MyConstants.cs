@@ -19,8 +19,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public static class Feature
         {
-            public const string FeatureCategory = "Neptuo Productivity";
-            public const string FeaturePage = "General";
+            public const string MainCategory = "Neptuo Productivity";
+            public const string GeneralPage = "General";
             public const string FriendlyNamespaces = "C# Friendly namespaces";
         }
     }

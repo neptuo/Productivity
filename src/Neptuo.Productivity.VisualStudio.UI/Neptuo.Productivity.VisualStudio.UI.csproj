@@ -170,6 +170,8 @@
     <ProjectReference Include="..\Neptuo.Productivity.VisualStudio\Neptuo.Productivity.VisualStudio.csproj">
       <Project>{f8c1e27d-d0d3-4585-a002-9591de17918d}</Project>
       <Name>Neptuo.Productivity.VisualStudio</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.Productivity\Neptuo.Productivity.csproj">
       <Project>{b76af700-51b5-435d-8e32-9292a8726895}</Project>

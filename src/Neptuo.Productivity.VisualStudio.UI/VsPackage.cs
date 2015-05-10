@@ -15,6 +15,7 @@ using EnvDTE;
 using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
+using Neptuo.Productivity.VisualStudio.Options;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -37,7 +38,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.FeatureCategory, MyConstants.Feature.FeaturePage, 0, 0, true)]
+    [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
     public sealed partial class VsPackage : Package
     {
         private UnderscoreService underscoreService;
@@ -58,13 +59,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            
-            // Underscore service
-            underscoreService = new UnderscoreService(dte);
-            underscoreService.WireAutoEvents(csharpProjectItemsEvents);
-            if (commandService != null)
-                underscoreService.WireUpMenuCommands(commandService);
+            IConfiguration configuration = (IConfiguration)GetService(typeof(IConfiguration));
 
+            // Underscore namespace remover
+            RegisterUnderscoreNamespaceRemover(configuration, dte, commandService, csharpProjectItemsEvents);
+            
             if(commandService != null)
             {
                 commandService.AddCommand(new MenuCommand(OnTestCommand, new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.Test1)));
@@ -79,11 +78,22 @@ namespace Neptuo.Productivity.VisualStudio.UI
 #endif
         }
 
+        private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
+        {
+            underscoreService = new UnderscoreService(dte);
+
+            if (configuration.IsUnderscoreNamespaceRemoverUsed)
+                underscoreService.WireAutoEvents(csharpProjectItemsEvents);
+
+            if (commandService != null)
+                underscoreService.WireUpMenuCommands(commandService);
+        }
+
         private void OnTestCommand(object sender, EventArgs e)
         {
             DTE env = (DTE)GetService(typeof(DTE));
 
-            EnvDTE.Properties props = env.get_Properties(MyConstants.Feature.FeatureCategory, MyConstants.Feature.FeaturePage);
+            EnvDTE.Properties props = env.get_Properties(MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage);
 
             bool n = (bool)props.Item("IsUnderscoreNamespaceRemoverUsed").Value;
             MessageBox.Show("OptionInteger: " + n);
