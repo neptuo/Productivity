@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.VisualStudio.Options
 {
     [Export(typeof(IConfiguration))]
-    internal class DteConfiguration : IConfiguration
+    public class DteConfiguration : IConfiguration
     {
         #region Infrastructure
 
