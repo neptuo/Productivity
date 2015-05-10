@@ -13,6 +13,8 @@ using System.Windows.Forms;
 using Neptuo.Productivity.FriendlyNamespaces;
 using EnvDTE;
 using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell.Settings;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -35,6 +37,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.FeatureCategory, MyConstants.Feature.FeaturePage, 0, 0, true)]
     public sealed partial class VsPackage : Package
     {
         private UnderscoreService underscoreService;
@@ -62,7 +65,10 @@ namespace Neptuo.Productivity.VisualStudio.UI
             if (commandService != null)
                 underscoreService.WireUpMenuCommands(commandService);
 
-
+            if(commandService != null)
+            {
+                commandService.AddCommand(new MenuCommand(OnTestCommand, new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.Test1)));
+            }
 
 #if DEBUG
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
@@ -71,6 +77,16 @@ namespace Neptuo.Productivity.VisualStudio.UI
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
 #endif
+        }
+
+        private void OnTestCommand(object sender, EventArgs e)
+        {
+            DTE env = (DTE)GetService(typeof(DTE));
+
+            EnvDTE.Properties props = env.get_Properties(MyConstants.Feature.FeatureCategory, MyConstants.Feature.FeaturePage);
+
+            bool n = (bool)props.Item("IsUnderscoreNamespaceRemoverUsed").Value;
+            MessageBox.Show("OptionInteger: " + n);
         }
 
         void SolutionEvents_ProjectAdded(Project project)

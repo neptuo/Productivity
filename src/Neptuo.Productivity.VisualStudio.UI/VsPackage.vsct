@@ -76,6 +76,12 @@
                     <ButtonText>Remove underscores from namespace</ButtonText>
                 </Strings>
             </Button>
+            <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Test1" priority="0x0101" type="Button">
+                <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group1" />
+                <Strings>
+                    <ButtonText>Is underscore namespace remover in use</ButtonText>
+                </Strings>
+            </Button>
 
         </Buttons>
 
@@ -106,8 +112,9 @@
             <IDSymbol name="VsPackage.CommandSet.MainMenu" value="0x1021"/>
             
             <IDSymbol name="VsPackage.CommandSet.Group1" value="0x1020" />
-            
+
             <IDSymbol name="VsPackage.CommandSet.UnderscoreRemover" value="0x0100" />
+            <IDSymbol name="VsPackage.CommandSet.Test1" value="0x0101" />
         </GuidSymbol>
 
         <GuidSymbol name="VsPackage.Images1" value="{b15f8615-695f-41d5-8ed8-9a9efc266c18}" >

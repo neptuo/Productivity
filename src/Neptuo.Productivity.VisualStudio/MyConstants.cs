@@ -14,6 +14,14 @@ namespace Neptuo.Productivity.VisualStudio
         public static class CommandSet
         {
             public const int UnderscoreRemover = 0x100;
+            public const int Test1 = 0x101;
+        }
+
+        public static class Feature
+        {
+            public const string FeatureCategory = "Neptuo Productivity";
+            public const string FeaturePage = "General";
+            public const string FriendlyNamespaces = "C# Friendly namespaces";
         }
     }
 }
