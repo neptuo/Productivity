@@ -106,7 +106,7 @@
             <IDSymbol name="VsPackage.CommandSet.MainMenu" value="0x1021"/>
             
             <IDSymbol name="VsPackage.CommandSet.Group1" value="0x1020" />
-            
+
             <IDSymbol name="VsPackage.CommandSet.UnderscoreRemover" value="0x0100" />
         </GuidSymbol>
 

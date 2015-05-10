@@ -14,7 +14,7 @@
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neptuo.Neptuo_Productivity_VisualStudio_UI</RootNamespace>
+    <RootNamespace>Neptuo.Productivity.VisualStudio.UI</RootNamespace>
     <AssemblyName>Neptuo.Productivity.VisualStudio.UI</AssemblyName>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -125,6 +125,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FeaturePage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +170,8 @@
     <ProjectReference Include="..\Neptuo.Productivity.VisualStudio\Neptuo.Productivity.VisualStudio.csproj">
       <Project>{f8c1e27d-d0d3-4585-a002-9591de17918d}</Project>
       <Name>Neptuo.Productivity.VisualStudio</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.Productivity\Neptuo.Productivity.csproj">
       <Project>{b76af700-51b5-435d-8e32-9292a8726895}</Project>

@@ -13,6 +13,9 @@ using System.Windows.Forms;
 using Neptuo.Productivity.FriendlyNamespaces;
 using EnvDTE;
 using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell.Settings;
+using Neptuo.Productivity.VisualStudio.Options;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -35,6 +38,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
     public sealed partial class VsPackage : Package
     {
         private UnderscoreService underscoreService;
@@ -55,15 +59,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            IConfiguration configuration = new DteConfiguration(dte);
+
+            // Underscore namespace remover
+            RegisterUnderscoreNamespaceRemover(configuration, dte, commandService, csharpProjectItemsEvents);
             
-            // Underscore service
-            underscoreService = new UnderscoreService(dte);
-            underscoreService.WireAutoEvents(csharpProjectItemsEvents);
-            if (commandService != null)
-                underscoreService.WireUpMenuCommands(commandService);
-
-
-
 #if DEBUG
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
             dte.Events.DocumentEvents.DocumentOpened += DocumentEvents_DocumentOpened;
@@ -71,6 +71,17 @@ namespace Neptuo.Productivity.VisualStudio.UI
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
 #endif
+        }
+
+        private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
+        {
+            underscoreService = new UnderscoreService(dte);
+
+            if (configuration.IsUnderscoreNamespaceRemoverUsed)
+                underscoreService.WireAutoEvents(csharpProjectItemsEvents);
+
+            if (commandService != null)
+                underscoreService.WireUpMenuCommands(commandService);
         }
 
         void SolutionEvents_ProjectAdded(Project project)
