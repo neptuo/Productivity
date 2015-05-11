@@ -14,13 +14,20 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
     [Export(typeof(ICompletionSourceProvider))]
     [Name(ContentType)]
     [ContentType(ContentType)]
-    public class CSharpCompletionSourceProvider : ICompletionSourceProvider
+    internal class CSharpCompletionSourceProvider : ICompletionSourceProvider
     {
         public const string ContentType = "CSharp";
 
+        [Import]
+        public IGlyphService GlyphService { get; set; }
+
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            return new CSharpCompletionSource(textBuffer);
+            return new CSharpCompletionSource(
+                textBuffer,
+                new StringCompletionProviderCollection()
+                    .AddProvider("Form", new FormStringCompletionProvider(GlyphService))
+            );
         }
     }
 }

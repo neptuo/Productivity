@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.IntelliSense
 {
-    internal class CSharpTextContext
+    internal class CSharpStringContext
     {
         private readonly ITextView textView;
 
@@ -24,6 +24,8 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
             get { return CurrentNode.Parent; }
         }
 
+        public string ParentCastTypeName { get; private set; }
+
         public bool IsParentCastNode
         {
             get { return CurrentNode.Parent as CastExpressionSyntax != null; }
@@ -34,16 +36,19 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
             get { return CurrentTextValue != null; }
         }
 
-        public CSharpTextContext(ITextView textView)
+        public CSharpStringContext(ITextView textView)
         {
             Ensure.NotNull(textView, "textView");
             this.textView = textView;
+
+            ResetCurrentNode();
         }
 
         public void ResetCurrentNode()
         {
             CurrentNode = null;
             CurrentTextValue = null;
+            ParentCastTypeName = null;
 
             SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
             string textContent = textView.TextBuffer.CurrentSnapshot.GetText();
@@ -59,6 +64,12 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
                 {
                     CurrentNode = node;
                     CurrentTextValue = value;
+
+                    CastExpressionSyntax castParentNode = node.Parent as CastExpressionSyntax;
+                    if (castParentNode != null)
+                    {
+                        ParentCastTypeName = castParentNode.Type.ToString();
+                    }
                 }
             );
             visitor.Visit(tree.GetRoot());

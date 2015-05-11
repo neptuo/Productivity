@@ -15,45 +15,31 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
     public class CSharpCompletionSource : DisposableBase, ICompletionSource
     {
         private readonly ITextBuffer textBuffer;
-        private readonly List<string> completionItems = new List<string>() { "Person", "Person.List", "Person.Edit", "BusinessCase", "BusinessCase.List", "BusinessCase.Edit" };
+        private readonly ICSharpStringCompletionProvider stringCompletionProvider;
 
-        public CSharpCompletionSource(ITextBuffer textBuffer)
+        public CSharpCompletionSource(ITextBuffer textBuffer, ICSharpStringCompletionProvider stringCompletionProvider)
         {
             Ensure.NotNull(textBuffer, "textBuffer");
+            Ensure.NotNull(stringCompletionProvider, "stringCompletionProvider");
             this.textBuffer = textBuffer;
+            this.stringCompletionProvider = stringCompletionProvider;
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
-            SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
-            string textContent = textBuffer.CurrentSnapshot.GetText();
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(
-                textContent,
-                new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
-            );
-
-            SyntaxNode currentNode = tree
-                .GetRoot()
-                .ChildNodes()
-                .FirstOrDefault(n => n.Span.Start < cursorPosition && cursorPosition < n.Span.Start + n.Span.Length);
-
+            CSharpStringContext context = new CSharpStringContext(session.TextView);
             List<Completion> result = new List<Completion>();
-            CSharpStringSyntaxVisitor visitor = new CSharpStringSyntaxVisitor(
-                cursorPosition, 
-                (node, stringValue) =>
-                {
-                    result.AddRange(
-                        completionItems
-                            .Where(s => s.StartsWith(stringValue))
-                            .Select(s => new Completion(s, s.Substring(stringValue.Length), "", null, ""))
-                    );
-                }
-            );
 
-            SyntaxNode root = tree.GetRoot();
-            visitor.Visit(root);
-            
+            if (context.IsCurrentTextNode && context.IsParentCastNode)
+            {
+                result.AddRange(
+                    stringCompletionProvider.GetCompletionList(
+                        context.CurrentTextValue, 
+                        context.ParentCastTypeName
+                    )
+                );
+            }
+
             CompletionSet newCompletionSet = new CompletionSet(
                 "N:Productivity",
                 "Neptuo Productivity",

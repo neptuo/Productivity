@@ -24,14 +24,14 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
         private readonly CompletionSession completionSession;
-        private readonly CSharpTextContext context;
+        private readonly CSharpStringContext context;
 
         internal CSharpStringController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;
             this.completionSession = new CompletionSession(textView, completionBroker);
-            this.context = new CSharpTextContext(textView);
+            this.context = new CSharpStringContext(textView);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);
