@@ -24,12 +24,14 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
         private readonly CompletionSession completionSession;
+        private readonly CSharpTextContext context;
 
         internal CSharpStringController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;
             this.completionSession = new CompletionSession(textView, completionBroker);
+            this.context = new CSharpTextContext(textView);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);
@@ -54,6 +56,8 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
 
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
+            context.ResetCurrentNode();
+
             // If inside UI automation, promote execution to next controller.
             if (VsShellUtilities.IsInAutomationFunction(serviceProvider))
                 return nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
@@ -66,60 +70,45 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
             if (pguidCmdGroup == VSConstants.VSStd2K && nCmdID == (uint)VSConstants.VSStd2KCmdID.TYPECHAR)
                 typedChar = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
 
+            // If we are inside string literal.
+            if (context.IsCurrentTextNode)
+            {
+                if (completionSession.HasSession)
+                {
+                    if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB)
+                    {
+                        completionSession.TryCommit();
+                        completionSession.TryDismiss();
+                        return VSConstants.S_OK;
+                    }
+                }
+                else
+                {
+                    if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
+                    {
+                        completionSession.TryStartSession();
+                        return VSConstants.S_OK;
+                    }
+                }
+            }
+
             // Let input be written into the buffer.
             int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 
-            SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
-            string textContent = textView.TextBuffer.CurrentSnapshot.GetText();
+            // On text input, filter out completion.
+            if (!typedChar.Equals(Char.MinValue))
+            {
+                // If this is not deletion, start session.
+                if (!completionSession.HasSession && commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE)
+                    completionSession.TryStartSession();
 
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(
-                textContent,
-                new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
-            );
+                // Update filter.
+                completionSession.TryFilter();
 
-            CSharpStringSyntaxVisitor visitor = new CSharpStringSyntaxVisitor(
-                cursorPosition,
-                (node, stringValue) =>
-                {
-                    // On text input, filter out completion.
-                    if (typedChar.Equals(Char.MinValue))
-                    {
-                        if (completionSession.HasSession && (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB))
-                        {
-                            switch (completionSession.TryCommit())
-                            {
-                                case CompletionSession.CommitResult.Commited:
-                                    completionSession.TryDismiss();
-                                    return;
-                                case CompletionSession.CommitResult.NoSession:
-                                    completionSession.TryDismiss();
-                                    return;
-                            }
-                        }
-                        else if (!completionSession.HasSession)
-                        {
-                            if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
-                                completionSession.TryStartSession();
-                            else if(nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN)
-                                completionSession.TryCommit();
-                        }
-                    }
-                    else
-                    {
-                        // If this is not deletion, start session.
-                        if (!completionSession.HasSession && commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE)
-                            completionSession.TryStartSession();
+                return VSConstants.S_OK;
+            }
 
-                        // Update filter.
-                        completionSession.TryFilter();
-                    }
-                }
-            );
-
-            SyntaxNode root = tree.GetRoot();
-            visitor.Visit(root);
-
-            return VSConstants.S_OK;
+            return nextResult;
         }
     }
 }

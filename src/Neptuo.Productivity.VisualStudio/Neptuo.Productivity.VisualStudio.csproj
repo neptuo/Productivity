@@ -134,6 +134,7 @@
     <Compile Include="IntelliSense\Completions\CSharpStringSyntaxVisitor.cs" />
     <Compile Include="IntelliSense\CSharpStringController.cs" />
     <Compile Include="IntelliSense\CSharpStringControllerProvider.cs" />
+    <Compile Include="IntelliSense\CSharpTextContext.cs" />
     <Compile Include="Options\DteConfiguration.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreService.cs" />
     <Compile Include="Options\IConfiguration.cs" />
