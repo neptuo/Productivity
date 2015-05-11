@@ -12,9 +12,9 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
     public class CSharpStringSyntaxVisitor : CSharpSyntaxRewriter
     {
         private int position;
-        private Action<string> onNodeFound;
+        private Action<LiteralExpressionSyntax, string> onNodeFound;
 
-        public CSharpStringSyntaxVisitor(int position, Action<string> onNodeFound)
+        public CSharpStringSyntaxVisitor(int position, Action<LiteralExpressionSyntax, string> onNodeFound)
         {
             this.position = position;
             this.onNodeFound = onNodeFound;
@@ -27,11 +27,15 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
 
             if (node.Span.Start < position && position < node.Span.Start + node.Span.Length)
             {
-                string stringValue = node.Token.Value as string;
-                if (stringValue != null)
+                CastExpressionSyntax expressionParent = node.Parent as CastExpressionSyntax;
+                if(expressionParent != null) 
                 {
-                    onNodeFound(stringValue);
-                    onNodeFound = null;
+                    string stringValue = node.Token.Value as string;
+                    if (stringValue != null)
+                    {
+                        onNodeFound(node, stringValue);
+                        onNodeFound = null;
+                    }
                 }
             }
             return node;

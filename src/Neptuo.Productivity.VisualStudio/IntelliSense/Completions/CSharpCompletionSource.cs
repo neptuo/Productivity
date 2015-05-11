@@ -41,7 +41,7 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
             List<Completion> result = new List<Completion>();
             CSharpStringSyntaxVisitor visitor = new CSharpStringSyntaxVisitor(
                 cursorPosition, 
-                (stringValue) =>
+                (node, stringValue) =>
                 {
                     result.AddRange(
                         completionItems

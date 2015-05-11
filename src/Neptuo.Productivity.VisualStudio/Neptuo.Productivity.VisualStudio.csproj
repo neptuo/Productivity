@@ -132,7 +132,6 @@
     <Compile Include="IntelliSense\Completions\CSharpCompletionSource.cs" />
     <Compile Include="IntelliSense\Completions\CSharpCompletionSourceProvider.cs" />
     <Compile Include="IntelliSense\Completions\CSharpStringSyntaxVisitor.cs" />
-    <Compile Include="IntelliSense\CSharpContentHelper.cs" />
     <Compile Include="IntelliSense\CSharpStringController.cs" />
     <Compile Include="IntelliSense\CSharpStringControllerProvider.cs" />
     <Compile Include="Options\DteConfiguration.cs" />
