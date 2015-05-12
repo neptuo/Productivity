@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
 {
-    public class CSharpStringSyntaxVisitor : CSharpSyntaxRewriter
+    public class CSharpStringCastSyntaxVisitor : CSharpSyntaxRewriter
     {
         private int position;
         private Action<LiteralExpressionSyntax, string> onNodeFound;
 
-        public CSharpStringSyntaxVisitor(int position, Action<LiteralExpressionSyntax, string> onNodeFound)
+        public CSharpStringCastSyntaxVisitor(int position, Action<LiteralExpressionSyntax, string> onNodeFound)
         {
             this.position = position;
             this.onNodeFound = onNodeFound;

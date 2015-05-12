@@ -36,6 +36,19 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
             get { return CurrentTextValue != null; }
         }
 
+        public int CursorPosition { get; private set; }
+
+        public int CurrentTextNodePosition
+        {
+            get
+            {
+                if (!IsCurrentTextNode)
+                    throw Ensure.Exception.InvalidOperation("Unnable to get current text position when not inside text node.");
+
+                return CurrentNode.SpanStart;
+            }
+        }
+
         public CSharpStringContext(ITextView textView)
         {
             Ensure.NotNull(textView, "textView");
@@ -49,8 +62,8 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
             CurrentNode = null;
             CurrentTextValue = null;
             ParentCastTypeName = null;
-
-            SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
+            
+            CursorPosition = textView.Caret.Position.BufferPosition;
             string textContent = textView.TextBuffer.CurrentSnapshot.GetText();
 
             SyntaxTree tree = CSharpSyntaxTree.ParseText(
@@ -58,8 +71,8 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
                 new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
             );
 
-            CSharpStringSyntaxVisitor visitor = new CSharpStringSyntaxVisitor(
-                cursorPosition,
+            CSharpStringCastSyntaxVisitor visitor = new CSharpStringCastSyntaxVisitor(
+                CursorPosition,
                 (node, value) =>
                 {
                     CurrentNode = node;

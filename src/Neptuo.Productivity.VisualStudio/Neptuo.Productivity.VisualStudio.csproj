@@ -86,6 +86,7 @@
     <Reference Include="Microsoft.VisualStudio.Shell.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -131,7 +132,7 @@
     <Compile Include="IntelliSense\CompletionSession.cs" />
     <Compile Include="IntelliSense\Completions\CSharpCompletionSource.cs" />
     <Compile Include="IntelliSense\Completions\CSharpCompletionSourceProvider.cs" />
-    <Compile Include="IntelliSense\Completions\CSharpStringSyntaxVisitor.cs" />
+    <Compile Include="IntelliSense\Completions\CSharpStringCastSyntaxVisitor.cs" />
     <Compile Include="IntelliSense\Completions\ICSharpStringCompletionProvider.cs" />
     <Compile Include="IntelliSense\Completions\_StringCompletions\FormStringCompletionProvider.cs" />
     <Compile Include="IntelliSense\Completions\_StringCompletions\ResourceStringCompletionProvider.cs" />

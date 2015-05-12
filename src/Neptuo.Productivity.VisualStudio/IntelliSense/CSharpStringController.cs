@@ -79,6 +79,11 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense
                     {
                         completionSession.TryCommit();
                         completionSession.TryDismiss();
+
+                        int targetPosition = context.CurrentTextNodePosition + context.CurrentTextValue.Length + 1;
+                        if (context.CursorPosition < targetPosition)
+                            textView.Caret.MoveTo(new VirtualSnapshotPoint(textView.TextSnapshot, targetPosition));
+
                         return VSConstants.S_OK;
                     }
                 }
