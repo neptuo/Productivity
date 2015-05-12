@@ -14,6 +14,20 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [CLSCompliant(false), ComVisible(true)]
     public class FeaturePage : DialogPage, IConfiguration
     {
-        public bool IsUnderscoreNamespaceRemoverUsed { get; set; }
+        private bool isUnderscoreNamespaceRemoverUsed;
+
+        [Category(MyConstants.Feature.FriendlyNamespaces)]
+        [DisplayName("Use namespace underscore remover.")]
+        [Description("Removes parts of the C# namespace that starts with '_'.")]
+        public bool IsUnderscoreNamespaceRemoverUsed
+        {
+            get { return isUnderscoreNamespaceRemoverUsed; }
+            set { isUnderscoreNamespaceRemoverUsed = value; }
+        }
+
+        public FeaturePage()
+        {
+
+        }
     }
 }
