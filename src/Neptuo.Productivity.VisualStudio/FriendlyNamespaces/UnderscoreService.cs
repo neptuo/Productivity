@@ -1,6 +1,5 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text.Editor;
 using Neptuo.Productivity.FriendlyNamespaces;
 using System;
 using System.Collections.Generic;
