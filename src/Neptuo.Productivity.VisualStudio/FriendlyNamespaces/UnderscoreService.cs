@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text.Editor;
 using Neptuo.Productivity.FriendlyNamespaces;
 using System;
 using System.Collections.Generic;
@@ -76,14 +77,17 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
 
         private void RunRemover(Document document)
         {
-            UnderscoreRemover underScore = new UnderscoreRemover();
+            TextDocument textDocument = (TextDocument)(document.Object("TextDocument"));
+            int position = textDocument.Selection.ActivePoint.AbsoluteCharOffset;
 
-            TextDocument doc = (TextDocument)(document.Object("TextDocument"));
-            var p = doc.StartPoint.CreateEditPoint();
-            string s = p.GetText(doc.EndPoint);
+            EditPoint editPoint = textDocument.StartPoint.CreateEditPoint();
+            string textContent = editPoint.GetText(textDocument.EndPoint);
 
-            string newTextContent = underScore.FixNamespace(s);
-            p.ReplaceText(doc.EndPoint, newTextContent, 0);
+            UnderscoreRemover remover = new UnderscoreRemover();
+            string newTextContent = remover.FixNamespace(textContent);
+
+            editPoint.ReplaceText(textDocument.EndPoint, newTextContent, 0);
+            editPoint.MoveToAbsoluteOffset(position);
         }
     }
 }

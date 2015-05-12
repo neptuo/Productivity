@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.FriendlyNamespaces
 {
-    internal class UnderscoreRewriter : CSharpSyntaxRewriter
+    internal class UnderscoreSyntaxRewriter : CSharpSyntaxRewriter
     {
         public bool HasRewrites { get; private set; }
 
@@ -21,7 +21,7 @@ namespace Neptuo.Productivity.FriendlyNamespaces
             foreach (NameSyntax name in node.Name.ChildNodes())
                 VisitName(name, resultNamespace);
 
-            result = SyntaxFactory.IdentifierName(String.Join(".", resultNamespace));
+            result = SyntaxFactory.IdentifierName(String.Join(".", resultNamespace)).WithTrailingTrivia(node.Name.GetTrailingTrivia());
             NamespaceDeclarationSyntax newNode = node.ReplaceNode(node.Name, result);
             return newNode;
         }

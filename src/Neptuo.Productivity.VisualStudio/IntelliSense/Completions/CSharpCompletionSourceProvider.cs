@@ -26,7 +26,9 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
             return new CSharpCompletionSource(
                 textBuffer,
                 new StringCompletionProviderCollection()
+                    //.AddProvider("ObjectCategory", new ObjectCategoryStringCompletionProvider(GlyphService))
                     .AddProvider("Form", new FormStringCompletionProvider(GlyphService))
+                    .AddProvider("ResourceItem", new ResourceStringCompletionProvider(GlyphService))
             );
         }
     }

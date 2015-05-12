@@ -9,9 +9,34 @@ namespace Neptuo.Productivity.VisualStudio.IntelliSense.Completions
 {
     public class ResourceStringCompletionProvider : ICSharpStringCompletionProvider
     {
+        private readonly IGlyphService glyphService;
+        private readonly List<string> completionItems = new List<string>() { "ClientFramework", "ClientServices", "ClientWeb", "ClientBusinessCase", "mscorelib", "jQuery", "jQueryAutosize", "jQueryAutoComplete", "jQueryBeautyTips", "jQueryContextMenu", "jQueryTimers" };
+
+        public ResourceStringCompletionProvider(IGlyphService glyphService)
+        {
+            Ensure.NotNull(glyphService, "glyphService");
+            this.glyphService = glyphService;
+        }
+
         public IList<Completion> GetCompletionList(string textValue, string contextName)
         {
-            throw new NotImplementedException();
+            textValue = textValue.ToLowerInvariant();
+
+            return completionItems
+                 .Where(s => s.ToLowerInvariant().StartsWith(textValue))
+                 .Select(s => CreateCompletion(s, textValue))
+                 .ToList();
+        }
+
+        private Completion CreateCompletion(string itemValue, string editorValue)
+        {
+            return new Completion(
+                itemValue,
+                itemValue.Substring(editorValue.Length),
+                "",
+                glyphService.GetGlyph(StandardGlyphGroup.GlyphReference, StandardGlyphItem.GlyphItemPublic),
+                ""
+            );
         }
     }
 }
