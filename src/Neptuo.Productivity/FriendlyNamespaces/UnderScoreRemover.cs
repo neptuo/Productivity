@@ -18,12 +18,12 @@ namespace Neptuo.Productivity.FriendlyNamespaces
                 new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
             );
 
-            UnderscoreRewriter rewriter = new UnderscoreRewriter();
+            UnderscoreSyntaxRewriter rewriter = new UnderscoreSyntaxRewriter();
             SyntaxNode root = tree.GetRoot();
             SyntaxNode newRoot = rewriter.Visit(root);
 
             if (rewriter.HasRewrites)
-                return newRoot.NormalizeWhitespace().ToFullString();
+                return newRoot.ToFullString();
 
             return textContent;
         }
