@@ -136,6 +136,7 @@
     <Compile Include="IntelliSense\Completions\ICSharpStringCompletionProvider.cs" />
     <Compile Include="IntelliSense\Completions\_StringCompletions\FormStringCompletionProvider.cs" />
     <Compile Include="IntelliSense\Completions\_StringCompletions\ObjectCategoryStringCompletionProvider.cs" />
+    <Compile Include="IntelliSense\Completions\_StringCompletions\ResourceStringCompletionProvider.cs" />
     <Compile Include="IntelliSense\Completions\_StringCompletions\StringCompletionProviderCollection.cs" />
     <Compile Include="IntelliSense\CSharpStringController.cs" />
     <Compile Include="IntelliSense\CSharpStringControllerProvider.cs" />
