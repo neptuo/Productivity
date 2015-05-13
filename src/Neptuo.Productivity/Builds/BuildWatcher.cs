@@ -20,7 +20,7 @@ namespace Neptuo.Productivity.Builds
         {
             Ensure.NotNull(projects, "projects");
             BuildProgress result = new BuildProgress(scope, action, projects);
-            History.Add(result.Model);
+            History.Insert(0, result.Model);
             return result;
         }
     }

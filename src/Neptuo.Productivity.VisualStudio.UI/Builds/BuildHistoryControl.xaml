@@ -7,10 +7,35 @@
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Label Content="{Binding Builds.Count}" />
-            <Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Content="Builds executed: "/>
+            <Label Content="{Binding Builds.Count}"/>
         </StackPanel>
-    </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Builds}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Scope}" Padding="4"/>
+                                <Label Content="{Binding Action}" Padding="4"/>
+                                <Label Content="{Binding StartedAt}" Padding="4"/>
+                                <Label Content="{Binding FinishedAt}" Padding="4"/>
+                                <Label Content="{Binding ElapsedMilliseconds}" Padding="4"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

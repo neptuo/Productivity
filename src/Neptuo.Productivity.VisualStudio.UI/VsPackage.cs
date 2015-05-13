@@ -47,7 +47,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
-        private BuildService buildService;
+        private static BuildService buildService;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -97,8 +97,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         private void RegisterBuildWatchers(DTE dte, BuildEvents events, OleMenuCommandService commandService)
         {
             buildService = new BuildService(dte);
+
+            // Wire build measures.
             buildService.WireUpBuildEvents(events);
 
+            // Wire menu item.
             if (commandService != null)
             {
                 CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.BuildHistory);
@@ -112,11 +115,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
             BuildHistoryWindow window = (BuildHistoryWindow)FindToolWindow(typeof(BuildHistoryWindow), 0, true);
             if (window != null && window.Frame != null)
             {
-                window.ViewModel = new BuildHistoryViewModel(buildService.History);
-
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
                 ErrorHandler.ThrowOnFailure(windowFrame.Show());
             }
+        }
+
+        public static BuildHistoryViewModel HistoryViewModel()
+        {
+            return new BuildHistoryViewModel(buildService.History);
         }
 
         #endregion

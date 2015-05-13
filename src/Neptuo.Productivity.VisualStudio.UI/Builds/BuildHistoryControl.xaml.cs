@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Neptuo.Collections.ObjectModel;
+using Neptuo.Productivity.Builds;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,17 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
         public BuildHistoryControl()
         {
             InitializeComponent();
+
+            //DataContext = new BuildHistoryViewModel(
+            //    new ObservableCollection<BuildModel>(
+            //        new List<BuildModel>()
+            //        {
+            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now),
+            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now),
+            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now)
+            //        }
+            //    )
+            //);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
