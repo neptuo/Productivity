@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
+using Neptuo.Productivity.VisualStudio.Builds;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -44,6 +45,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
+        private BuildService buildService;
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
@@ -68,14 +70,9 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             // Line duplications
             RegisterLineDuplicators(dte, commandService);
-            
-#if DEBUG
-            //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
-            dte.Events.DocumentEvents.DocumentOpened += DocumentEvents_DocumentOpened;
-            dte.Events.BuildEvents.OnBuildBegin += BuildEvents_OnBuildBegin;
-            dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
-            dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-#endif
+
+            // Builds
+            RegisterBuildWatchers(dte, dte.Events.BuildEvents);
         }
 
         private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
@@ -97,30 +94,10 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 lineDeplicationService.WireUpMenuCommands(commandService);
         }
 
-        void SolutionEvents_ProjectAdded(Project project)
+        private void RegisterBuildWatchers(DTE dte, BuildEvents events)
         {
-            //if (project.ConfigurationManager != null)
-            //    project.ConfigurationManager.AddPlatform("x64", "Any CPU", true);
-
-            //MessageBox.Show("ProjectAdded: " + project.Name);
-        }
-
-        private Stopwatch timer = new Stopwatch();
-
-        void BuildEvents_OnBuildBegin(vsBuildScope scope, vsBuildAction action)
-        {
-            timer.Start();
-        }
-
-        void BuildEvents_OnBuildDone(vsBuildScope scope, vsBuildAction action)
-        {
-            timer.Stop();
-            MessageBox.Show(String.Format("Build tooked: {0}ms.", timer.ElapsedMilliseconds));
-        }
-
-        void DocumentEvents_DocumentOpened(Document document)
-        {
-            MessageBox.Show("DocumentOpened: " + document.FullName);
+            buildService = new BuildService(dte);
+            buildService.WireUpBuildEvents(events);
         }
 
         #endregion

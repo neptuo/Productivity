@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\BuildService.cs" />
     <Compile Include="Options\DteConfiguration.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreService.cs" />
     <Compile Include="Options\IConfiguration.cs" />
@@ -73,6 +74,7 @@
       <Name>Neptuo.Productivity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
