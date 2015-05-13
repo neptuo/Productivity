@@ -134,6 +134,10 @@
     </Compile>
     <Compile Include="Builds\BuildHistoryViewModel.cs" />
     <Compile Include="Builds\BuildHistoryWindow.cs" />
+    <Compile Include="Builds\BuildModelControl.xaml.cs">
+      <DependentUpon>BuildModelControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Builds\Converters\BuildLengthConverter.cs" />
     <Compile Include="FeaturePage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -189,6 +193,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Builds\BuildHistoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Builds\BuildModelControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

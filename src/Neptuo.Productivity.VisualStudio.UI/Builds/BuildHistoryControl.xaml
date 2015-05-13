@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:data="Neptuo.Productivity.VisualStudio.UI.Builds.Converters"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
@@ -12,30 +13,43 @@
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
         </Style>
     </UserControl.Resources>
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label Content="Builds executed: "/>
-            <Label Content="{Binding Builds.Count}"/>
-        </StackPanel>
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <ItemsControl ItemsSource="{Binding Builds}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="{Binding Scope}" Padding="4"/>
-                                <Label Content="{Binding Action}" Padding="4"/>
-                                <Label Content="{Binding StartedAt}" Padding="4"/>
-                                <Label Content="{Binding FinishedAt}" Padding="4"/>
-                                <Label Content="{Binding ElapsedMilliseconds}" Padding="4"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <StackPanel Orientation="Vertical">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <ItemsControl ItemsSource="{Binding Builds}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0 0 0 1" BorderBrush="#cccccc">
+                            <Grid Margin="0 5 0 5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Padding="5 0 5 0" Content="{Binding Scope}" />
+                                <Label Grid.Row="0" Grid.Column="1" Padding="5 0 5 0" Content="{Binding Action}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Content="{Binding StartedAt, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                                <Grid Grid.Row="1" Grid.Column="1">
+                                    <Rectangle Width="100" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                    <Label HorizontalAlignment="Right" VerticalAlignment="Top">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding ElapsedMilliseconds}" />
+                                            <TextBlock Text="ms" />
+                                        </StackPanel>
+                                    </Label>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--<StackPanel Orientation="Vertical">
                     <Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
-                </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
-    </DockPanel>
+                </StackPanel>-->
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

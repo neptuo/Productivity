@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Collections.Specialized;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds
 {
@@ -54,6 +55,14 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
             base.Content = new BuildHistoryControl();
 
             ViewModel = VsPackage.HistoryViewModel();
+            ViewModel.Builds.CollectionChanged += Builds_CollectionChanged;
+            Builds_CollectionChanged(null, null);
+        }
+
+        private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ViewModel != null)
+                Caption = String.Format("Build History ({0})", ViewModel.Builds.Count);
         }
     }
 }
