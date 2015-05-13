@@ -132,6 +132,7 @@
     <Compile Include="Builds\BuildHistoryControl.xaml.cs">
       <DependentUpon>BuildHistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Builds\BuildHistoryViewModel.cs" />
     <Compile Include="Builds\BuildHistoryWindow.cs" />
     <Compile Include="FeaturePage.cs">
       <SubType>Component</SubType>

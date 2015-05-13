@@ -109,9 +109,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
         private void BuildHistoryCallback(object sender, EventArgs e)
         {
-            ToolWindowPane window = this.FindToolWindow(typeof(BuildHistoryWindow), 0, true);
+            BuildHistoryWindow window = (BuildHistoryWindow)FindToolWindow(typeof(BuildHistoryWindow), 0, true);
             if (window != null && window.Frame != null)
             {
+                window.ViewModel = new BuildHistoryViewModel(buildService.History);
+
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
                 ErrorHandler.ThrowOnFailure(windowFrame.Show());
             }

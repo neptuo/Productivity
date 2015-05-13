@@ -20,6 +20,18 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
     [Guid("04576E43-F435-4C2B-A2EE-B56B9C3941DA")]
     public class BuildHistoryWindow : ToolWindowPane
     {
+        protected BuildHistoryControl ContentControl
+        {
+            get { return (BuildHistoryControl)Content; }
+            set { Content = value; }
+        }
+
+        public BuildHistoryViewModel ViewModel
+        {
+            get { return (BuildHistoryViewModel)ContentControl.DataContext; }
+            set { ContentControl.DataContext = value; }
+        }
+
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Neptuo.Collections.ObjectModel;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace Neptuo.Productivity.VisualStudio.Builds
         private readonly DTE dte;
         private BuildEvents events;
         private BuildProgress currentProgress;
+
+        public ObservableCollection<BuildModel> History
+        {
+            get { return watcher.History; }
+        }
 
         public BuildService(DTE dte)
         {
