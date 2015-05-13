@@ -16,6 +16,7 @@ using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
 using Neptuo.Productivity.VisualStudio.Options;
+using Neptuo.Productivity.VisualStudio.TextFeatures;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -42,6 +43,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     public sealed partial class VsPackage : Package
     {
         private UnderscoreService underscoreService;
+        private LineDuplicationService lineDeplicationService;
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
@@ -63,6 +65,9 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             // Underscore namespace remover
             RegisterUnderscoreNamespaceRemover(configuration, dte, commandService, csharpProjectItemsEvents);
+
+            // Line duplications
+            RegisterLineDuplicators(dte, commandService);
             
 #if DEBUG
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
@@ -82,6 +87,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             if (commandService != null)
                 underscoreService.WireUpMenuCommands(commandService);
+        }
+
+        private void RegisterLineDuplicators(DTE dte, OleMenuCommandService commandService)
+        {
+            lineDeplicationService = new LineDuplicationService(dte);
+
+            if (commandService != null)
+                lineDeplicationService.WireUpMenuCommands(commandService);
         }
 
         void SolutionEvents_ProjectAdded(Project project)
