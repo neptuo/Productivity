@@ -59,6 +59,8 @@
     <Reference Include="Neptuo">
       <HintPath>..\..\references\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -66,7 +68,9 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -125,6 +129,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\BuildHistoryControl.xaml.cs">
+      <DependentUpon>BuildHistoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Builds\BuildHistoryWindow.cs" />
     <Compile Include="FeaturePage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,6 +185,12 @@
       <Project>{b76af700-51b5-435d-8e32-9292a8726895}</Project>
       <Name>Neptuo.Productivity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Builds\BuildHistoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

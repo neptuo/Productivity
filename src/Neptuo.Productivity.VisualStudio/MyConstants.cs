@@ -16,6 +16,8 @@ namespace Neptuo.Productivity.VisualStudio
             public const int UnderscoreRemover = 0x100;
             public const int DuplicateLineDown = 0x101;
             public const int DuplicateLineUp = 0x102;
+
+            public const int BuildHistory = 0x150;
         }
 
         public static class Feature

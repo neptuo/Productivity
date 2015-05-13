@@ -18,6 +18,7 @@ using Microsoft.VisualStudio.Shell.Settings;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
 using Neptuo.Productivity.VisualStudio.Builds;
+using Neptuo.Productivity.VisualStudio.UI.Builds;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -41,15 +42,12 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
+    [ProvideToolWindow(typeof(BuildHistoryWindow))]
     public sealed partial class VsPackage : Package
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
         private BuildService buildService;
-
-        /////////////////////////////////////////////////////////////////////////////
-        // Overridden Package Implementation
-        #region Package Members
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -72,7 +70,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             RegisterLineDuplicators(dte, commandService);
 
             // Builds
-            RegisterBuildWatchers(dte, dte.Events.BuildEvents);
+            RegisterBuildWatchers(dte, dte.Events.BuildEvents, commandService);
         }
 
         private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
@@ -94,13 +92,31 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 lineDeplicationService.WireUpMenuCommands(commandService);
         }
 
-        private void RegisterBuildWatchers(DTE dte, BuildEvents events)
+        #region BuildWatchers
+
+        private void RegisterBuildWatchers(DTE dte, BuildEvents events, OleMenuCommandService commandService)
         {
             buildService = new BuildService(dte);
             buildService.WireUpBuildEvents(events);
+
+            if (commandService != null)
+            {
+                CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.BuildHistory);
+                MenuCommand menuItem = new MenuCommand(BuildHistoryCallback, commandID);
+                commandService.AddCommand(menuItem);
+            }
+        }
+
+        private void BuildHistoryCallback(object sender, EventArgs e)
+        {
+            ToolWindowPane window = this.FindToolWindow(typeof(BuildHistoryWindow), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
         }
 
         #endregion
-
     }
 }
