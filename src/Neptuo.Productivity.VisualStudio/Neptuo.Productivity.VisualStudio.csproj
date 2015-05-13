@@ -60,6 +60,9 @@
     <Compile Include="Options\IConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyConstants.cs" />
+    <Compile Include="TextFeatures\LineDuplicationService.cs" />
+    <Compile Include="TextFeatures\LineDuplicator.cs" />
+    <Compile Include="_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

@@ -43,7 +43,10 @@
                 <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
             </Group>
 
-            <Group guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group1" priority="0x0600">
+            <Group guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group1" priority="0x0601">
+                <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.MainMenu"/>
+            </Group>
+            <Group guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group2" priority="0x0602">
                 <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.MainMenu"/>
             </Group>
         </Groups>
@@ -77,6 +80,19 @@
                 </Strings>
             </Button>
 
+            <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" priority="0x0101" type="Button">
+                <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group2" />
+                <Strings>
+                    <ButtonText>Duplicate current line up</ButtonText>
+                </Strings>
+            </Button>
+            <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" priority="0x0102" type="Button">
+                <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group2" />
+                <Strings>
+                    <ButtonText>Duplicate current line down</ButtonText>
+                </Strings>
+            </Button>
+
         </Buttons>
 
         <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -104,10 +120,13 @@
         <GuidSymbol name="VsPackage.CommandSet" value="{37fa6823-584f-4b27-b4c4-f19ad81189ff}">
             <IDSymbol name="VsPackage.CommandSet.MainMenuGroup" value="0x1022" />
             <IDSymbol name="VsPackage.CommandSet.MainMenu" value="0x1021"/>
-            
+
             <IDSymbol name="VsPackage.CommandSet.Group1" value="0x1020" />
+            <IDSymbol name="VsPackage.CommandSet.Group2" value="0x1030" />
 
             <IDSymbol name="VsPackage.CommandSet.UnderscoreRemover" value="0x0100" />
+            <IDSymbol name="VsPackage.CommandSet.DuplicateLineDown" value="0x0101" />
+            <IDSymbol name="VsPackage.CommandSet.DuplicateLineUp" value="0x0102" />
         </GuidSymbol>
 
         <GuidSymbol name="VsPackage.Images1" value="{b15f8615-695f-41d5-8ed8-9a9efc266c18}" >
