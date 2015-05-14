@@ -61,10 +61,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            IConfiguration configuration = new DteConfiguration(dte);
+
+            ServiceFactory.Initialize(dte);
 
             // Underscore namespace remover
-            RegisterUnderscoreNamespaceRemover(configuration, dte, commandService, csharpProjectItemsEvents);
+            RegisterUnderscoreNamespaceRemover(ServiceFactory.Configuration, dte, commandService, csharpProjectItemsEvents);
 
             // Line duplications
             RegisterLineDuplicators(dte, commandService);
