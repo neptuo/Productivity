@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="_Services\IVsService.cs" />
     <Compile Include="Options\DteConfiguration.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreService.cs" />
     <Compile Include="Options\IConfiguration.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="MyConstants.cs" />
     <Compile Include="TextFeatures\LineDuplicationService.cs" />
     <Compile Include="TextFeatures\LineDuplicator.cs" />
+    <Compile Include="_Services\VsServiceContainer.cs" />
     <Compile Include="_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
