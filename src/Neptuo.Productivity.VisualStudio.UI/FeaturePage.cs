@@ -30,6 +30,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         [Description("Allows to duplicate of current line over or under the current line.")]
         public bool IsLineDuplicatorUsed { get; set; }
 
+        [Category(MyConstants.Feature.Builds)]
+        [DisplayName("Store build history for the current VisualStudio instance.")]
+        [Description("Allows to show window with build history in the current VisualStudio instance.")]
+        public bool IsBuildHistoryUsed { get; set; }
+
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);

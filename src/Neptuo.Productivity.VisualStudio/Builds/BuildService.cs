@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Neptuo.Collections.ObjectModel;
+using Neptuo.ComponentModel;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.Builds
 {
-    public class BuildService
+    public class BuildService : DisposableBase, IVsService
     {
         private readonly BuildWatcher watcher;
         private readonly DTE dte;
-        private BuildEvents events;
+        private readonly BuildEvents events;
+        private readonly OleMenuCommandService commandService;
+
+        private MenuCommand menuItem;
         private BuildProgress currentProgress;
 
         public ObservableCollection<BuildModel> History
@@ -23,17 +27,21 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             get { return watcher.History; }
         }
 
-        public BuildService(DTE dte)
+        public BuildService(DTE dte, OleMenuCommandService commandService, EventHandler menuHandler)
         {
-            Ensure.NotNull(dte, "dte");
             this.watcher = new BuildWatcher();
             this.dte = dte;
+            this.events = dte.Events.BuildEvents;
+            this.commandService = commandService;
+            WireUpBuildEvents();
+
+            CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.BuildHistory);
+            menuItem = new MenuCommand(menuHandler, commandID);
+            commandService.AddCommand(menuItem);
         }
 
-        public void WireUpBuildEvents(BuildEvents events)
+        private void WireUpBuildEvents()
         {
-            Ensure.NotNull(events, "events");
-            this.events = events;
             events.OnBuildBegin += OnBuildBegin;
             events.OnBuildDone += OnBuildDone;
         }
@@ -101,6 +109,13 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                 currentProgress.Finish();
 
             currentProgress = null;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+
+            commandService.RemoveCommand(menuItem);
         }
     }
 }

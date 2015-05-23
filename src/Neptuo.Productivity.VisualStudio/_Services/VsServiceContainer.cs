@@ -24,6 +24,24 @@ namespace Neptuo.Productivity.VisualStudio
             return this;
         }
 
+        public bool TryGetService<T>(out T service)
+        {
+            foreach (List<VsServiceContext> contexts in storage.Values)
+            {
+                foreach (VsServiceContext context in contexts)
+                {
+                    if(context.ServiceType == typeof(T) && context.IsRunning)
+                    {
+                        service = (T)context.Instance;
+                        return true;
+                    }
+                }
+            }
+
+            service = default(T);
+            return false;
+        }
+
         private void ExecuteServices(IEnumerable<string> properties, Action<VsServiceContext> action)
         {
             foreach (string property in properties)
@@ -63,11 +81,18 @@ namespace Neptuo.Productivity.VisualStudio
             public IActivator<IVsService> Activator { get; private set; }
             public bool IsRunning { get { return Instance != null; } }
             public IVsService Instance { get; set; }
+            public Type ServiceType { get; private set; }
 
             public VsServiceContext(IActivator<IVsService> activator)
             {
                 Ensure.NotNull(activator, "activator");
                 Activator = activator;
+
+                foreach (Type interfaceType in activator.GetType().GetInterfaces())
+                {
+                    if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IActivator<>))
+                        ServiceType = interfaceType.GetGenericArguments().First();
+                }
             }
         }
     }

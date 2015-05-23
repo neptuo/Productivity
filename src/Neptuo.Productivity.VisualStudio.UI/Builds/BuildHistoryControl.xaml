@@ -30,7 +30,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Padding="5 0 5 0" Content="{Binding Scope}" />
-                                <Label Grid.Row="0" Grid.Column="1" Padding="5 0 5 0" Content="{Binding Action}" />
+                                <Label Grid.Row="0" Grid.Column="1" Padding="5 0 5 0" Content="{Binding Action}" HorizontalAlignment="Right" />
 
                                 <Label Grid.Row="1" Grid.Column="0" Content="{Binding StartedAt, StringFormat=yyyy-MM-dd HH:mm:ss}" />
                                 <Grid Grid.Row="1" Grid.Column="1">

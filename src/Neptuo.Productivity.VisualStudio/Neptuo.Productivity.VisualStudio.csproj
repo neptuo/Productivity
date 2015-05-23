@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builds\BuildService.cs" />
+    <Compile Include="Builds\BuildServiceActivator.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreServiceActivator.cs" />
     <Compile Include="TextFeatures\LineDuplicationServiceActivator.cs" />
     <Compile Include="_Services\VsServiceConfigurationUpdater.cs" />

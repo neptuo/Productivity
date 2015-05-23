@@ -1,26 +1,26 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.Settings;
+using Microsoft.Win32;
+using Neptuo.PresentationModels;
+using Neptuo.PresentationModels.TypeModels;
+using Neptuo.Productivity.FriendlyNamespaces;
+using Neptuo.Productivity.VisualStudio.Builds;
+using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
+using Neptuo.Productivity.VisualStudio.Options;
+using Neptuo.Productivity.VisualStudio.TextFeatures;
+using Neptuo.Productivity.VisualStudio.UI.Builds;
+using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using Neptuo.Productivity.FriendlyNamespaces;
-using EnvDTE;
-using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
-using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell.Settings;
-using Neptuo.Productivity.VisualStudio.Options;
-using Neptuo.Productivity.VisualStudio.TextFeatures;
-using Neptuo.Productivity.VisualStudio.Builds;
-using Neptuo.Productivity.VisualStudio.UI.Builds;
-using Neptuo.PresentationModels.TypeModels;
-using Neptuo.PresentationModels;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -49,7 +49,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
-        private static BuildService buildService;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -72,6 +71,8 @@ namespace Neptuo.Productivity.VisualStudio.UI
             // Line duplications.
             ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
 
+            // Builds.
+            ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
 
             // Run services.
             VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
@@ -80,28 +81,9 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 new DictionaryModelValueProvider()
             );
             updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
-
-            // Builds
-            RegisterBuildWatchers(dte, dte.Events.BuildEvents, commandService);
         }
 
         #region BuildWatchers
-
-        private void RegisterBuildWatchers(DTE dte, BuildEvents events, OleMenuCommandService commandService)
-        {
-            buildService = new BuildService(dte);
-
-            // Wire build measures.
-            buildService.WireUpBuildEvents(events);
-
-            // Wire menu item.
-            if (commandService != null)
-            {
-                CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.BuildHistory);
-                MenuCommand menuItem = new MenuCommand(BuildHistoryCallback, commandID);
-                commandService.AddCommand(menuItem);
-            }
-        }
 
         private void BuildHistoryCallback(object sender, EventArgs e)
         {
@@ -110,12 +92,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
                 ErrorHandler.ThrowOnFailure(windowFrame.Show());
-            }
-        }
 
-        public static BuildHistoryViewModel HistoryViewModel()
-        {
-            return new BuildHistoryViewModel(buildService.History);
+                if (window.ViewModel == null)
+                {
+                    BuildService buildService;
+                    if (ServiceFactory.VsServices.TryGetService(out buildService))
+                        window.ViewModel = new BuildHistoryViewModel(buildService.History);
+                }
+            }
         }
 
         #endregion

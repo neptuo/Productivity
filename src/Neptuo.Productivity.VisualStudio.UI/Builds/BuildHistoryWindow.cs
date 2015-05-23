@@ -29,8 +29,22 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
 
         public BuildHistoryViewModel ViewModel
         {
-            get { return (BuildHistoryViewModel)ContentControl.DataContext; }
-            set { ContentControl.DataContext = value; }
+            get { return ContentControl.DataContext as BuildHistoryViewModel; }
+            set
+            {
+                if (ContentControl.DataContext != value)
+                {
+                    if (ViewModel != null)
+                        ViewModel.Builds.CollectionChanged -= Builds_CollectionChanged;
+
+                    ContentControl.DataContext = value;
+                    if (ViewModel != null)
+                    {
+                        ViewModel.Builds.CollectionChanged += Builds_CollectionChanged;
+                        Builds_CollectionChanged(null, null);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -54,9 +68,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
             // the object returned by the Content property.
             base.Content = new BuildHistoryControl();
 
-            ViewModel = VsPackage.HistoryViewModel();
-            ViewModel.Builds.CollectionChanged += Builds_CollectionChanged;
-            Builds_CollectionChanged(null, null);
+            ViewModel = null;
         }
 
         private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
