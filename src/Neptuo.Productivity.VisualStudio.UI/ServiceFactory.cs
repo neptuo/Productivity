@@ -28,7 +28,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
         {
             DefaultEventManager eventManager = new DefaultEventManager();
             EventDispatcher = eventManager;
-            EventDispatcher = eventManager;
+            EventRegistry = eventManager;
 
             Configuration = new DteConfiguration(dte);
             ConfigurationDefinition = new ReflectionModelDefinitionBuilder(Configuration.GetType(), new AttributeMetadataReaderCollection()).Create();

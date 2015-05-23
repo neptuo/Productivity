@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.Win32;
+using Neptuo.Pipelines.Events.Handlers;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.FriendlyNamespaces;
@@ -21,6 +22,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Task = System.Threading.Tasks.Task;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -45,7 +47,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
     [ProvideToolWindow(typeof(BuildHistoryWindow))]
-    public sealed partial class VsPackage : Package
+    public sealed partial class VsPackage : Package, IEventHandler<BuildHistorWindowCreated>
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
@@ -81,6 +83,9 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 new DictionaryModelValueProvider()
             );
             updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
+
+            // Custom code.
+            ServiceFactory.EventRegistry.Subscribe<BuildHistorWindowCreated>(this);
         }
 
         #region BuildWatchers
@@ -92,16 +97,21 @@ namespace Neptuo.Productivity.VisualStudio.UI
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
                 ErrorHandler.ThrowOnFailure(windowFrame.Show());
-
-                if (window.ViewModel == null)
-                {
-                    BuildService buildService;
-                    if (ServiceFactory.VsServices.TryGetService(out buildService))
-                        window.ViewModel = new BuildHistoryViewModel(buildService.History);
-                }
             }
         }
 
         #endregion
+
+        public Task HandleAsync(BuildHistorWindowCreated payload)
+        {
+            if (payload.Window.ViewModel == null)
+            {
+                BuildService buildService;
+                if (ServiceFactory.VsServices.TryGetService(out buildService))
+                    payload.Window.ViewModel = new BuildHistoryViewModel(buildService.History);
+            }
+
+            return Task.FromResult(true);
+        }
     }
 }

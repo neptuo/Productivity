@@ -69,6 +69,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
             base.Content = new BuildHistoryControl();
 
             ViewModel = null;
+            ServiceFactory.EventDispatcher.PublishAsync(new BuildHistorWindowCreated(this));
         }
 
         private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
