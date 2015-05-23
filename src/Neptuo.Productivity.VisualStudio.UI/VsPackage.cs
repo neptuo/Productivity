@@ -17,6 +17,8 @@ using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
+using Neptuo.PresentationModels.TypeModels;
+using Neptuo.PresentationModels;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -65,10 +67,19 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ServiceFactory.Initialize(dte);
 
             // Underscore namespace remover
-            RegisterUnderscoreNamespaceRemover(ServiceFactory.Configuration, dte, commandService, csharpProjectItemsEvents);
+            ServiceFactory.VsServices.Add(c => c.IsUnderscoreNamespaceRemoverUsed, new UnderscoreServiceActivator(dte, commandService));
 
             // Line duplications
             RegisterLineDuplicators(dte, commandService);
+
+
+
+            VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
+                ServiceFactory.VsServices, 
+                ServiceFactory.ConfigurationDefinition, 
+                new DictionaryModelValueProvider()
+            );
+            updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
             
 #if DEBUG
             //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
@@ -77,17 +88,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
 #endif
-        }
-
-        private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
-        {
-            underscoreService = new UnderscoreService(dte);
-
-            if (configuration.IsUnderscoreNamespaceRemoverUsed)
-                underscoreService.WireAutoEvents(csharpProjectItemsEvents);
-
-            if (commandService != null)
-                underscoreService.WireUpMenuCommands(commandService);
         }
 
         private void RegisterLineDuplicators(DTE dte, OleMenuCommandService commandService)

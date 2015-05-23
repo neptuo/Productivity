@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Neptuo.Pipelines.Events;
+using Neptuo.PresentationModels;
+using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
@@ -15,34 +17,28 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [CLSCompliant(false), ComVisible(true)]
     public class FeaturePage : DialogPage, IConfiguration
     {
-        private IConfiguration configuration;
-        private IEventDispatcher eventDispatcher;
-
-        private bool isUnderscoreNamespaceRemoverUsed;
+        private ReflectionModelValueProvider thisProvider;
+        private VsServiceConfigurationUpdater updater;
 
         [Category(MyConstants.Feature.FriendlyNamespaces)]
         [DisplayName("Use namespace underscore remover.")]
-        [Description("Removes parts of the C# namespace that starts with '_'.")]
+        [Description("Removes parts of the C# namespace that starts with '_', e.g. 'Tests._Models.Domain' -> 'Tests.Domain'.")]
         public bool IsUnderscoreNamespaceRemoverUsed { get; set; }
 
-        public FeaturePage()
+        protected override void OnActivate(CancelEventArgs e)
         {
-            configuration = ServiceFactory.Configuration;
-            eventDispatcher = ServiceFactory.EventDispatcher;
-            isUnderscoreNamespaceRemoverUsed = ServiceFactory.Configuration.IsUnderscoreNamespaceRemoverUsed;
+            base.OnActivate(e);
+
+            thisProvider = new ReflectionModelValueProvider(this);
+            updater = new VsServiceConfigurationUpdater(ServiceFactory.VsServices, ServiceFactory.ConfigurationDefinition, thisProvider);
         }
 
-        public override void SaveSettingsToStorage()
+        protected override void OnApply(PageApplyEventArgs e)
         {
-            base.SaveSettingsToStorage();
+            base.OnApply(e);
 
-            if (isUnderscoreNamespaceRemoverUsed != IsUnderscoreNamespaceRemoverUsed)
-                eventDispatcher.PublishAsync(new IsUnderscoreNamespaceRemoverUsedChangedEvent(IsUnderscoreNamespaceRemoverUsed)).RunSynchronously();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
+            if (e.ApplyBehavior == ApplyKind.Apply)
+                updater.Update(thisProvider);
         }
     }
 }
