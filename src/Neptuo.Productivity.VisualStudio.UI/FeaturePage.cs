@@ -25,6 +25,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         [Description("Removes parts of the C# namespace that starts with '_', e.g. 'Tests._Models.Domain' -> 'Tests.Domain'.")]
         public bool IsUnderscoreNamespaceRemoverUsed { get; set; }
 
+        [Category(MyConstants.Feature.LineDuplications)]
+        [DisplayName("Allow current line duplication using keyboard.")]
+        [Description("Allows to duplicate of current line over or under the current line.")]
+        public bool IsLineDuplicatorUsed { get; set; }
+
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);

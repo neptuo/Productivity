@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FriendlyNamespaces\UnderscoreServiceActivator.cs" />
+    <Compile Include="TextFeatures\LineDuplicationServiceActivator.cs" />
     <Compile Include="_Services\VsServiceConfigurationUpdater.cs" />
     <Compile Include="_Services\IVsService.cs" />
     <Compile Include="Options\DteConfiguration.cs" />

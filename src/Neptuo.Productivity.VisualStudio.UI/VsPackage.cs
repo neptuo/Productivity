@@ -66,14 +66,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             ServiceFactory.Initialize(dte);
 
-            // Underscore namespace remover
+            // Underscore namespace remover.
             ServiceFactory.VsServices.Add(c => c.IsUnderscoreNamespaceRemoverUsed, new UnderscoreServiceActivator(dte, commandService));
 
-            // Line duplications
-            RegisterLineDuplicators(dte, commandService);
+            // Line duplications.
+            ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
 
 
-
+            // Run services.
             VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
                 ServiceFactory.VsServices, 
                 ServiceFactory.ConfigurationDefinition, 
@@ -88,14 +88,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
             dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
             dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
 #endif
-        }
-
-        private void RegisterLineDuplicators(DTE dte, OleMenuCommandService commandService)
-        {
-            lineDeplicationService = new LineDuplicationService(dte);
-
-            if (commandService != null)
-                lineDeplicationService.WireUpMenuCommands(commandService);
         }
 
         void SolutionEvents_ProjectAdded(Project project)

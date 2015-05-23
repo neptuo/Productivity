@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Neptuo.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -9,25 +10,31 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.TextFeatures
 {
-    public class LineDuplicationService
+    public class LineDuplicationService : DisposableBase, IVsService
     {
         private readonly DTE dte;
+        private readonly OleMenuCommandService commandService;
 
-        public LineDuplicationService(DTE dte)
+        private MenuCommand downItem;
+        private MenuCommand upItem;
+
+        public LineDuplicationService(DTE dte, OleMenuCommandService commandService)
         {
             Ensure.NotNull(dte, "dte");
+            Ensure.NotNull(commandService, "commandService");
             this.dte = dte;
+            this.commandService = commandService;
+            WireUpMenuCommands();
         }
 
-        public void WireUpMenuCommands(OleMenuCommandService commandService)
+        private void WireUpMenuCommands()
         {
-            Ensure.NotNull(commandService, "commandService");
             CommandID downCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.DuplicateLineDown);
-            MenuCommand downItem = new MenuCommand(DuplicateLineDownCallback, downCommandID);
+            downItem = new MenuCommand(DuplicateLineDownCallback, downCommandID);
             commandService.AddCommand(downItem);
 
             CommandID upCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.DuplicateLineUp);
-            MenuCommand upItem = new MenuCommand(DuplicateLineUpCallback, upCommandID);
+            upItem = new MenuCommand(DuplicateLineUpCallback, upCommandID);
             commandService.AddCommand(upItem);
         }
 
@@ -55,6 +62,14 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
                     duplicator.DuplicateCurrentLineUp();
                 }
             }
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+
+            commandService.RemoveCommand(downItem);
+            commandService.RemoveCommand(upItem);
         }
     }
 }
