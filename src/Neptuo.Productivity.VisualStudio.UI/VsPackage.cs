@@ -19,6 +19,8 @@ using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
 using Neptuo.Productivity.VisualStudio.Builds;
 using Neptuo.Productivity.VisualStudio.UI.Builds;
+using Neptuo.PresentationModels.TypeModels;
+using Neptuo.PresentationModels;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -61,35 +63,26 @@ namespace Neptuo.Productivity.VisualStudio.UI
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            IConfiguration configuration = new DteConfiguration(dte);
 
-            // Underscore namespace remover
-            RegisterUnderscoreNamespaceRemover(configuration, dte, commandService, csharpProjectItemsEvents);
+            ServiceFactory.Initialize(dte);
 
-            // Line duplications
-            RegisterLineDuplicators(dte, commandService);
+            // Underscore namespace remover.
+            ServiceFactory.VsServices.Add(c => c.IsUnderscoreNamespaceRemoverUsed, new UnderscoreServiceActivator(dte, commandService));
+
+            // Line duplications.
+            ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
+
+
+            // Run services.
+            VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
+                ServiceFactory.VsServices, 
+                ServiceFactory.ConfigurationDefinition, 
+                new DictionaryModelValueProvider()
+            );
+            updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
 
             // Builds
             RegisterBuildWatchers(dte, dte.Events.BuildEvents, commandService);
-        }
-
-        private void RegisterUnderscoreNamespaceRemover(IConfiguration configuration, DTE dte, OleMenuCommandService commandService, ProjectItemsEvents csharpProjectItemsEvents)
-        {
-            underscoreService = new UnderscoreService(dte);
-
-            if (configuration.IsUnderscoreNamespaceRemoverUsed)
-                underscoreService.WireAutoEvents(csharpProjectItemsEvents);
-
-            if (commandService != null)
-                underscoreService.WireUpMenuCommands(commandService);
-        }
-
-        private void RegisterLineDuplicators(DTE dte, OleMenuCommandService commandService)
-        {
-            lineDeplicationService = new LineDuplicationService(dte);
-
-            if (commandService != null)
-                lineDeplicationService.WireUpMenuCommands(commandService);
         }
 
         #region BuildWatchers

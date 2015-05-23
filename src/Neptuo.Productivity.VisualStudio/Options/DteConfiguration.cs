@@ -39,5 +39,10 @@ namespace Neptuo.Productivity.VisualStudio.Options
         {
             get { return GetGeneralPropertyValue<bool>(); }
         }
+
+        public bool IsLineDuplicatorUsed
+        {
+            get { return GetGeneralPropertyValue<bool>(); }
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace Neptuo.Productivity.VisualStudio.Options
     public interface IConfiguration
     {
         bool IsUnderscoreNamespaceRemoverUsed { get; }
+
+        bool IsLineDuplicatorUsed { get; }
     }
 }
