@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Neptuo.ComponentModel;
 using Neptuo.Productivity.FriendlyNamespaces;
 using System;
 using System.Collections.Generic;
@@ -15,31 +16,36 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
     /// <summary>
     /// Service integrating <see cref="UnderscoreRemover"/> into Visual Studio.
     /// </summary>
-    public class UnderscoreService
+    public class UnderscoreService : DisposableBase, IVsService
     {
         public const string KindPhysicalFile = "{6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C}";
 
         private readonly DTE dte;
-        private ProjectItemsEvents events; // important to store events as field (to prevent garbage collection).
+        private readonly ProjectItemsEvents events; // important to store events as field (to prevent garbage collection).
+        private readonly OleMenuCommandService commandService;
+        private MenuCommand menuItem;
 
-        public UnderscoreService(DTE dte)
+        public UnderscoreService(DTE dte, OleMenuCommandService commandService, ProjectItemsEvents events)
         {
             Ensure.NotNull(dte, "dte");
+            Ensure.NotNull(commandService, "commandService");
+            Ensure.NotNull(events, "events");
             this.dte = dte;
+            this.events = events;
+            this.commandService = commandService;
+            WireUpMenuCommands();
+            WireAutoEvents();
         }
 
-        public void WireUpMenuCommands(OleMenuCommandService commandService)
+        private void WireUpMenuCommands()
         {
-            Ensure.NotNull(commandService, "commandService");
             CommandID menuCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.UnderscoreRemover);
-            MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+            menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
             commandService.AddCommand(menuItem);
         }
 
-        public void WireAutoEvents(ProjectItemsEvents events)
+        private void WireAutoEvents()
         {
-            Ensure.NotNull(events, "events");
-            this.events = events;
             events.ItemAdded += OnItemAdded;
         }
 
@@ -87,6 +93,14 @@ namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
 
             editPoint.ReplaceText(textDocument.EndPoint, newTextContent, 0);
             editPoint.MoveToAbsoluteOffset(position);
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+
+            events.ItemAdded -= OnItemAdded;
+            commandService.RemoveCommand(menuItem);
         }
     }
 }

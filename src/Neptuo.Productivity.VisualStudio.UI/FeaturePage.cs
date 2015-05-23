@@ -1,4 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Neptuo.Pipelines.Events;
+using Neptuo.PresentationModels;
+using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
@@ -14,20 +17,33 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [CLSCompliant(false), ComVisible(true)]
     public class FeaturePage : DialogPage, IConfiguration
     {
-        private bool isUnderscoreNamespaceRemoverUsed;
+        private ReflectionModelValueProvider thisProvider;
+        private VsServiceConfigurationUpdater updater;
 
         [Category(MyConstants.Feature.FriendlyNamespaces)]
         [DisplayName("Use namespace underscore remover.")]
-        [Description("Removes parts of the C# namespace that starts with '_'.")]
-        public bool IsUnderscoreNamespaceRemoverUsed
+        [Description("Removes parts of the C# namespace that starts with '_', e.g. 'Tests._Models.Domain' -> 'Tests.Domain'.")]
+        public bool IsUnderscoreNamespaceRemoverUsed { get; set; }
+
+        [Category(MyConstants.Feature.LineDuplications)]
+        [DisplayName("Allow current line duplication using keyboard.")]
+        [Description("Allows to duplicate of current line over or under the current line.")]
+        public bool IsLineDuplicatorUsed { get; set; }
+
+        protected override void OnActivate(CancelEventArgs e)
         {
-            get { return isUnderscoreNamespaceRemoverUsed; }
-            set { isUnderscoreNamespaceRemoverUsed = value; }
+            base.OnActivate(e);
+
+            thisProvider = new ReflectionModelValueProvider(this);
+            updater = new VsServiceConfigurationUpdater(ServiceFactory.VsServices, ServiceFactory.ConfigurationDefinition, thisProvider);
         }
 
-        public FeaturePage()
+        protected override void OnApply(PageApplyEventArgs e)
         {
+            base.OnApply(e);
 
+            if (e.ApplyBehavior == ApplyKind.Apply)
+                updater.Update(thisProvider);
         }
     }
 }
