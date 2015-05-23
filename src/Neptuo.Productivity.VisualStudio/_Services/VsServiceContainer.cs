@@ -24,7 +24,7 @@ namespace Neptuo.Productivity.VisualStudio
             return this;
         }
 
-        public void ConfigurationChanged(IEnumerable<string> properties)
+        private void ExecuteServices(IEnumerable<string> properties, Action<VsServiceContext> action)
         {
             foreach (string property in properties)
             {
@@ -32,12 +32,30 @@ namespace Neptuo.Productivity.VisualStudio
                 if (storage.TryGetValue(property, out services))
                 {
                     foreach (VsServiceContext context in services)
-                    {
-                        if (!context.IsRunning)
-                            context.Instance = context.Activator.Create();
-                    }
+                        action(context);
                 }
             }
+        }
+
+        public void RunServices(IEnumerable<string> properties)
+        {
+            ExecuteServices(properties, context =>
+            {
+                if (!context.IsRunning)
+                    context.Instance = context.Activator.Create();
+            });
+        }
+
+        public void StopServices(IEnumerable<string> properties)
+        {
+            ExecuteServices(properties, context =>
+            {
+                if (context.IsRunning)
+                {
+                    context.Instance.Dispose();
+                    context.Instance = null;
+                }
+            });
         }
 
         private class VsServiceContext 
