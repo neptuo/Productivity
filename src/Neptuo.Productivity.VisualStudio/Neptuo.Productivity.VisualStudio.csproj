@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FriendlyNamespaces\UnderscoreServiceActivator.cs" />
     <Compile Include="_Services\IVsService.cs" />
     <Compile Include="Options\DteConfiguration.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreService.cs" />

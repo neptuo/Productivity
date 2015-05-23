@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio
 {
-    public interface IVsService
+    public interface IVsService : IDisposable
     {
-        void Stop();
     }
 }
