@@ -8,20 +8,18 @@ using System.Windows.Data;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds.Converters
 {
-    public class BuildLengthConverter : IValueConverter
+    public class FirstLetterConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            long? length = value as long?;
-            if (length == null)
-                return 0;
+            if (value == null)
+                return null;
 
-            //double result = length.Value * 0.0025;
-            double result = length.Value * 0.005;
-            if (result < 2)
-                result = 2;
+            string stringValue = value.ToString();
+            if (String.IsNullOrEmpty(stringValue))
+                return null;
 
-            return result;
+            return stringValue.First();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -142,7 +142,9 @@
       <DependentUpon>BuildModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Builds\Converters\BuildLengthConverter.cs" />
+    <Compile Include="Builds\Converters\BuildTimeConverter.cs" />
     <Compile Include="Builds\Converters\DateTimeConverter.cs" />
+    <Compile Include="Builds\Converters\FirstLetterConverter.cs" />
     <Compile Include="FeaturePage.cs">
       <SubType>Component</SubType>
     </Compile>
