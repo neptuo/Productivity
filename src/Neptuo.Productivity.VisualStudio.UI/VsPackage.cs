@@ -105,15 +105,28 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
         void buildEvents_OnBuildDone(vsBuildScope scope, vsBuildAction action)
         {
+            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            SolutionBuild build = dte.Solution.SolutionBuild;
+
             if (action != vsBuildAction.vsBuildActionClean && action != vsBuildAction.vsBuildActionDeploy)
             {
                 BuildService buildService;
                 if (ServiceFactory.VsServices.TryGetService(out buildService))
                 {
-                    BuildModel build = buildService.History.FirstOrDefault();
-                    if (build != null)
+                    BuildModel buildModel = buildService.History.FirstOrDefault();
+                    if (buildModel != null)
                     {
-                        build.Projects
+                        string[] projectNames = buildModel.Projects.Select(p => p.Name).ToArray();
+
+                        foreach (SolutionConfiguration configuration in build.SolutionConfigurations)
+                        {
+                            foreach (SolutionContext context in configuration.SolutionContexts)
+                            {
+                                if (projectNames.Contains(context.ProjectName))
+                                    context.ShouldBuild = false;
+                            }
+                        }
+
                     }
                 }
                 else

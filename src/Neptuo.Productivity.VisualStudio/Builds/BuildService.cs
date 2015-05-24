@@ -100,7 +100,7 @@ namespace Neptuo.Productivity.VisualStudio.Builds
 
         private BuildProjectModel CreateProjectModel(Project p)
         {
-            return new BuildProjectModel(p.Name, p.FullName);
+            return new BuildProjectModel(p.UniqueName, p.FullName);
         }
 
         private void OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
