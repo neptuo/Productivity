@@ -54,10 +54,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
 
-        private SolutionEvents solutionEvents;
-        private DocumentEvents documentEvents;
-        private BuildEvents buildEvents;
-
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -81,6 +77,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             // Builds.
             ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
+            ServiceFactory.VsServices.Add(c => c.IsBuildAutoConfigurationUsed, new AutoConfigurationServiceActivator(dte, ServiceFactory.VsServices));
 
             // Run services.
             VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
@@ -92,103 +89,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             // Custom code.
             ServiceFactory.EventRegistry.Subscribe<BuildHistorWindowCreated>(this);
-
-            solutionEvents = dte.Events.SolutionEvents;
-            solutionEvents.Opened += SolutionEvents_Opened;
-
-            documentEvents = dte.Events.DocumentEvents;
-            documentEvents.DocumentSaved += DocumentEvents_DocumentSaved;
-
-            buildEvents = dte.Events.BuildEvents;
-            buildEvents.OnBuildDone += buildEvents_OnBuildDone;
-        }
-
-        void buildEvents_OnBuildDone(vsBuildScope scope, vsBuildAction action)
-        {
-            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            SolutionBuild build = dte.Solution.SolutionBuild;
-
-            if (action != vsBuildAction.vsBuildActionClean && action != vsBuildAction.vsBuildActionDeploy)
-            {
-                BuildService buildService;
-                if (ServiceFactory.VsServices.TryGetService(out buildService))
-                {
-                    BuildModel buildModel = buildService.History.FirstOrDefault();
-                    if (buildModel != null)
-                    {
-                        string[] projectNames = buildModel.Projects.Select(p => p.Name).ToArray();
-
-                        foreach (SolutionConfiguration configuration in build.SolutionConfigurations)
-                        {
-                            foreach (SolutionContext context in configuration.SolutionContexts)
-                            {
-                                if (projectNames.Contains(context.ProjectName))
-                                    context.ShouldBuild = false;
-                            }
-                        }
-
-                    }
-                }
-                else
-                {
-                    SolutionEvents_Opened();
-                }
-            }
-        }
-
-        void SolutionEvents_Opened()
-        {
-            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            SolutionBuild build = dte.Solution.SolutionBuild;
-            object[] startups = (object[])build.StartupProjects;
-            string startupProjectName = (string)startups[0];
-
-            foreach (SolutionConfiguration configuration in build.SolutionConfigurations)
-            {
-                foreach (SolutionContext context in configuration.SolutionContexts)
-                {
-                    if (startupProjectName == context.ProjectName)
-                        context.ShouldBuild = true;
-                    else
-                        context.ShouldBuild = false;
-                }
-            }
-
-            //foreach (Project project in dte.Solution.Projects)
-            //{
-            //    if (project.ConfigurationManager != null)
-            //    {
-            //        project.ConfigurationManager.
-            //        foreach (OutputGroup outputGroup in project.ConfigurationManager.ActiveConfiguration.OutputGroups)
-            //        {
-            //            Console.WriteLine(outputGroup.FileNames);
-            //        }
-            //    }
-
-            //    foreach (Property property in project.Properties)
-            //    {
-            //        Console.WriteLine("PROPERTY: {0} -> {1}", property.Name, property.Value);
-            //    }
-            //}
-        }
-
-        void DocumentEvents_DocumentSaved(Document document)
-        {
-            string projectName = document.ProjectItem.ContainingProject.UniqueName;
-            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            SolutionBuild build = dte.Solution.SolutionBuild;
-
-            foreach (SolutionConfiguration configuration in build.SolutionConfigurations)
-            {
-                foreach (SolutionContext context in configuration.SolutionContexts)
-                {
-                    if (context.ProjectName == projectName)
-                    {
-                        context.ShouldBuild = true;
-                        return;
-                    }
-                }
-            }
         }
 
         #region BuildWatchers
@@ -203,8 +103,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
             }
         }
 
-        #endregion
-
         public Task HandleAsync(BuildHistorWindowCreated payload)
         {
             if (payload.Window.ViewModel == null)
@@ -216,5 +114,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             return Task.FromResult(true);
         }
+
+        #endregion
     }
 }

@@ -35,6 +35,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         [Description("Allows to show window with build history in the current VisualStudio instance.")]
         public bool IsBuildHistoryUsed { get; set; }
 
+        [Category(MyConstants.Feature.Builds)]
+        [DisplayName("Automatically arrange whether project should or should not be build.")]
+        [Description("...")]
+        public bool IsBuildAutoConfigurationUsed { get; set; }
+
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);

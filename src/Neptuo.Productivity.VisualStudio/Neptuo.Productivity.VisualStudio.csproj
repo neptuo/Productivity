@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\AutoConfigurationService.cs" />
+    <Compile Include="Builds\AutoConfigurationServiceActivator.cs" />
     <Compile Include="Builds\BuildService.cs" />
     <Compile Include="Builds\BuildServiceActivator.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreServiceActivator.cs" />
