@@ -107,6 +107,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\BuildAction.cs" />
+    <Compile Include="Builds\BuildWatcher.cs" />
+    <Compile Include="Builds\BuildModel.cs" />
+    <Compile Include="Builds\BuildProgress.cs" />
+    <Compile Include="Builds\BuildProjectModel.cs" />
+    <Compile Include="Builds\BuildScope.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreSyntaxRewriter.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

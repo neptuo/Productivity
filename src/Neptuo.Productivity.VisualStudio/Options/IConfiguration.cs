@@ -12,5 +12,7 @@ namespace Neptuo.Productivity.VisualStudio.Options
         bool IsUnderscoreNamespaceRemoverUsed { get; }
 
         bool IsLineDuplicatorUsed { get; }
+
+        bool IsBuildHistoryUsed { get; }
     }
 }

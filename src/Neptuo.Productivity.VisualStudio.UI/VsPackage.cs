@@ -1,24 +1,28 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.Settings;
+using Microsoft.Win32;
+using Neptuo.Pipelines.Events.Handlers;
+using Neptuo.PresentationModels;
+using Neptuo.PresentationModels.TypeModels;
+using Neptuo.Productivity.FriendlyNamespaces;
+using Neptuo.Productivity.VisualStudio.Builds;
+using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
+using Neptuo.Productivity.VisualStudio.Options;
+using Neptuo.Productivity.VisualStudio.TextFeatures;
+using Neptuo.Productivity.VisualStudio.UI.Builds;
+using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using Neptuo.Productivity.FriendlyNamespaces;
-using EnvDTE;
-using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
-using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell.Settings;
-using Neptuo.Productivity.VisualStudio.Options;
-using Neptuo.Productivity.VisualStudio.TextFeatures;
-using Neptuo.PresentationModels.TypeModels;
-using Neptuo.PresentationModels;
+using Task = System.Threading.Tasks.Task;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -42,14 +46,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
-    public sealed partial class VsPackage : Package
+    [ProvideToolWindow(typeof(BuildHistoryWindow))]
+    public sealed partial class VsPackage : Package, IEventHandler<BuildHistorWindowCreated>
     {
         private UnderscoreService underscoreService;
         private LineDuplicationService lineDeplicationService;
-
-        /////////////////////////////////////////////////////////////////////////////
-        // Overridden Package Implementation
-        #region Package Members
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -72,6 +73,8 @@ namespace Neptuo.Productivity.VisualStudio.UI
             // Line duplications.
             ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
 
+            // Builds.
+            ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
 
             // Run services.
             VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(
@@ -80,43 +83,35 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 new DictionaryModelValueProvider()
             );
             updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
-            
-#if DEBUG
-            //CSharpProjectItemsEvents events = (ProjectItemsEventsClass)ServiceProvider.GlobalProvider.GetService(typeof(ProjectItemsEventsClass));
-            dte.Events.DocumentEvents.DocumentOpened += DocumentEvents_DocumentOpened;
-            dte.Events.BuildEvents.OnBuildBegin += BuildEvents_OnBuildBegin;
-            dte.Events.BuildEvents.OnBuildDone += BuildEvents_OnBuildDone;
-            dte.Events.SolutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-#endif
+
+            // Custom code.
+            ServiceFactory.EventRegistry.Subscribe<BuildHistorWindowCreated>(this);
         }
 
-        void SolutionEvents_ProjectAdded(Project project)
+        #region BuildWatchers
+
+        private void BuildHistoryCallback(object sender, EventArgs e)
         {
-            //if (project.ConfigurationManager != null)
-            //    project.ConfigurationManager.AddPlatform("x64", "Any CPU", true);
-
-            //MessageBox.Show("ProjectAdded: " + project.Name);
-        }
-
-        private Stopwatch timer = new Stopwatch();
-
-        void BuildEvents_OnBuildBegin(vsBuildScope scope, vsBuildAction action)
-        {
-            timer.Start();
-        }
-
-        void BuildEvents_OnBuildDone(vsBuildScope scope, vsBuildAction action)
-        {
-            timer.Stop();
-            MessageBox.Show(String.Format("Build tooked: {0}ms.", timer.ElapsedMilliseconds));
-        }
-
-        void DocumentEvents_DocumentOpened(Document document)
-        {
-            MessageBox.Show("DocumentOpened: " + document.FullName);
+            BuildHistoryWindow window = (BuildHistoryWindow)FindToolWindow(typeof(BuildHistoryWindow), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
         }
 
         #endregion
 
+        public Task HandleAsync(BuildHistorWindowCreated payload)
+        {
+            if (payload.Window.ViewModel == null)
+            {
+                BuildService buildService;
+                if (ServiceFactory.VsServices.TryGetService(out buildService))
+                    payload.Window.ViewModel = new BuildHistoryViewModel(buildService.History);
+            }
+
+            return Task.FromResult(true);
+        }
     }
 }

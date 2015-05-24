@@ -44,5 +44,10 @@ namespace Neptuo.Productivity.VisualStudio.Options
         {
             get { return GetGeneralPropertyValue<bool>(); }
         }
+
+        public bool IsBuildHistoryUsed
+        {
+            get { return GetGeneralPropertyValue<bool>(); }
+        }
     }
 }
