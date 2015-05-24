@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:data="Neptuo.Productivity.VisualStudio.UI.Builds.Converters"
+             xmlns:data="clr-namespace:Neptuo.Productivity.VisualStudio.UI.Builds.Converters"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
@@ -12,6 +12,7 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
         </Style>
+        <data:DateTimeConverter x:Key="dateTimeConverter" />
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
         <StackPanel>
@@ -32,9 +33,10 @@
                                 <Label Grid.Row="0" Grid.Column="0" Padding="5 0 5 0" Content="{Binding Scope}" />
                                 <Label Grid.Row="0" Grid.Column="1" Padding="5 0 5 0" Content="{Binding Action}" HorizontalAlignment="Right" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="{Binding StartedAt, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                                <Label Grid.Row="1" Grid.Column="0" Content="{Binding StartedAt,Converter={StaticResource dateTimeConverter}}" />
+
                                 <Grid Grid.Row="1" Grid.Column="1">
-                                    <Rectangle Width="100" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                    <Rectangle Fill="#15C23C" Width="100" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                     <Label HorizontalAlignment="Right" VerticalAlignment="Top">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding ElapsedMilliseconds}" />
