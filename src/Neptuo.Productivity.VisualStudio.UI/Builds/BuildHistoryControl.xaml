@@ -22,9 +22,10 @@
             <ItemsControl ItemsSource="{Binding Builds}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="0 0 0 1" BorderBrush="#cccccc">
-                            <Grid>
-                                <Grid Margin="0 5 0 5">
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{DynamicResource VsBrush.PanelSeparator}">
+                            <Grid Margin="0 5 0 5">
+                                <Rectangle Fill="#15C23C" Width="{Binding ElapsedMilliseconds, Converter={StaticResource buildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -35,18 +36,13 @@
                                     <Label Grid.Column="0" Content="{Binding StartedAt, Converter={StaticResource dateTimeConverter}}" />
                                     <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Scope }" />
                                     <Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Action}" />
-
-                                    <Rectangle Grid.Column="3" Fill="#15C23C" Width="{Binding ElapsedMilliseconds, Converter={StaticResource buildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+                                    <Label Grid.Column="3" Content="{Binding ElapsedMilliseconds, Converter={StaticResource buildTimeConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 </Grid>
-                                <Label Content="{Binding ElapsedMilliseconds, Converter={StaticResource buildTimeConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <!--<StackPanel Orientation="Vertical">
-                    <Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
-                </StackPanel>-->
         </StackPanel>
     </ScrollViewer>
 </UserControl>
