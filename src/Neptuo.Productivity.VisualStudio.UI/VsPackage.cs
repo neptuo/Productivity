@@ -88,6 +88,14 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ServiceFactory.EventRegistry.Subscribe<BuildHistorWindowCreated>(this);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+                ServiceFactory.Dispose();
+        }
+
         #region BuildWatchers
 
         private void BuildHistoryCallback(object sender, EventArgs e)

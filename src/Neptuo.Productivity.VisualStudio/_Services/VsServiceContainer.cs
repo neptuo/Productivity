@@ -76,6 +76,18 @@ namespace Neptuo.Productivity.VisualStudio
             });
         }
 
+        public void Disponse()
+        {
+            foreach (KeyValuePair<string, List<VsServiceContext>> item in storage)
+            {
+                foreach (VsServiceContext context in item.Value)
+                {
+                    if (context.IsRunning)
+                        context.Instance.Dispose();
+                }
+            }
+        }
+
         private class VsServiceContext 
         {
             public IActivator<IVsService> Activator { get; private set; }

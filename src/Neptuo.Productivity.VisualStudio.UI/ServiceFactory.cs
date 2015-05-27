@@ -34,5 +34,10 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ConfigurationDefinition = new ReflectionModelDefinitionBuilder(Configuration.GetType(), new AttributeMetadataReaderCollection()).Create();
             VsServices = new VsServiceContainer();
         }
+
+        public static void Dispose()
+        {
+            VsServices.Disponse();
+        }
     }
 }
