@@ -35,6 +35,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         [Description("Allows to show window with build history in the current VisualStudio instance.")]
         public bool IsBuildHistoryUsed { get; set; }
 
+        [Category(MyConstants.Feature.Builds)]
+        [DisplayName("Cancel build on first error.")]
+        [Description("When first error occurs the executing build immediately is cancelled.")]
+        public bool IsBuildCancelOnFirstErrorUsed { get; set; }
+
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);
