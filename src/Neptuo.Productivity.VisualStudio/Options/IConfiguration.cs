@@ -15,5 +15,7 @@ namespace Neptuo.Productivity.VisualStudio.Options
 
         bool IsBuildHistoryUsed { get; }
         bool IsBuildCancelOnFirstErrorUsed { get; }
+
+        bool IsOpenStartPageOnSolutionCloseUsed { get; }
     }
 }

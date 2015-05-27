@@ -12,6 +12,7 @@ using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.FriendlyNamespaces;
 using Neptuo.Productivity.VisualStudio.Builds;
 using Neptuo.Productivity.VisualStudio.FriendlyNamespaces;
+using Neptuo.Productivity.VisualStudio.Misc;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
 using Neptuo.Productivity.VisualStudio.UI.Builds;
@@ -76,6 +77,9 @@ namespace Neptuo.Productivity.VisualStudio.UI
             // Builds.
             ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
             ServiceFactory.VsServices.Add(c => c.IsBuildCancelOnFirstErrorUsed, new BuildCancelServiceActivator(dte));
+
+            // Misc
+            ServiceFactory.VsServices.Add(c => c.IsOpenStartPageOnSolutionCloseUsed, new StartPageServiceActivator(dte));
 
             // Run services.
             VsServiceConfigurationUpdater updater = new VsServiceConfigurationUpdater(

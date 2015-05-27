@@ -27,6 +27,7 @@ namespace Neptuo.Productivity.VisualStudio
             public const string FriendlyNamespaces = "C# Friendly namespaces";
             public const string LineDuplications = "Text features";
             public const string Builds = "Builds";
+            public const string Misc = "Misc";
         }
     }
 }

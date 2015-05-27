@@ -40,6 +40,11 @@ namespace Neptuo.Productivity.VisualStudio.UI
         [Description("When first error occurs the executing build immediately is cancelled.")]
         public bool IsBuildCancelOnFirstErrorUsed { get; set; }
 
+        [Category(MyConstants.Feature.Misc)]
+        [DisplayName("Open start page after solution is closed.")]
+        [Description("Automatically open start page after solution is closed.")]
+        public bool IsOpenStartPageOnSolutionCloseUsed { get; set; }
+
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);

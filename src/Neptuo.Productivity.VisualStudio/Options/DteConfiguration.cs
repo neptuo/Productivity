@@ -54,5 +54,10 @@ namespace Neptuo.Productivity.VisualStudio.Options
         {
             get { return GetGeneralPropertyValue<bool>(); }
         }
+
+        public bool IsOpenStartPageOnSolutionCloseUsed
+        {
+            get { return GetGeneralPropertyValue<bool>(); }
+        }
     }
 }
