@@ -80,6 +80,20 @@ namespace Neptuo.Productivity.Builds
             }
         }
 
+        private int allProjectsCount;
+        public int AllProjectsCount
+        {
+            get { return allProjectsCount; }
+            set
+            {
+                if (allProjectsCount != value)
+                {
+                    allProjectsCount = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<BuildProjectModel> Projects { get; private set; }
 
         public BuildModel(BuildScope scope, BuildAction action)

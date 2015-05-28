@@ -80,7 +80,15 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                     return;
             }
 
+            int projectsToBuild = 0;
+            foreach (SolutionContext context in dte.Solution.SolutionBuild.ActiveConfiguration.SolutionContexts)
+            {
+                if (context.ShouldBuild)
+                    projectsToBuild++;
+            }
+
             currentProgress = watcher.StartNew(scope, action);
+            currentProgress.Model.AllProjectsCount = projectsToBuild;
         }
 
         private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
