@@ -83,9 +83,11 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             currentProgress = watcher.StartNew(scope, action);
         }
 
-        private void OnBuildProjConfigBegin(string project, string projectConfig, string platform, string solutionConfig)
+        private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
         {
-            currentProgress.StartProject(project, projectConfig, platform, solutionConfig);
+            Project project = dte.Solution.Projects.OfType<Project>().First(p => p.UniqueName == projectName);
+            BuildProjectModel model = CreateProjectModel(project);
+            currentProgress.StartProject(model);
         }
 
         private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
@@ -95,7 +97,7 @@ namespace Neptuo.Productivity.VisualStudio.Builds
 
         private BuildProjectModel CreateProjectModel(Project p)
         {
-            return new BuildProjectModel(p.Name, p.FullName);
+            return new BuildProjectModel(p.UniqueName, p.FullName);
         }
 
         private void OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
