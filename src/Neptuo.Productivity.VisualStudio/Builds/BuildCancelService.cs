@@ -25,7 +25,10 @@ namespace Neptuo.Productivity.VisualStudio.Builds
         private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
         {
             if (!success)
+            {
                 dte.ExecuteCommand("Build.Cancel");
+                dte.ExecuteCommand("View.Output");
+            }
         }
 
         protected override void DisposeManagedResources()
