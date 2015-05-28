@@ -44,6 +44,8 @@ namespace Neptuo.Productivity.VisualStudio.Builds
         {
             events.OnBuildBegin += OnBuildBegin;
             events.OnBuildDone += OnBuildDone;
+            events.OnBuildProjConfigBegin += OnBuildProjConfigBegin;
+            events.OnBuildProjConfigDone += OnBuildProjConfigDone;
         }
 
         private void OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
@@ -64,38 +66,31 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                     return;
             }
 
-            List<BuildProjectModel> projects = new List<BuildProjectModel>();
             BuildScope scope = BuildScope.Project;
-
             switch (Scope)
             {
                 case vsBuildScope.vsBuildScopeBatch:
                 case vsBuildScope.vsBuildScopeProject:
                     scope = BuildScope.Project;
-                    projects.AddRange(GetSelectedProjects(dte));
                     break;
                 case vsBuildScope.vsBuildScopeSolution:
                     scope = BuildScope.Solution;
-                    projects.AddRange(dte.Solution.Projects.OfType<Project>().Select(CreateProjectModel));
                     break;
                 default:
                     return;
             }
 
-            currentProgress = watcher.StartNew(scope, action, projects);
+            currentProgress = watcher.StartNew(scope, action);
         }
 
-        private IEnumerable<BuildProjectModel> GetSelectedProjects(DTE dte)
+        private void OnBuildProjConfigBegin(string project, string projectConfig, string platform, string solutionConfig)
         {
-            IEnumerable<Project> projects = dte.SelectedItems.OfType<Project>();
-            if (projects.Any())
-                return projects.Select(CreateProjectModel);
+            currentProgress.StartProject(project, projectConfig, platform, solutionConfig);
+        }
 
-            IEnumerable<Document> documents = dte.SelectedItems.OfType<Document>();
-            if(documents.Any())
-                return documents.Select(d => CreateProjectModel(d.ProjectItem.Collection.ContainingProject));
-
-            return Enumerable.Empty<BuildProjectModel>();
+        private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
+        {
+            currentProgress.DoneProject(project, success);
         }
 
         private BuildProjectModel CreateProjectModel(Project p)

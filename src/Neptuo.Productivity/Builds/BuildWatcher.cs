@@ -16,10 +16,9 @@ namespace Neptuo.Productivity.Builds
             History = new ObservableCollection<BuildModel>();
         }
 
-        public BuildProgress StartNew(BuildScope scope, BuildAction action, IEnumerable<BuildProjectModel> projects)
+        public BuildProgress StartNew(BuildScope scope, BuildAction action)
         {
-            Ensure.NotNull(projects, "projects");
-            BuildProgress result = new BuildProgress(scope, action, projects);
+            BuildProgress result = new BuildProgress(scope, action);
             History.Insert(0, result.Model);
             return result;
         }

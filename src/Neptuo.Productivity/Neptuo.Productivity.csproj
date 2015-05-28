@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builds\BuildAction.cs" />
+    <Compile Include="Builds\BuildProjectProgress.cs" />
     <Compile Include="Builds\BuildWatcher.cs" />
     <Compile Include="Builds\BuildModel.cs" />
     <Compile Include="Builds\BuildProgress.cs" />

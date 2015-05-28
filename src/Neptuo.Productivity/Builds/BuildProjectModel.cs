@@ -37,6 +37,34 @@ namespace Neptuo.Productivity.Builds
             }
         }
 
+        private long? elapsedMilliseconds;
+        public long? ElapsedMilliseconds
+        {
+            get { return elapsedMilliseconds; }
+            set
+            {
+                if (elapsedMilliseconds != value)
+                {
+                    elapsedMilliseconds = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private bool? isSuccessful;
+        public bool? IsSuccessful
+        {
+            get { return isSuccessful; }
+            set
+            {
+                if (isSuccessful != value)
+                {
+                    isSuccessful = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public BuildProjectModel(string name, string path)
         {
             Name = name;
