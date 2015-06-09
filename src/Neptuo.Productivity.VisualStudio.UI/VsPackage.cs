@@ -50,9 +50,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideToolWindow(typeof(BuildHistoryWindow))]
     public sealed partial class VsPackage : Package, IEventHandler<BuildHistorWindowCreated>
     {
-        private UnderscoreService underscoreService;
-        private LineDuplicationService lineDeplicationService;
-
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -75,7 +72,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
 
             // Builds.
-            ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
+            ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, ServiceFactory.EventDispatcher, commandService, BuildHistoryCallback));
             ServiceFactory.VsServices.Add(c => c.IsBuildCancelOnFirstErrorUsed, new BuildCancelServiceActivator(dte));
 
             // Misc

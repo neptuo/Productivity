@@ -15,19 +15,19 @@ namespace Neptuo.Productivity.Builds
         public BuildModel Model { get; private set; }
         public event Action<BuildProgress> OnFinished;
 
-        public BuildProgress(BuildScope scope, BuildAction action)
+        public BuildProgress(BuildModel model)
         {
-            Model = new BuildModel(scope, action, DateTime.Now);
+            Ensure.NotNull(model, "model");
+            Model = model;
 
             projectBuilds = new List<BuildProjectProgress>();
             timer = new Stopwatch();
             timer.Start();
         }
 
-        public void StartProject(BuildProjectModel project)
+        public void StartProject(string name, string path)
         {
-            projectBuilds.Add(new BuildProjectProgress(project));
-            Model.Projects.Add(project);
+            projectBuilds.Add(new BuildProjectProgress(Model.AddProject(name, path)));
         }
 
         public void DoneProject(string projectName, bool success)
@@ -43,8 +43,7 @@ namespace Neptuo.Productivity.Builds
         public void Finish()
         {
             timer.Stop();
-            Model.FinishedAt = DateTime.Now;
-            Model.ElapsedMilliseconds = timer.ElapsedMilliseconds;
+            Model.Finish(timer.ElapsedMilliseconds);
 
             if (OnFinished != null)
                 OnFinished(this);

@@ -28,8 +28,7 @@ namespace Neptuo.Productivity.Builds
 
         public void Finish(bool isSuccessful)
         {
-            model.ElapsedMilliseconds = timer.ElapsedMilliseconds;
-            model.IsSuccessful = isSuccessful;
+            model.Finish(timer.ElapsedMilliseconds, isSuccessful);
         }
     }
 }

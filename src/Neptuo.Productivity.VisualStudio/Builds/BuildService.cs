@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Neptuo.Collections.ObjectModel;
 using Neptuo.ComponentModel;
+using Neptuo.Pipelines.Events;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,9 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             get { return watcher.History; }
         }
 
-        public BuildService(DTE dte, OleMenuCommandService commandService, EventHandler menuHandler)
+        public BuildService(DTE dte, IEventDispatcher events, OleMenuCommandService commandService, EventHandler menuHandler)
         {
-            this.watcher = new BuildWatcher();
+            this.watcher = new BuildWatcher(new BuildModelActivator(events));
             this.dte = dte;
             this.events = dte.Events.BuildEvents;
             this.commandService = commandService;
@@ -88,24 +89,18 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             }
 
             currentProgress = watcher.StartNew(scope, action);
-            currentProgress.Model.AllProjectsCount = projectsToBuild;
+            currentProgress.Model.EstimateProjectCount(projectsToBuild);
         }
 
         private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
         {
             Project project = dte.Solution.Projects.OfType<Project>().First(p => p.UniqueName == projectName);
-            BuildProjectModel model = CreateProjectModel(project);
-            currentProgress.StartProject(model);
+            currentProgress.StartProject(project.UniqueName, project.FullName);
         }
 
         private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
         {
             currentProgress.DoneProject(project, success);
-        }
-
-        private BuildProjectModel CreateProjectModel(Project p)
-        {
-            return new BuildProjectModel(p.UniqueName, p.FullName);
         }
 
         private void OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
