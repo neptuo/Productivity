@@ -88,7 +88,9 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         public Task HandleAsync(BuildFinished payload)
         {
-            ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
+            if (model == payload.Model)
+                ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
+
             return Task.FromResult(true);
         }
     }
