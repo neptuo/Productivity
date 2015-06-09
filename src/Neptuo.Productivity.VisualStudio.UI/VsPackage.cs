@@ -16,6 +16,7 @@ using Neptuo.Productivity.VisualStudio.Misc;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
 using Neptuo.Productivity.VisualStudio.UI.Builds;
+using Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews;
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
@@ -47,8 +48,8 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
-    [ProvideToolWindow(typeof(BuildHistoryWindow))]
-    public sealed partial class VsPackage : Package, IEventHandler<BuildHistorWindowCreated>
+    [ProvideToolWindow(typeof(QuickWindow))]
+    public sealed partial class VsPackage : Package, IEventHandler<QuickWindowCreated>
     {
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -87,7 +88,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
 
             // Custom code.
-            ServiceFactory.EventRegistry.Subscribe<BuildHistorWindowCreated>(this);
+            ServiceFactory.EventRegistry.Subscribe<QuickWindowCreated>(this);
         }
 
         protected override void Dispose(bool disposing)
@@ -102,7 +103,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
         private void BuildHistoryCallback(object sender, EventArgs e)
         {
-            BuildHistoryWindow window = (BuildHistoryWindow)FindToolWindow(typeof(BuildHistoryWindow), 0, true);
+            QuickWindow window = (QuickWindow)FindToolWindow(typeof(QuickWindow), 0, true);
             if (window != null && window.Frame != null)
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
@@ -112,13 +113,13 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
         #endregion
 
-        public Task HandleAsync(BuildHistorWindowCreated payload)
+        public Task HandleAsync(QuickWindowCreated payload)
         {
             if (payload.Window.ViewModel == null)
             {
                 BuildService buildService;
                 if (ServiceFactory.VsServices.TryGetService(out buildService))
-                    payload.Window.ViewModel = new BuildHistoryViewModel(buildService.History);
+                    payload.Window.ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry);
             }
 
             return Task.FromResult(true);

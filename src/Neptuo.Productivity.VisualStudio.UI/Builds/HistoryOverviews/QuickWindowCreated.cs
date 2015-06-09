@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.UI.Builds
+namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
-    public class BuildHistorWindowCreated
+    public class QuickWindowCreated
     {
-        public BuildHistoryWindow Window { get; private set; }
+        public QuickWindow Window { get; private set; }
 
-        public BuildHistorWindowCreated(BuildHistoryWindow window)
+        public QuickWindowCreated(QuickWindow window)
         {
             Ensure.NotNull(window, "window");
             Window = window;
