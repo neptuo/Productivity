@@ -41,14 +41,14 @@ namespace Neptuo.Productivity.Builds
             Action = action;
             StartedAt = startedAt;
 
-            events.Publish(new BuildStarted(this));
+            events.PublishAsync(new BuildStarted(this));
         }
 
         public BuildProjectModel AddProject(string name, string path)
         {
             BuildProjectModel model = new BuildProjectModel(events, this, name, path);
             projects.Add(model);
-            events.Publish(new ProjectAddedToBuild(this, model));
+            events.PublishAsync(new ProjectAddedToBuild(this, model));
             return model;
         }
 
@@ -56,14 +56,14 @@ namespace Neptuo.Productivity.Builds
         {
             Ensure.Positive(projectCount, "projectCount");
             EstimatedProjectCount = projectCount;
-            events.Publish(new ProjectCountEstimated(this));
+            events.PublishAsync(new ProjectCountEstimated(this));
         }
 
         public void Finish(long elapsedMilliseconds)
         {
             FinishedAt = DateTime.Now;
             ElapsedMilliseconds = elapsedMilliseconds;
-            events.Publish(new BuildFinished(this));
+            events.PublishAsync(new BuildFinished(this));
         }
     }
 }

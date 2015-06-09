@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.Builds
         {
             ElapsedMilliseconds = elapsedMilliseconds;
             IsSuccessful = isSuccessful;
-            events.Publish(new ProjectBuildFinished(model, this));
+            events.PublishAsync(new ProjectBuildFinished(model, this));
         }
     }
 }

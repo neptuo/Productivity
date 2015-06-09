@@ -124,7 +124,6 @@
     <Compile Include="FriendlyNamespaces\UnderscoreSyntaxRewriter.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_EventManagerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

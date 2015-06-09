@@ -70,7 +70,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             base.Content = new QuickView();
 
             ViewModel = null;
-            ServiceFactory.EventDispatcher.Publish(new QuickWindowCreated(this));
+            ServiceFactory.EventDispatcher.PublishAsync(new QuickWindowCreated(this));
         }
 
         private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
