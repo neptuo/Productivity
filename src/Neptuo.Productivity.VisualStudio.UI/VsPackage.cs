@@ -16,6 +16,7 @@ using Neptuo.Productivity.VisualStudio.Misc;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.TextFeatures;
 using Neptuo.Productivity.VisualStudio.UI.Builds;
+using Neptuo.Productivity.VisualStudio.UI.Options;
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
