@@ -51,8 +51,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>
-        public QuickWindow() :
-            base(null)
+        public QuickWindow()
+            : base(null)
         {
             // Set the window title reading it from the resources.
             this.Caption = "Build History";
