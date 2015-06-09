@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Neptuo.ComponentModel;
+using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,15 @@ namespace Neptuo.Productivity.VisualStudio.Builds
     {
         private readonly DTE dte;
         private readonly BuildEvents events;
+        private readonly IConfiguration configuration;
 
-        public BuildCancelService(DTE dte)
+        public BuildCancelService(DTE dte, IConfiguration configuration)
         {
             Ensure.NotNull(dte, "dte");
+            Ensure.NotNull(configuration, "configuration");
             this.dte = dte;
             this.events = dte.Events.BuildEvents;
+            this.configuration = configuration;
 
             events.OnBuildProjConfigDone += OnBuildProjConfigDone;
         }
@@ -27,7 +31,18 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             if (!success)
             {
                 dte.ExecuteCommand("Build.Cancel");
-                dte.ExecuteCommand("View.Output");
+                switch (configuration.OpenWindowAfterBuildCancel)
+                {
+                    case BuildCancelWindow.Output:
+                        dte.ExecuteCommand("View.Output");
+                        break;
+                    case BuildCancelWindow.ErrorList:
+                        dte.ExecuteCommand("View.ErrorList");
+                        break;
+                    case BuildCancelWindow.None:
+                    default:
+                        break;
+                }
             }
         }
 

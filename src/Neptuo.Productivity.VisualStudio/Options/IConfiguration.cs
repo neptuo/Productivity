@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Productivity.VisualStudio.Builds;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Neptuo.Productivity.VisualStudio.Options
 
         bool IsBuildHistoryUsed { get; }
         bool IsBuildCancelOnFirstErrorUsed { get; }
+        BuildCancelWindow OpenWindowAfterBuildCancel { get; }
 
         bool IsOpenStartPageOnSolutionCloseUsed { get; }
     }

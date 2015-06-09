@@ -67,7 +67,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ProjectItemsEvents csharpProjectItemsEvents = (ProjectItemsEvents)dte.Events.GetObject("CSharpProjectItemsEvents");
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
-            ServiceFactory.Initialize(dte);
+            ServiceFactory.Initialize((FeaturePage)GetDialogPage(typeof(FeaturePage)));
 
             // Underscore namespace remover.
             ServiceFactory.VsServices.Add(c => c.IsUnderscoreNamespaceRemoverUsed, new UnderscoreServiceActivator(dte, commandService));
@@ -77,7 +77,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             // Builds.
             ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, commandService, BuildHistoryCallback));
-            ServiceFactory.VsServices.Add(c => c.IsBuildCancelOnFirstErrorUsed, new BuildCancelServiceActivator(dte));
+            ServiceFactory.VsServices.Add(c => c.IsBuildCancelOnFirstErrorUsed, new BuildCancelServiceActivator(dte, ServiceFactory.Configuration));
 
             // Misc
             ServiceFactory.VsServices.Add(c => c.IsOpenStartPageOnSolutionCloseUsed, new StartPageServiceActivator(dte));

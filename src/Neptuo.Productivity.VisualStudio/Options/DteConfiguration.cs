@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Neptuo.Productivity.VisualStudio.Builds;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -28,9 +29,17 @@ namespace Neptuo.Productivity.VisualStudio.Options
             return properties;
         }
 
-        private T GetGeneralPropertyValue<T>([CallerMemberName] string propertyName = null)
+        private T GetGeneralPropertyValue<T>(T defaultValue = default(T), [CallerMemberName] string propertyName = null)
         {
-            return GetGeneralProperties().Item(propertyName).Value;
+            Properties properties = GetGeneralProperties();
+            IEnumerable<string> names = properties.OfType<Property>().Select(p => p.Name);
+            foreach (Property property in properties)
+            {
+                if (property.Name == propertyName)
+                    return property.Value;
+            }
+
+            return default(T);
         }
 
         #endregion
@@ -53,6 +62,11 @@ namespace Neptuo.Productivity.VisualStudio.Options
         public bool IsBuildCancelOnFirstErrorUsed
         {
             get { return GetGeneralPropertyValue<bool>(); }
+        }
+
+        public BuildCancelWindow OpenWindowAfterBuildCancel
+        {
+            get { return GetGeneralPropertyValue<BuildCancelWindow>(BuildCancelWindow.None); }
         }
 
         public bool IsOpenStartPageOnSolutionCloseUsed

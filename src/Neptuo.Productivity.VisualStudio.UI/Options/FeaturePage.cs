@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Pipelines.Events;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
+using Neptuo.Productivity.VisualStudio.Builds;
 using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,11 @@ namespace Neptuo.Productivity.VisualStudio.UI.Options
         [DisplayName("Cancel build on first error.")]
         [Description("When first error occurs the executing build immediately is cancelled.")]
         public bool IsBuildCancelOnFirstErrorUsed { get; set; }
+
+        [Category(MyConstants.Feature.Builds)]
+        [DisplayName("On window after build is cancelled")]
+        [Description("Opens selected window after build is cancelled on first error.")]
+        public BuildCancelWindow OpenWindowAfterBuildCancel { get; set; }
 
         [Category(MyConstants.Feature.Misc)]
         [DisplayName("Open start page after solution is closed.")]
