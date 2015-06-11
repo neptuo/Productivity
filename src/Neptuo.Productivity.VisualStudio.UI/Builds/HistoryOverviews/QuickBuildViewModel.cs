@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
-    public class QuickBuildViewModel : ObservableObject, IEventHandler<BuildFinished>
+    public class QuickBuildViewModel : ObservableObject, IDisposable, IEventHandler<BuildFinished>
     {
         private readonly IEventRegistry events;
         private readonly BuildModel model;
@@ -93,5 +93,30 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
             return Task.FromResult(true);
         }
+
+        #region IDisposable
+
+        private bool isDisposed;
+
+        public bool IsDisposed
+        {
+            get { return isDisposed; }
+        }
+
+        public void Dispose()
+        {
+            if (isDisposed)
+                return;
+
+            isDisposed = true;
+            DisposeManagedResources();
+        }
+
+        protected void DisposeManagedResources()
+        {
+            events.UnSubscribe((IEventHandler<BuildFinished>)this);
+        }
+
+        #endregion
     }
 }
