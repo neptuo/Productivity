@@ -51,7 +51,7 @@ namespace Neptuo.Productivity.VisualStudio.Builds
 
         private void OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
         {
-            BuildAction action = BuildAction.Build;
+            BuildAction action = BuildAction.Unknown;
             switch (Action)
             {
                 case vsBuildAction.vsBuildActionBuild:
@@ -63,11 +63,9 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                 case vsBuildAction.vsBuildActionRebuildAll:
                     action = BuildAction.Rebuild;
                     break;
-                default:
-                    return;
             }
 
-            BuildScope scope = BuildScope.Project;
+            BuildScope scope = BuildScope.Unknown;
             switch (Scope)
             {
                 case vsBuildScope.vsBuildScopeBatch:
@@ -77,8 +75,6 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                 case vsBuildScope.vsBuildScopeSolution:
                     scope = BuildScope.Solution;
                     break;
-                default:
-                    return;
             }
 
             int projectsToBuild = 0;
@@ -94,13 +90,18 @@ namespace Neptuo.Productivity.VisualStudio.Builds
 
         private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
         {
-            Project project = dte.Solution.Projects.OfType<Project>().First(p => p.UniqueName == projectName);
-            currentProgress.StartProject(project.UniqueName, project.FullName);
+            if (currentProgress != null)
+            {
+                Project project = dte.Solution.Projects.OfType<Project>().First(p => p.UniqueName == projectName);
+                if (project != null)
+                    currentProgress.StartProject(project.UniqueName, project.FullName);
+            }
         }
 
         private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
         {
-            currentProgress.DoneProject(project, success);
+            if (currentProgress != null)
+                currentProgress.DoneProject(project, success);
         }
 
         private void OnBuildDone(vsBuildScope Scope, vsBuildAction Action)

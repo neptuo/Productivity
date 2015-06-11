@@ -8,6 +8,7 @@ namespace Neptuo.Productivity.Builds
 {
     public enum BuildScope
     {
+        Unknown,
         Solution,
         Project,
     }
