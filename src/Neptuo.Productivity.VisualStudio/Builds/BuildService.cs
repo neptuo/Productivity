@@ -91,11 +91,7 @@ namespace Neptuo.Productivity.VisualStudio.Builds
         private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
         {
             if (currentProgress != null)
-            {
-                Project project = dte.Solution.Projects.OfType<Project>().First(p => p.UniqueName == projectName);
-                if (project != null)
-                    currentProgress.StartProject(project.UniqueName, project.FullName);
-            }
+                currentProgress.StartProject(projectName);
         }
 
         private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)

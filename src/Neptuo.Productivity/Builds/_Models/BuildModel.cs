@@ -55,9 +55,9 @@ namespace Neptuo.Productivity.Builds
             events.PublishAsync(new BuildStarted(Key, Scope, Action, StartedAt));
         }
 
-        public BuildProjectModel AddProject(string name, string path)
+        public BuildProjectModel AddProject(string name)
         {
-            BuildProjectModel model = new BuildProjectModel(events, Key, name, path);
+            BuildProjectModel model = new BuildProjectModel(events, Key, name);
             projects.Add(model);
             return model;
         }

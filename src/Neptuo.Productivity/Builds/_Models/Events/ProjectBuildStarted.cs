@@ -11,16 +11,13 @@ namespace Neptuo.Productivity.Builds.Events
     {
         public ProjectKey Key { get; private set; }
         public string ProjectName { get; private set; }
-        public string ProjectPath { get; private set; }
 
-        public ProjectBuildStarted(ProjectKey key, string projectName, string projectPath)
+        public ProjectBuildStarted(ProjectKey key, string projectName)
         {
             Ensure.Condition.NotNullOrEmpty(key, "key");
             Ensure.NotNullOrEmpty(projectName, "projectName");
-            Ensure.NotNullOrEmpty(projectPath, "projectPath");
             Key = key;
             ProjectName = projectName;
-            ProjectPath = projectPath;
         }
     }
 }

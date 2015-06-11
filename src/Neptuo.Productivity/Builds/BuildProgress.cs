@@ -25,9 +25,9 @@ namespace Neptuo.Productivity.Builds
             timer.Start();
         }
 
-        public void StartProject(string name, string path)
+        public void StartProject(string name)
         {
-            projectBuilds.Add(new BuildProjectProgress(Model.AddProject(name, path)));
+            projectBuilds.Add(new BuildProjectProgress(Model.AddProject(name)));
         }
 
         public void DoneProject(string projectName, bool success)

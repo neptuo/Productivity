@@ -16,18 +16,16 @@ namespace Neptuo.Productivity.Builds
 
         public ProjectKey Key { get; private set; }
         public string Name { get; private set; }
-        public string Path { get; private set; }
         public long? ElapsedMilliseconds { get; private set; }
         public bool? IsSuccessful { get; private set; }
 
-        internal BuildProjectModel(IEventDispatcher events, Int32Key buildKey, string name, string path)
+        internal BuildProjectModel(IEventDispatcher events, Int32Key buildKey, string name)
         {
             Ensure.NotNull(events, "events");
             this.events = events;
             Key = ProjectKey.Create(buildKey, name, "Project");
             Name = name;
-            Path = path;
-            events.PublishAsync(new ProjectBuildStarted(Key, Name, Path));
+            events.PublishAsync(new ProjectBuildStarted(Key, Name));
         }
 
         public void Finish(long elapsedMilliseconds, bool isSuccessful)

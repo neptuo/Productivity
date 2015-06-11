@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
-    public class QuickBuildViewModel : ObservableObject, IDisposable, IEventHandler<BuildFinished>
+    public class QuickBuildViewModel : ObservableObject, IDisposable, IEventHandler<ProjectCountEstimated>, IEventHandler<ProjectBuildFinished>, IEventHandler<BuildFinished>
     {
         private readonly IEventRegistry events;
         private readonly Int32Key buildKey;
@@ -73,6 +73,48 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             }
         }
 
+        private int projectCount;
+        public int ProjectCount
+        {
+            get { return projectCount; }
+            set
+            {
+                if(projectCount != value)
+                {
+                    projectCount = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private int builtProjectCount;
+        public int BuiltProjectCount
+        {
+            get { return builtProjectCount; }
+            set
+            {
+                if (builtProjectCount != value)
+                {
+                    builtProjectCount = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                if (description != value)
+                {
+                    description = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public QuickBuildViewModel(IEventRegistry events, Int32Key buildKey, BuildScope scope, BuildAction action, DateTime? startedAt)
         {
             Ensure.NotNull(events, "events");
@@ -83,15 +125,74 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Action = action;
             StartedAt = startedAt;
 
+            events.Subscribe((IEventHandler<ProjectCountEstimated>)this);
             events.Subscribe((IEventHandler<BuildFinished>)this);
+            events.Subscribe((IEventHandler<ProjectBuildFinished>)this);
+        }
+
+        public Task HandleAsync(ProjectCountEstimated payload)
+        {
+            if (payload.Key == buildKey)
+            {
+                ProjectCount = payload.EstimatedProjectCount;
+                Description = PrepareDescription();
+            }
+
+            return Task.FromResult(true);
+        }
+
+        public Task HandleAsync(ProjectBuildFinished payload)
+        {
+            if (payload.Key.BuildKey == buildKey)
+            {
+                BuiltProjectCount++;
+                Description = PrepareDescription();
+            }
+
+            return Task.FromResult(true);
         }
 
         public Task HandleAsync(BuildFinished payload)
         {
             if (buildKey == payload.Key)
+            {
                 ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
+                Description = PrepareDescription();
+            }
 
             return Task.FromResult(true);
+        }
+
+        private string PrepareDescription()
+        {
+            long? lengthValue = ElapsedMilliseconds;
+            if (lengthValue == null)
+            {
+                if (projectCount > 0)
+                    return String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
+
+                return "Building...";
+            }
+
+            long length = lengthValue.Value;
+            StringBuilder result = new StringBuilder();
+
+            if (length > 60 * 1000)
+            {
+                result.AppendFormat("{0}m ", Math.Round(length / (60 * 1000D)));
+                length = length % (60 * 1000);
+            }
+
+            if (length > 1000)
+            {
+                result.AppendFormat("{0}s ", Math.Round(length / 1000D));
+                length = length % 1000;
+            }
+
+            if (length != 0)
+                result.AppendFormat("{0}ms", length);
+
+            return result.ToString();
         }
 
         #region IDisposable
@@ -112,11 +213,13 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             DisposeManagedResources();
         }
 
+        #endregion
+
         protected void DisposeManagedResources()
         {
+            events.UnSubscribe((IEventHandler<ProjectCountEstimated>)this);
             events.UnSubscribe((IEventHandler<BuildFinished>)this);
+            events.UnSubscribe((IEventHandler<ProjectBuildFinished>)this);
         }
-
-        #endregion
     }
 }
