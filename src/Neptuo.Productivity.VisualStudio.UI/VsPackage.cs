@@ -49,7 +49,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(FeaturePage), MyConstants.Feature.MainCategory, MyConstants.Feature.GeneralPage, 0, 0, true)]
     [ProvideToolWindow(typeof(QuickWindow))]
-    public sealed partial class VsPackage : Package, IEventHandler<QuickWindowCreated>
+    public sealed partial class VsPackage : Package
     {
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -86,9 +86,6 @@ namespace Neptuo.Productivity.VisualStudio.UI
                 new DictionaryModelValueProvider()
             );
             updater.Update(new ReflectionModelValueProvider(ServiceFactory.Configuration));
-
-            // Custom code.
-            ServiceFactory.EventRegistry.Subscribe<QuickWindowCreated>(this);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,17 +109,5 @@ namespace Neptuo.Productivity.VisualStudio.UI
         }
 
         #endregion
-
-        public Task HandleAsync(QuickWindowCreated payload)
-        {
-            if (payload.Window.ViewModel == null)
-            {
-                BuildService buildService;
-                if (ServiceFactory.VsServices.TryGetService(out buildService))
-                    payload.Window.ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry);
-            }
-
-            return Task.FromResult(true);
-        }
     }
 }

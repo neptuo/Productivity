@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds.Events
 {
-    public class ProjectCountEstimated : IBuildModelAware
+    public class ProjectCountEstimated : IBuildKeyAware
     {
-        public BuildModel Model { get; private set; }
+        public Int32Key Key { get; private set; }
+        public int EstimatedProjectCount { get; private set; }
 
-        public int EstimatedProjectCount
+        public ProjectCountEstimated(Int32Key key, int estimatedProjectCount)
         {
-            get { return Model.EstimatedProjectCount; }
-        }
-
-        public ProjectCountEstimated(BuildModel model)
-        {
-            Ensure.NotNull(model, "model");
-            Model = model;
+            Ensure.Condition.NotNullOrEmpty(key, "key");
+            Ensure.Positive(estimatedProjectCount, "estimatedProjectCount");
+            Key = key;
+            EstimatedProjectCount = estimatedProjectCount;
         }
     }
 }

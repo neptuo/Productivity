@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds.Events
 {
-    public class ProjectBuildFinished : IBuildModelAware
+    public class ProjectBuildFinished
     {
-        public BuildModel Model { get; private set; }
-        public BuildProjectModel ProjectModel { get; private set; }
+        public ProjectKey Key { get; private set; }
+        public BuildProjectModel Model { get; private set; }
 
-        public ProjectBuildFinished(BuildModel model, BuildProjectModel projectModel)
+        public ProjectBuildFinished(BuildProjectModel model)
         {
             Ensure.NotNull(model, "model");
-            Ensure.NotNull(projectModel, "projectModel");
+            Key = model.Key;
             Model = model;
-            ProjectModel = projectModel;
         }
     }
 }

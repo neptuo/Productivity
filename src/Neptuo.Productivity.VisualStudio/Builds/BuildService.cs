@@ -116,6 +116,11 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             base.DisposeManagedResources();
 
             commandService.RemoveCommand(menuItem);
+
+            events.OnBuildBegin -= OnBuildBegin;
+            events.OnBuildDone -= OnBuildDone;
+            events.OnBuildProjConfigBegin -= OnBuildProjConfigBegin;
+            events.OnBuildProjConfigDone -= OnBuildProjConfigDone;
         }
     }
 }

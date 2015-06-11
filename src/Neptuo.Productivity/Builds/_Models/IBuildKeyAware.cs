@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds
 {
-    public interface IBuildModelAware
+    public interface IBuildKeyAware
     {
-        BuildModel Model { get; }
+        Int32Key Key { get; }
     }
 }

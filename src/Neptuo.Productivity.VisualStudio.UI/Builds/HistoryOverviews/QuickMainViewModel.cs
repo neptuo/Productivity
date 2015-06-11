@@ -29,7 +29,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         public Task HandleAsync(BuildStarted payload)
         {
-            Builds.Insert(0, new QuickBuildViewModel(events, payload.Model));
+            Builds.Insert(0, new QuickBuildViewModel(events, payload.Key, payload.Scope, payload.Action, payload.StartedAt));
 
             while (Builds.Count > 3)
                 Builds.RemoveAt(3);

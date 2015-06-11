@@ -1,5 +1,6 @@
 ﻿using Neptuo.Collections.ObjectModel;
 using Neptuo.ComponentModel;
+using Neptuo.DomainModels;
 using Neptuo.Pipelines.Events;
 using Neptuo.Productivity.Builds.Events;
 using System;
@@ -10,11 +11,15 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds
 {
-    public class BuildModel
+    public class BuildModel : IDomainModel<Int32Key>
     {
+        private static readonly object nextIDLock = new object();
+        private static int nextID = 1;
+
         private readonly IEventDispatcher events;
         private readonly List<BuildProjectModel> projects;
 
+        public Int32Key Key { get; private set; }
         public BuildScope Scope { get; private set; }
         public BuildAction Action { get; private set; }
         public DateTime StartedAt { get; private set; }
@@ -37,18 +42,23 @@ namespace Neptuo.Productivity.Builds
             this.events = events;
             projects = new List<BuildProjectModel>();
 
+            lock (nextIDLock)
+            {
+                Key = Int32Key.Create(nextID, "Build");
+                nextID++;
+            }
+
             Scope = scope;
             Action = action;
             StartedAt = startedAt;
 
-            events.PublishAsync(new BuildStarted(this));
+            events.PublishAsync(new BuildStarted(Key, Scope, Action, StartedAt));
         }
 
         public BuildProjectModel AddProject(string name, string path)
         {
-            BuildProjectModel model = new BuildProjectModel(events, this, name, path);
+            BuildProjectModel model = new BuildProjectModel(events, Key, name, path);
             projects.Add(model);
-            events.PublishAsync(new ProjectAddedToBuild(this, model));
             return model;
         }
 
@@ -56,7 +66,7 @@ namespace Neptuo.Productivity.Builds
         {
             Ensure.Positive(projectCount, "projectCount");
             EstimatedProjectCount = projectCount;
-            events.PublishAsync(new ProjectCountEstimated(this));
+            events.PublishAsync(new ProjectCountEstimated(Key, EstimatedProjectCount));
         }
 
         public void Finish(long elapsedMilliseconds)

@@ -69,8 +69,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             // the object returned by the Content property.
             base.Content = new QuickView();
 
-            ViewModel = null;
-            ServiceFactory.EventDispatcher.PublishAsync(new QuickWindowCreated(this));
+            ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry);
         }
 
         private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

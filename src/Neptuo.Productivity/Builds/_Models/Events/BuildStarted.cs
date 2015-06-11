@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds.Events
 {
-    public class BuildStarted : IBuildModelAware
+    public class BuildStarted : IBuildKeyAware
     {
-        public BuildModel Model { get; private set; }
+        public Int32Key Key { get; private set; }
+        public BuildScope Scope { get; private set; }
+        public BuildAction Action { get; private set; }
+        public DateTime StartedAt { get; private set; }
 
-        public BuildStarted(BuildModel model)
+        public BuildStarted(Int32Key key, BuildScope scope, BuildAction action, DateTime startedAt)
         {
-            Ensure.NotNull(model, "model");
-            Model = model;
+            Ensure.Condition.NotNullOrEmpty(key, "key");
+            Key = key;
+            Scope = scope;
+            Action = action;
+            StartedAt = startedAt;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.DomainModels;
 using Neptuo.Pipelines.Events;
 using Neptuo.Pipelines.Events.Handlers;
 using Neptuo.Productivity.Builds;
@@ -14,7 +15,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
     public class QuickBuildViewModel : ObservableObject, IDisposable, IEventHandler<BuildFinished>
     {
         private readonly IEventRegistry events;
-        private readonly BuildModel model;
+        private readonly Int32Key buildKey;
 
         private BuildScope scope;
         public BuildScope Scope
@@ -72,23 +73,22 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             }
         }
 
-        public QuickBuildViewModel(IEventRegistry events, BuildModel model)
+        public QuickBuildViewModel(IEventRegistry events, Int32Key buildKey, BuildScope scope, BuildAction action, DateTime? startedAt)
         {
             Ensure.NotNull(events, "events");
-            Ensure.NotNull(model, "model");
+            Ensure.Condition.NotNullOrEmpty(buildKey, "buildKey");
             this.events = events;
-            this.model = model;
-
-            StartedAt = model.StartedAt;
-            Scope = model.Scope;
-            Action = model.Action;
+            this.buildKey = buildKey;
+            Scope = scope;
+            Action = action;
+            StartedAt = startedAt;
 
             events.Subscribe((IEventHandler<BuildFinished>)this);
         }
 
         public Task HandleAsync(BuildFinished payload)
         {
-            if (model == payload.Model)
+            if (buildKey == payload.Key)
                 ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
 
             return Task.FromResult(true);
