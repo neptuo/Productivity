@@ -145,7 +145,7 @@
     <Compile Include="Builds\Converters\BuildLengthConverter.cs" />
     <Compile Include="Builds\Converters\DateTimeConverter.cs" />
     <Compile Include="Builds\Converters\FirstLetterConverter.cs" />
-    <Compile Include="FeaturePage.cs">
+    <Compile Include="Options\FeaturePage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Resources.Designer.cs">

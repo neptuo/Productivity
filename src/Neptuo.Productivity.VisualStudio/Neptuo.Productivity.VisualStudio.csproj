@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Builds\BuildCancelService.cs" />
     <Compile Include="Builds\BuildCancelServiceActivator.cs" />
+    <Compile Include="Builds\BuildCancelWindow.cs" />
     <Compile Include="Builds\BuildService.cs" />
     <Compile Include="Builds\BuildServiceActivator.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreServiceActivator.cs" />
