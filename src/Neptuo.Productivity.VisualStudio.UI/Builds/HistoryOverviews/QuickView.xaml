@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:data="clr-namespace:Neptuo.Productivity.VisualStudio.UI.Builds.Converters"
+             x:Name="Root"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
@@ -16,7 +17,7 @@
         <data:DateTimeConverter x:Key="dateTimeConverter" />
         <data:FirstLetterConverter x:Key="firstLetterConverter" />
     </UserControl.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <ItemsControl ItemsSource="{Binding Builds}">
                 <ItemsControl.ItemTemplate>
