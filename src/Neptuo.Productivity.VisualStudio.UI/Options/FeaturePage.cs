@@ -38,6 +38,12 @@ namespace Neptuo.Productivity.VisualStudio.UI.Options
         public bool IsBuildHistoryUsed { get; set; }
 
         [Category(MyConstants.Feature.Builds)]
+        [DisplayName("Number of builds in build history overview.")]
+        [Description("Defines number of builds that will be displayed inside quick overview window.")]
+        [DefaultValue(3)]
+        public int BuildHistoryOverviewCount { get; set; }
+
+        [Category(MyConstants.Feature.Builds)]
         [DisplayName("Cancel build on first error.")]
         [Description("When first error occurs the executing build immediately is cancelled.")]
         public bool IsBuildCancelOnFirstErrorUsed { get; set; }

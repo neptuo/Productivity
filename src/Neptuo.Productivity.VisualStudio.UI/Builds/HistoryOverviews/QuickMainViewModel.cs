@@ -4,6 +4,7 @@ using Neptuo.Pipelines.Events;
 using Neptuo.Pipelines.Events.Handlers;
 using Neptuo.Productivity.Builds;
 using Neptuo.Productivity.Builds.Events;
+using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
     public class QuickMainViewModel : ObservableObject, IDisposable, IEventHandler<BuildStarted>, IEventHandler<BuildFinished>
     {
         private readonly IEventRegistry events;
+        private readonly IConfiguration configuration;
         private readonly BuildTimeFormatter buildTimeFormatter = new BuildTimeFormatter();
 
         public ObservableCollection<QuickBuildViewModel> Builds { get; private set; }
@@ -38,10 +40,12 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         public event Action<QuickMainViewModel, string> TitleChanged;
 
-        public QuickMainViewModel(IEventRegistry events)
+        public QuickMainViewModel(IEventRegistry events, IConfiguration configuration)
         {
             Ensure.NotNull(events, "events");
+            Ensure.NotNull(configuration, "configuration");
             this.events = events;
+            this.configuration = configuration;
             Builds = new ObservableCollection<QuickBuildViewModel>();
             Title = String.Format("Build History");
 
@@ -65,8 +69,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Builds.Insert(0, new QuickBuildViewModel(events, payload.Key, payload.Scope, payload.Action, payload.StartedAt));
             buildCount++;
 
-            while (Builds.Count > 3)
-                Builds.RemoveAt(3);
+            while (Builds.Count > configuration.BuildHistoryOverviewCount)
+                Builds.RemoveAt(configuration.BuildHistoryOverviewCount);
 
             UpdateTitle();
             return Task.FromResult(true);
