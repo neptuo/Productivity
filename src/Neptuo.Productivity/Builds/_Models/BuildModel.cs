@@ -25,7 +25,7 @@ namespace Neptuo.Productivity.Builds
         public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
         public long? ElapsedMilliseconds { get; private set; }
-        public int EstimatedProjectCount { get; private set; }
+        public int? EstimatedProjectCount { get; private set; }
 
         public IEnumerable<BuildProjectModel> Projects
         {
@@ -66,8 +66,11 @@ namespace Neptuo.Productivity.Builds
         {
             Ensure.Positive(projectCount, "projectCount");
             EstimatedProjectCount = projectCount;
-            events.PublishAsync(new ProjectCountEstimated(Key, EstimatedProjectCount));
+            events.PublishAsync(new ProjectCountEstimated(Key, projectCount));
         }
+
+        public void EstimateUncountableProjectCount()
+        { }
 
         public void Finish(long elapsedMilliseconds)
         {

@@ -75,8 +75,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             }
         }
 
-        private int projectCount;
-        public int ProjectCount
+        private int? projectCount;
+        public int? ProjectCount
         {
             get { return projectCount; }
             set
@@ -173,10 +173,10 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             long? lengthValue = ElapsedMilliseconds;
             if (lengthValue == null)
             {
-                if (projectCount > 0)
+                if (ProjectCount == null)
+                    return String.Format("Building {0} of...", BuiltProjectCount + 1);
+                else
                     return String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
-
-                return "Building...";
             }
 
             return buildTimeFormatter.Format(lengthValue.Value);

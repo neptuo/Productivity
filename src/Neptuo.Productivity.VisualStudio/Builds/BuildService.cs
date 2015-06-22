@@ -64,19 +64,30 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                     action = BuildAction.Rebuild;
                     break;
             }
-
+            
+            int? projectsToBuild = null;
             BuildScope scope = BuildScope.Unknown;
             switch (Scope)
             {
-                case vsBuildScope.vsBuildScopeBatch:
                 case vsBuildScope.vsBuildScopeProject:
                     scope = BuildScope.Project;
                     break;
                 case vsBuildScope.vsBuildScopeSolution:
                     scope = BuildScope.Solution;
+                    projectsToBuild = GetSolutionBuildProjectCount();
                     break;
             }
 
+            currentProgress = watcher.StartNew(scope, action);
+
+            if (projectsToBuild == null)
+                currentProgress.Model.EstimateUncountableProjectCount();
+            else
+                currentProgress.Model.EstimateProjectCount(projectsToBuild.Value);
+        }
+
+        private int GetSolutionBuildProjectCount()
+        {
             int projectsToBuild = 0;
             foreach (SolutionContext context in dte.Solution.SolutionBuild.ActiveConfiguration.SolutionContexts)
             {
@@ -84,8 +95,7 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                     projectsToBuild++;
             }
 
-            currentProgress = watcher.StartNew(scope, action);
-            currentProgress.Model.EstimateProjectCount(projectsToBuild);
+            return projectsToBuild;
         }
 
         private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)

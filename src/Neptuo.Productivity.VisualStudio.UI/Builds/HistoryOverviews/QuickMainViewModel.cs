@@ -52,7 +52,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
         private void UpdateTitle()
         {
             Title = String.Format(
-                "Build History ({0}): \t{1}", 
+                "Build History ({0}):   {1}", 
                 buildCount, 
                 buildTimeFormatter.Format(totalElapsedMilliseconds)
             );
