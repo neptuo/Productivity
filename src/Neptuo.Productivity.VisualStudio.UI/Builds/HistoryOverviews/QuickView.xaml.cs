@@ -15,14 +15,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Neptuo.Productivity.VisualStudio.UI.Builds
+namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
     /// <summary>
     /// Interaction logic for BuildHistoryControl.xaml
     /// </summary>
-    public partial class BuildHistoryControl : UserControl
+    public partial class QuickView : UserControl
     {
-        public BuildHistoryControl()
+        public QuickView()
         {
             InitializeComponent();
 
@@ -36,14 +36,6 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
             //        }
             //    )
             //);
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(string.Format(System.Globalization.CultureInfo.CurrentUICulture, "We are inside {0}.button1_Click()", this.ToString()),
-                            "My Tool Window");
-
         }
     }
 }

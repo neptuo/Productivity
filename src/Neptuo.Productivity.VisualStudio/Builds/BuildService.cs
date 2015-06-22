@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Neptuo.Collections.ObjectModel;
 using Neptuo.ComponentModel;
+using Neptuo.Pipelines.Events;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,9 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             get { return watcher.History; }
         }
 
-        public BuildService(DTE dte, OleMenuCommandService commandService, EventHandler menuHandler)
+        public BuildService(DTE dte, IEventDispatcher events, OleMenuCommandService commandService, EventHandler menuHandler)
         {
-            this.watcher = new BuildWatcher();
+            this.watcher = new BuildWatcher(new BuildModelActivator(events));
             this.dte = dte;
             this.events = dte.Events.BuildEvents;
             this.commandService = commandService;
@@ -44,11 +45,13 @@ namespace Neptuo.Productivity.VisualStudio.Builds
         {
             events.OnBuildBegin += OnBuildBegin;
             events.OnBuildDone += OnBuildDone;
+            events.OnBuildProjConfigBegin += OnBuildProjConfigBegin;
+            events.OnBuildProjConfigDone += OnBuildProjConfigDone;
         }
 
         private void OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
         {
-            BuildAction action = BuildAction.Build;
+            BuildAction action = BuildAction.Unknown;
             switch (Action)
             {
                 case vsBuildAction.vsBuildActionBuild:
@@ -60,47 +63,51 @@ namespace Neptuo.Productivity.VisualStudio.Builds
                 case vsBuildAction.vsBuildActionRebuildAll:
                     action = BuildAction.Rebuild;
                     break;
-                default:
-                    return;
             }
-
-            List<BuildProjectModel> projects = new List<BuildProjectModel>();
-            BuildScope scope = BuildScope.Project;
-
+            
+            int? projectsToBuild = null;
+            BuildScope scope = BuildScope.Unknown;
             switch (Scope)
             {
-                case vsBuildScope.vsBuildScopeBatch:
                 case vsBuildScope.vsBuildScopeProject:
                     scope = BuildScope.Project;
-                    projects.AddRange(GetSelectedProjects(dte));
                     break;
                 case vsBuildScope.vsBuildScopeSolution:
                     scope = BuildScope.Solution;
-                    projects.AddRange(dte.Solution.Projects.OfType<Project>().Select(CreateProjectModel));
+                    projectsToBuild = GetSolutionBuildProjectCount();
                     break;
-                default:
-                    return;
             }
 
-            currentProgress = watcher.StartNew(scope, action, projects);
+            currentProgress = watcher.StartNew(scope, action);
+
+            if (projectsToBuild == null)
+                currentProgress.Model.EstimateUncountableProjectCount();
+            else
+                currentProgress.Model.EstimateProjectCount(projectsToBuild.Value);
         }
 
-        private IEnumerable<BuildProjectModel> GetSelectedProjects(DTE dte)
+        private int GetSolutionBuildProjectCount()
         {
-            IEnumerable<Project> projects = dte.SelectedItems.OfType<Project>();
-            if (projects.Any())
-                return projects.Select(CreateProjectModel);
+            int projectsToBuild = 0;
+            foreach (SolutionContext context in dte.Solution.SolutionBuild.ActiveConfiguration.SolutionContexts)
+            {
+                if (context.ShouldBuild)
+                    projectsToBuild++;
+            }
 
-            IEnumerable<Document> documents = dte.SelectedItems.OfType<Document>();
-            if(documents.Any())
-                return documents.Select(d => CreateProjectModel(d.ProjectItem.Collection.ContainingProject));
-
-            return Enumerable.Empty<BuildProjectModel>();
+            return projectsToBuild;
         }
 
-        private BuildProjectModel CreateProjectModel(Project p)
+        private void OnBuildProjConfigBegin(string projectName, string projectConfig, string platform, string solutionConfig)
         {
-            return new BuildProjectModel(p.Name, p.FullName);
+            if (currentProgress != null)
+                currentProgress.StartProject(projectName);
+        }
+
+        private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
+        {
+            if (currentProgress != null)
+                currentProgress.DoneProject(project, success);
         }
 
         private void OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
@@ -116,6 +123,11 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             base.DisposeManagedResources();
 
             commandService.RemoveCommand(menuItem);
+
+            events.OnBuildBegin -= OnBuildBegin;
+            events.OnBuildDone -= OnBuildDone;
+            events.OnBuildProjConfigBegin -= OnBuildProjConfigBegin;
+            events.OnBuildProjConfigDone -= OnBuildProjConfigDone;
         }
     }
 }

@@ -132,17 +132,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builds\BuildHistorWindowCreated.cs" />
-    <Compile Include="Builds\BuildHistoryControl.xaml.cs">
-      <DependentUpon>BuildHistoryControl.xaml</DependentUpon>
+    <Compile Include="Builds\BuildTimeFormatter.cs" />
+    <Compile Include="Builds\HistoryOverviews\QuickView.xaml.cs">
+      <DependentUpon>QuickView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Builds\BuildHistoryViewModel.cs" />
-    <Compile Include="Builds\BuildHistoryWindow.cs" />
-    <Compile Include="Builds\BuildModelControl.xaml.cs">
-      <DependentUpon>BuildModelControl.xaml</DependentUpon>
+    <Compile Include="Builds\HistoryOverviews\QuickMainViewModel.cs" />
+    <Compile Include="Builds\HistoryOverviews\QuickWindow.cs" />
+    <Compile Include="Builds\HistoryOverviews\_BuildModelControl.xaml.cs">
+      <DependentUpon>_BuildModelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Builds\HistoryOverviews\QuickBuildViewModel.cs" />
     <Compile Include="Builds\Converters\BuildLengthConverter.cs" />
-    <Compile Include="Builds\Converters\BuildTimeConverter.cs" />
     <Compile Include="Builds\Converters\DateTimeConverter.cs" />
     <Compile Include="Builds\Converters\FirstLetterConverter.cs" />
     <Compile Include="Options\FeaturePage.cs">
@@ -200,11 +200,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Builds\BuildHistoryControl.xaml">
+    <Page Include="Builds\HistoryOverviews\QuickView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Builds\BuildModelControl.xaml">
+    <Page Include="Builds\HistoryOverviews\_BuildModelControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

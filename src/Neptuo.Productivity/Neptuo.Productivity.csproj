@@ -107,15 +107,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builds\BuildAction.cs" />
+    <Compile Include="Builds\_Models\BuildAction.cs" />
+    <Compile Include="Builds\BuildProjectProgress.cs" />
     <Compile Include="Builds\BuildWatcher.cs" />
-    <Compile Include="Builds\BuildModel.cs" />
+    <Compile Include="Builds\_Models\BuildModel.cs" />
     <Compile Include="Builds\BuildProgress.cs" />
-    <Compile Include="Builds\BuildProjectModel.cs" />
-    <Compile Include="Builds\BuildScope.cs" />
+    <Compile Include="Builds\_Models\BuildProjectModel.cs" />
+    <Compile Include="Builds\_Models\BuildScope.cs" />
+    <Compile Include="Builds\_Models\Events\BuildFinished.cs" />
+    <Compile Include="Builds\_Models\Events\BuildStarted.cs" />
+    <Compile Include="Builds\_Models\Events\ProjectBuildFinished.cs" />
+    <Compile Include="Builds\_Models\IBuildKeyAware.cs" />
+    <Compile Include="Builds\_Models\Events\ProjectBuildStarted.cs" />
+    <Compile Include="Builds\_Models\Events\ProjectCountEstimated.cs" />
+    <Compile Include="Builds\_Models\ProjectKey.cs" />
+    <Compile Include="Builds\_Models\_Activators\BuildModelActivator.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreSyntaxRewriter.cs" />
     <Compile Include="FriendlyNamespaces\UnderscoreRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_EnsureConditionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

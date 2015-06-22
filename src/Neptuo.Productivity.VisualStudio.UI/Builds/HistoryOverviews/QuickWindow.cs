@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Neptuo.Pipelines.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Collections.Specialized;
 
-namespace Neptuo.Productivity.VisualStudio.UI.Builds
+namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.
@@ -19,29 +20,29 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
     /// implementation of the IVsUIElementPane interface.
     /// </summary>
     [Guid("04576E43-F435-4C2B-A2EE-B56B9C3941DA")]
-    public class BuildHistoryWindow : ToolWindowPane
+    public class QuickWindow : ToolWindowPane
     {
-        protected BuildHistoryControl ContentControl
+        protected QuickView ContentControl
         {
-            get { return (BuildHistoryControl)Content; }
+            get { return (QuickView)Content; }
             set { Content = value; }
         }
 
-        public BuildHistoryViewModel ViewModel
+        public QuickMainViewModel ViewModel
         {
-            get { return ContentControl.DataContext as BuildHistoryViewModel; }
+            get { return ContentControl.DataContext as QuickMainViewModel; }
             set
             {
                 if (ContentControl.DataContext != value)
                 {
                     if (ViewModel != null)
-                        ViewModel.Builds.CollectionChanged -= Builds_CollectionChanged;
+                        ViewModel.TitleChanged -= ViewModel_TitleChanged;
 
                     ContentControl.DataContext = value;
                     if (ViewModel != null)
                     {
-                        ViewModel.Builds.CollectionChanged += Builds_CollectionChanged;
-                        Builds_CollectionChanged(null, null);
+                        ViewModel.TitleChanged += ViewModel_TitleChanged;
+                        ViewModel_TitleChanged(ViewModel, ViewModel.Title);
                     }
                 }
             }
@@ -50,8 +51,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>
-        public BuildHistoryWindow() :
-            base(null)
+        public QuickWindow()
+            : base(null)
         {
             // Set the window title reading it from the resources.
             this.Caption = "Build History";
@@ -66,16 +67,23 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
             // the object returned by the Content property.
-            base.Content = new BuildHistoryControl();
+            base.Content = new QuickView();
 
-            ViewModel = null;
-            ServiceFactory.EventDispatcher.PublishAsync(new BuildHistorWindowCreated(this));
+            ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry, ServiceFactory.Configuration);
+            ViewModel.TitleChanged += ViewModel_TitleChanged;
         }
 
-        private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ViewModel_TitleChanged(QuickMainViewModel sender, string title)
         {
-            if (ViewModel != null)
-                Caption = String.Format("Build History ({0})", ViewModel.Builds.Count);
+            Caption = title;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing && ViewModel != null)
+                ViewModel.TitleChanged -= ViewModel_TitleChanged;
         }
     }
 }

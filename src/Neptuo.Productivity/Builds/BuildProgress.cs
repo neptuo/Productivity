@@ -10,24 +10,40 @@ namespace Neptuo.Productivity.Builds
     public class BuildProgress
     {
         private readonly Stopwatch timer;
+        private readonly List<BuildProjectProgress> projectBuilds;
 
         public BuildModel Model { get; private set; }
         public event Action<BuildProgress> OnFinished;
 
-        public BuildProgress(BuildScope scope, BuildAction action, IEnumerable<BuildProjectModel> projects)
+        public BuildProgress(BuildModel model)
         {
-            Model = new BuildModel(scope, action, DateTime.Now);
-            Model.Projects.AddRange(projects);
+            Ensure.NotNull(model, "model");
+            Model = model;
 
+            projectBuilds = new List<BuildProjectProgress>();
             timer = new Stopwatch();
             timer.Start();
+        }
+
+        public void StartProject(string name)
+        {
+            projectBuilds.Add(new BuildProjectProgress(Model.AddProject(name)));
+        }
+
+        public void DoneProject(string projectName, bool success)
+        {
+            BuildProjectProgress progress = projectBuilds.FirstOrDefault(p => p.ProjectName == projectName);
+            if (progress != null)
+            {
+                progress.Finish(success);
+                projectBuilds.Remove(progress);
+            }
         }
 
         public void Finish()
         {
             timer.Stop();
-            Model.FinishedAt = DateTime.Now;
-            Model.ElapsedMilliseconds = timer.ElapsedMilliseconds;
+            Model.Finish(timer.ElapsedMilliseconds);
 
             if (OnFinished != null)
                 OnFinished(this);

@@ -15,6 +15,7 @@ namespace Neptuo.Productivity.VisualStudio.Options
         bool IsLineDuplicatorUsed { get; }
 
         bool IsBuildHistoryUsed { get; }
+        int BuildHistoryOverviewCount { get; }
         bool IsBuildCancelOnFirstErrorUsed { get; }
         BuildCancelWindow OpenWindowAfterBuildCancel { get; }
 

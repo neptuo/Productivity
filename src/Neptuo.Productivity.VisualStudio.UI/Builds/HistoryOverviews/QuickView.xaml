@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="Neptuo.Productivity.VisualStudio.UI.Builds.BuildHistoryControl"
+﻿<UserControl x:Class="Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews.QuickView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:data="clr-namespace:Neptuo.Productivity.VisualStudio.UI.Builds.Converters"
+             x:Name="Root"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
@@ -13,11 +14,10 @@
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
         </Style>
         <data:BuildLengthConverter x:Key="buildLengthConverter" />
-        <data:BuildTimeConverter x:Key="buildTimeConverter" />
         <data:DateTimeConverter x:Key="dateTimeConverter" />
         <data:FirstLetterConverter x:Key="firstLetterConverter" />
     </UserControl.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <ItemsControl ItemsSource="{Binding Builds}">
                 <ItemsControl.ItemTemplate>
@@ -36,7 +36,7 @@
                                     <Label Grid.Column="0" Content="{Binding StartedAt, Converter={StaticResource dateTimeConverter}}" />
                                     <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Scope }" />
                                     <Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Action}" />
-                                    <Label Grid.Column="3" Content="{Binding ElapsedMilliseconds, Converter={StaticResource buildTimeConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Label Grid.Column="3" Content="{Binding Description}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 </Grid>
                             </Grid>
                         </Border>

@@ -59,6 +59,11 @@ namespace Neptuo.Productivity.VisualStudio.Options
             get { return GetGeneralPropertyValue<bool>(); }
         }
 
+        public int BuildHistoryOverviewCount
+        {
+            get { return GetGeneralPropertyValue<int>(); }
+        }
+
         public bool IsBuildCancelOnFirstErrorUsed
         {
             get { return GetGeneralPropertyValue<bool>(); }

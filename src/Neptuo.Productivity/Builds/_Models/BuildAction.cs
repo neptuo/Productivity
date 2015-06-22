@@ -8,6 +8,7 @@ namespace Neptuo.Productivity.Builds
 {
     public enum BuildAction
     {
+        Unknown,
         Build,
         Rebuild,
         Clean
