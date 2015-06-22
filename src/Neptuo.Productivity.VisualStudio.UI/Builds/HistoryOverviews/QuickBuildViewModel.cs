@@ -16,6 +16,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
     {
         private readonly IEventRegistry events;
         private readonly Int32Key buildKey;
+        private readonly BuildTimeFormatter buildTimeFormatter = new BuildTimeFormatter();
+        private readonly HashSet<string> builtProjectNames = new HashSet<string>();
 
         private BuildScope scope;
         public BuildScope Scope
@@ -145,8 +147,11 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
         {
             if (payload.Key.BuildKey == buildKey)
             {
-                BuiltProjectCount++;
-                Description = PrepareDescription();
+                if (builtProjectNames.Add(payload.Model.Name))
+                {
+                    BuiltProjectCount++;
+                    Description = PrepareDescription();
+                }
             }
 
             return Task.FromResult(true);
@@ -174,25 +179,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
                 return "Building...";
             }
 
-            long length = lengthValue.Value;
-            StringBuilder result = new StringBuilder();
-
-            if (length > 60 * 1000)
-            {
-                result.AppendFormat("{0}m ", Math.Round(length / (60 * 1000D)));
-                length = length % (60 * 1000);
-            }
-
-            if (length > 1000)
-            {
-                result.AppendFormat("{0}s ", Math.Round(length / 1000D));
-                length = length % 1000;
-            }
-
-            if (length != 0)
-                result.AppendFormat("{0}ms", length);
-
-            return result.ToString();
+            return buildTimeFormatter.Format(lengthValue.Value);
         }
 
         #region IDisposable

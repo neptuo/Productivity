@@ -132,6 +132,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\BuildTimeFormatter.cs" />
     <Compile Include="Builds\HistoryOverviews\QuickView.xaml.cs">
       <DependentUpon>QuickView.xaml</DependentUpon>
     </Compile>

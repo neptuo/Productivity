@@ -36,13 +36,13 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
                 if (ContentControl.DataContext != value)
                 {
                     if (ViewModel != null)
-                        ViewModel.Builds.CollectionChanged -= Builds_CollectionChanged;
+                        ViewModel.TitleChanged -= ViewModel_TitleChanged;
 
                     ContentControl.DataContext = value;
                     if (ViewModel != null)
                     {
-                        ViewModel.Builds.CollectionChanged += Builds_CollectionChanged;
-                        Builds_CollectionChanged(null, null);
+                        ViewModel.TitleChanged += ViewModel_TitleChanged;
+                        ViewModel_TitleChanged(ViewModel, ViewModel.Title);
                     }
                 }
             }
@@ -70,12 +70,20 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             base.Content = new QuickView();
 
             ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry);
+            ViewModel.TitleChanged += ViewModel_TitleChanged;
         }
 
-        private void Builds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ViewModel_TitleChanged(QuickMainViewModel sender, string title)
         {
-            if (ViewModel != null)
-                Caption = String.Format("Build History ({0})", ViewModel.Builds.Count);
+            Caption = title;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing && ViewModel != null)
+                ViewModel.TitleChanged -= ViewModel_TitleChanged;
         }
     }
 }
