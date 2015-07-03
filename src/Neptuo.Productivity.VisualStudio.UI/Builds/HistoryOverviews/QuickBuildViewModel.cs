@@ -127,9 +127,9 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Action = action;
             StartedAt = startedAt;
 
-            events.Subscribe((IEventHandler<ProjectCountEstimated>)this);
-            events.Subscribe((IEventHandler<BuildFinished>)this);
-            events.Subscribe((IEventHandler<ProjectBuildFinished>)this);
+            events.Subscribe<ProjectCountEstimated>(this);
+            events.Subscribe<BuildFinished>(this);
+            events.Subscribe<ProjectBuildFinished>(this);
         }
 
         public Task HandleAsync(ProjectCountEstimated payload)
@@ -204,9 +204,9 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         protected void DisposeManagedResources()
         {
-            events.UnSubscribe((IEventHandler<ProjectCountEstimated>)this);
-            events.UnSubscribe((IEventHandler<BuildFinished>)this);
-            events.UnSubscribe((IEventHandler<ProjectBuildFinished>)this);
+            events.UnSubscribe<ProjectCountEstimated>(this);
+            events.UnSubscribe<BuildFinished>(this);
+            events.UnSubscribe<ProjectBuildFinished>(this);
         }
     }
 }

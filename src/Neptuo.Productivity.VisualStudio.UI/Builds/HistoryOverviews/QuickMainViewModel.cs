@@ -49,8 +49,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Builds = new ObservableCollection<QuickBuildViewModel>();
             Title = String.Format("Build History");
 
-            events.Subscribe((IEventHandler<BuildStarted>)this);
-            events.Subscribe((IEventHandler<BuildFinished>)this);
+            events.Subscribe<BuildStarted>(this);
+            events.Subscribe<BuildFinished>(this);
         }
 
         private void UpdateTitle()
@@ -107,8 +107,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         protected void DisposeManagedResources()
         {
-            events.UnSubscribe((IEventHandler<BuildStarted>)this);
-            events.UnSubscribe((IEventHandler<BuildFinished>)this);
+            events.UnSubscribe<BuildStarted>(this);
+            events.UnSubscribe<BuildFinished>(this);
         }
 
         #endregion
