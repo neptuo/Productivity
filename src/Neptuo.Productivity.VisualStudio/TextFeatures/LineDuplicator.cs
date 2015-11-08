@@ -39,37 +39,41 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
 
         private void DuplicateLine(TextPoint lineToDuplicate, bool isDuplicationDown)
         {
-            // Create edit point from original point.
-            EditPoint originalPoint = textDocument.CreateEditPoint(lineToDuplicate);
+            using (new UndoContextDisposable(lineToDuplicate.DTE, "lineduplicator"))
+            {
+                // Create edit point from original point.
+                EditPoint originalPoint = textDocument.CreateEditPoint(lineToDuplicate);
 
-            // Create line start point.
-            EditPoint startLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
-            startLinePoint.StartOfLine();
+                // Create line start point.
+                EditPoint startLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
+                startLinePoint.StartOfLine();
 
-            // Create line end point.
-            EditPoint endLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
-            endLinePoint.EndOfLine();
+                // Create line end point.
+                EditPoint endLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
+                endLinePoint.EndOfLine();
 
-            // Get line text content.
-            string lineContent = startLinePoint.GetText(endLinePoint);
+                // Get line text content.
+                string lineContent = startLinePoint.GetText(endLinePoint);
 
-            // Create new line, empty it and insert text from previous/next line.
-            if (!isDuplicationDown)
-                textDocument.Selection.LineUp();
-             
-            textDocument.Selection.EndOfLine();
-            textDocument.Selection.NewLine();
-            textDocument.Selection.DeleteWhitespace();
-            textDocument.Selection.Insert(lineContent);
+                // Create new line, empty it and insert text from previous/next line.
+                if (!isDuplicationDown)
+                    textDocument.Selection.LineUp();
 
-            // Move original point to the new line.
-            if (isDuplicationDown)
-                originalPoint.LineDown();
-            else
-                originalPoint.LineUp();
+                textDocument.Selection.EndOfLine();
+                textDocument.Selection.NewLine();
+                textDocument.Selection.DeleteLeft(textDocument.Selection.ActivePoint.DisplayColumn - 1);
+                textDocument.Selection.DeleteWhitespace();
+                textDocument.Selection.Insert(lineContent);
 
-            // Move to original column index on new line.
-            textDocument.Selection.MoveToPoint(originalPoint);
+                // Move original point to the new line.
+                if (isDuplicationDown)
+                    originalPoint.LineDown();
+                else
+                    originalPoint.LineUp();
+
+                // Move to original column index on new line.
+                textDocument.Selection.MoveToPoint(originalPoint);
+            }
         }
     }
 }
