@@ -38,7 +38,8 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
         public static void Dispose()
         {
-            VsServices.Disponse();
+            if (VsServices != null)
+                VsServices.Disponse();
         }
     }
 }
