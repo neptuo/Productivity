@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Neptuo.Activators;
-using Neptuo.Pipelines.Events;
+using Neptuo.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.Builds
 {
-    public class BuildServiceActivator : IActivator<BuildService>
+    public class BuildServiceActivator : IFactory<BuildService>
     {
         private readonly DTE dte;
         private readonly IEventDispatcher events;

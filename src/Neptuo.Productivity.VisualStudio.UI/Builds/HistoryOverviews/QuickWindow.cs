@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using Neptuo.Pipelines.Events;
+using Neptuo.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +69,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             // the object returned by the Content property.
             base.Content = new QuickView();
 
-            ViewModel = new QuickMainViewModel(ServiceFactory.EventRegistry, ServiceFactory.Configuration);
+            ViewModel = new QuickMainViewModel(ServiceFactory.EventHandlers, ServiceFactory.Configuration);
             ViewModel.TitleChanged += ViewModel_TitleChanged;
         }
 

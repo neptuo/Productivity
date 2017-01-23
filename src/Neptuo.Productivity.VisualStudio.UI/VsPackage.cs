@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.Win32;
-using Neptuo.Pipelines.Events.Handlers;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.FriendlyNamespaces;

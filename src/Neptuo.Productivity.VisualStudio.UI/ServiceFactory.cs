@@ -1,10 +1,11 @@
 ﻿using EnvDTE;
-using Neptuo.Pipelines.Events;
-using Neptuo.Pipelines.Queries;
+using Neptuo.Events;
+using Neptuo.Queries;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.VisualStudio.Options;
 using Neptuo.Productivity.VisualStudio.UI.Options;
+using Neptuo.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
     {
         public static IQueryDispatcher QueryDispatcher { get; private set; }
         
-        public static IEventRegistry EventRegistry { get; private set; }
+        public static IEventHandlerCollection EventHandlers { get; private set; }
         public static IEventDispatcher EventDispatcher { get; private set; }
 
         public static IConfiguration Configuration { get; private set; }
@@ -29,7 +30,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
         {
             DefaultEventManager eventManager = new DefaultEventManager();
             EventDispatcher = eventManager;
-            EventRegistry = eventManager;
+            EventHandlers = eventManager;
 
             Configuration = configuration;
             ConfigurationDefinition = new ReflectionModelDefinitionBuilder(Configuration.GetType(), new AttributeMetadataReaderCollection()).Create();

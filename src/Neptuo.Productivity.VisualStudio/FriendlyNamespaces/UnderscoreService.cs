@@ -1,6 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Neptuo.ComponentModel;
+using Neptuo.Models.Domains;
 using Neptuo.Productivity.FriendlyNamespaces;
 using System;
 using System.Collections.Generic;

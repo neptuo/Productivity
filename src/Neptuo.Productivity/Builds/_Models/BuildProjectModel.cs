@@ -1,6 +1,6 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.DomainModels;
-using Neptuo.Pipelines.Events;
+﻿using Neptuo.Events;
+using Neptuo.Models.Domains;
+using Neptuo.Models.Keys;
 using Neptuo.Productivity.Builds.Events;
 using System;
 using System.Collections.Generic;

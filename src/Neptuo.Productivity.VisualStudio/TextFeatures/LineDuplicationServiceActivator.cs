@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.TextFeatures
 {
-    public class LineDuplicationServiceActivator : IActivator<LineDuplicationService>
+    public class LineDuplicationServiceActivator : IFactory<LineDuplicationService>
     {
         private readonly DTE dte;
         private readonly OleMenuCommandService commandService;

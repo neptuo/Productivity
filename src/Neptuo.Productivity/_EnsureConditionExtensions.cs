@@ -1,4 +1,4 @@
-﻿using Neptuo.DomainModels;
+﻿using Neptuo.Models.Keys;
 using Neptuo.Exceptions.Helpers;
 using System;
 using System.Collections.Generic;

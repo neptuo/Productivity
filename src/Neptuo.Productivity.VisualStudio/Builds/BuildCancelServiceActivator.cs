@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.Builds
 {
-    public class BuildCancelServiceActivator : IActivator<BuildCancelService>
+    public class BuildCancelServiceActivator : IFactory<BuildCancelService>
     {
         private readonly DTE dte;
         private readonly IConfiguration configuration;

@@ -1,7 +1,6 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.DomainModels;
-using Neptuo.Pipelines.Events;
-using Neptuo.Pipelines.Events.Handlers;
+﻿using Neptuo.Models.Domains;
+using Neptuo.Models.Keys;
+using Neptuo.Events;
 using Neptuo.Productivity.Builds;
 using Neptuo.Productivity.Builds.Events;
 using System;
@@ -9,12 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Neptuo.Events.Handlers;
+using Neptuo.Observables;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
     public class QuickBuildViewModel : ObservableObject, IDisposable, IEventHandler<ProjectCountEstimated>, IEventHandler<ProjectBuildFinished>, IEventHandler<BuildFinished>
     {
-        private readonly IEventRegistry events;
+        private readonly IEventHandlerCollection events;
         private readonly Int32Key buildKey;
         private readonly BuildTimeFormatter buildTimeFormatter = new BuildTimeFormatter();
         private readonly HashSet<string> builtProjectNames = new HashSet<string>();
@@ -117,7 +118,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             }
         }
 
-        public QuickBuildViewModel(IEventRegistry events, Int32Key buildKey, BuildScope scope, BuildAction action, DateTime? startedAt)
+        public QuickBuildViewModel(IEventHandlerCollection events, Int32Key buildKey, BuildScope scope, BuildAction action, DateTime? startedAt)
         {
             Ensure.NotNull(events, "events");
             Ensure.Condition.NotNullOrEmpty(buildKey, "buildKey");
@@ -127,9 +128,9 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Action = action;
             StartedAt = startedAt;
 
-            events.Subscribe<ProjectCountEstimated>(this);
-            events.Subscribe<BuildFinished>(this);
-            events.Subscribe<ProjectBuildFinished>(this);
+            events.Add<ProjectCountEstimated>(this);
+            events.Add<BuildFinished>(this);
+            events.Add<ProjectBuildFinished>(this);
         }
 
         public Task HandleAsync(ProjectCountEstimated payload)
@@ -204,9 +205,9 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         protected void DisposeManagedResources()
         {
-            events.UnSubscribe<ProjectCountEstimated>(this);
-            events.UnSubscribe<BuildFinished>(this);
-            events.UnSubscribe<ProjectBuildFinished>(this);
+            events.Remove<ProjectCountEstimated>(this);
+            events.Remove<BuildFinished>(this);
+            events.Remove<ProjectBuildFinished>(this);
         }
     }
 }

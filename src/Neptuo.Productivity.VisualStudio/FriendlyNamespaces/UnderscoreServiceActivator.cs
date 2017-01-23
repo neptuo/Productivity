@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.FriendlyNamespaces
 {
-    public class UnderscoreServiceActivator : IActivator<UnderscoreService>
+    public class UnderscoreServiceActivator : IFactory<UnderscoreService>
     {
         private readonly DTE dte;
         private readonly OleMenuCommandService commandService;

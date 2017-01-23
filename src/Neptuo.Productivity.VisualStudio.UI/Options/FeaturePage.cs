@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Neptuo.Pipelines.Events;
+using Neptuo.Events;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
 using Neptuo.Productivity.VisualStudio.Builds;

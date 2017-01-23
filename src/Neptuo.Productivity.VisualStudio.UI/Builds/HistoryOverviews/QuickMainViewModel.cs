@@ -1,7 +1,6 @@
-﻿using Neptuo.Collections.ObjectModel;
-using Neptuo.ComponentModel;
-using Neptuo.Pipelines.Events;
-using Neptuo.Pipelines.Events.Handlers;
+﻿using Neptuo.Observables.Collections;
+using Neptuo.Models.Domains;
+using Neptuo.Events;
 using Neptuo.Productivity.Builds;
 using Neptuo.Productivity.Builds.Events;
 using Neptuo.Productivity.VisualStudio.Options;
@@ -10,12 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Neptuo.Events.Handlers;
+using Neptuo.Observables;
 
 namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 {
     public class QuickMainViewModel : ObservableObject, IDisposable, IEventHandler<BuildStarted>, IEventHandler<BuildFinished>
     {
-        private readonly IEventRegistry events;
+        private readonly IEventHandlerCollection events;
         private readonly IConfiguration configuration;
         private readonly BuildTimeFormatter buildTimeFormatter = new BuildTimeFormatter();
 
@@ -40,7 +41,7 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         public event Action<QuickMainViewModel, string> TitleChanged;
 
-        public QuickMainViewModel(IEventRegistry events, IConfiguration configuration)
+        public QuickMainViewModel(IEventHandlerCollection events, IConfiguration configuration)
         {
             Ensure.NotNull(events, "events");
             Ensure.NotNull(configuration, "configuration");
@@ -49,8 +50,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
             Builds = new ObservableCollection<QuickBuildViewModel>();
             Title = String.Format("Build History");
 
-            events.Subscribe<BuildStarted>(this);
-            events.Subscribe<BuildFinished>(this);
+            events.Add<BuildStarted>(this);
+            events.Add<BuildFinished>(this);
         }
 
         private void UpdateTitle()
@@ -107,8 +108,8 @@ namespace Neptuo.Productivity.VisualStudio.UI.Builds.HistoryOverviews
 
         protected void DisposeManagedResources()
         {
-            events.UnSubscribe<BuildStarted>(this);
-            events.UnSubscribe<BuildFinished>(this);
+            events.Remove<BuildStarted>(this);
+            events.Remove<BuildFinished>(this);
         }
 
         #endregion

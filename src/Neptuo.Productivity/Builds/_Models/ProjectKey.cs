@@ -1,4 +1,5 @@
-﻿using Neptuo.DomainModels;
+﻿using Neptuo.Models.Keys;
+using Neptuo.Models.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,11 @@ namespace Neptuo.Productivity.Builds
                 value ^= ProjectName.GetHashCode();
 
             return value;
+        }
+
+        protected override string ToStringValue()
+        {
+            return ProjectName + "+" + BuildKey.ToString();
         }
     }
 }

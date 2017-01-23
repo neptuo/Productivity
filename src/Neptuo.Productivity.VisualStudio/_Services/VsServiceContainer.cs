@@ -11,7 +11,7 @@ namespace Neptuo.Productivity.VisualStudio
     {
         private readonly Dictionary<string, List<VsServiceContext>> storage = new Dictionary<string, List<VsServiceContext>>();
 
-        public VsServiceContainer Add(string configurationProperty, IActivator<IVsService> activator) 
+        public VsServiceContainer Add(string configurationProperty, IFactory<IVsService> activator) 
         {
             Ensure.NotNullOrEmpty(configurationProperty, "configurationProperty");
             Ensure.NotNull(activator, "activator");
@@ -90,19 +90,19 @@ namespace Neptuo.Productivity.VisualStudio
 
         private class VsServiceContext 
         {
-            public IActivator<IVsService> Activator { get; private set; }
+            public IFactory<IVsService> Activator { get; private set; }
             public bool IsRunning { get { return Instance != null; } }
             public IVsService Instance { get; set; }
             public Type ServiceType { get; private set; }
 
-            public VsServiceContext(IActivator<IVsService> activator)
+            public VsServiceContext(IFactory<IVsService> activator)
             {
                 Ensure.NotNull(activator, "activator");
                 Activator = activator;
 
                 foreach (Type interfaceType in activator.GetType().GetInterfaces())
                 {
-                    if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IActivator<>))
+                    if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IFactory<>))
                         ServiceType = interfaceType.GetGenericArguments().First();
                 }
             }

@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.Pipelines.Events;
+using Neptuo.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Builds
 {
-    public class BuildModelActivator : IActivator<BuildModel, BuildModelActivatorContext>
+    public class BuildModelActivator : IFactory<BuildModel, BuildModelActivatorContext>
     {
         private readonly IEventDispatcher events;
 

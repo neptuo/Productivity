@@ -12,7 +12,7 @@ namespace Neptuo.Productivity.VisualStudio
 {
     public static class _VsServiceContainerExtensions
     {
-        public static VsServiceContainer Add(this VsServiceContainer container, Expression<Func<IConfiguration, bool>> configurationProperty, IActivator<IVsService> activator)
+        public static VsServiceContainer Add(this VsServiceContainer container, Expression<Func<IConfiguration, bool>> configurationProperty, IFactory<IVsService> activator)
         {
             Ensure.NotNull(container, "container");
             return container.Add(TypeHelper.PropertyName(configurationProperty), activator);

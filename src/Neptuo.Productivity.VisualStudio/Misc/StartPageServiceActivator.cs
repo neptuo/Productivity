@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.Misc
 {
-    public class StartPageServiceActivator : IActivator<StartPageService>
+    public class StartPageServiceActivator : IFactory<StartPageService>
     {
         private readonly DTE dte;
 

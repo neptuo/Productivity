@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.Collections.ObjectModel;
+using Neptuo.Observables.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace Neptuo.Productivity.Builds
 {
     public class BuildWatcher
     {
-        private readonly IActivator<BuildModel, BuildModelActivatorContext> buildFactory;
+        private readonly IFactory<BuildModel, BuildModelActivatorContext> buildFactory;
 
         public ObservableCollection<BuildModel> History { get; private set; }
 
-        public BuildWatcher(IActivator<BuildModel, BuildModelActivatorContext> buildFactory)
+        public BuildWatcher(IFactory<BuildModel, BuildModelActivatorContext> buildFactory)
         {
             Ensure.NotNull(buildFactory, "buildFactory");
             this.buildFactory = buildFactory;

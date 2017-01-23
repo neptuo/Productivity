@@ -1,8 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Neptuo.Collections.ObjectModel;
-using Neptuo.ComponentModel;
-using Neptuo.Pipelines.Events;
+using Neptuo.Observables.Collections;
+using Neptuo.Events;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;

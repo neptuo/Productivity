@@ -1,5 +1,5 @@
 ﻿using EnvDTE;
-using Neptuo.ComponentModel;
+using Neptuo.Models.Domains;
 using System;
 using System.Collections.Generic;
 using System.Linq;

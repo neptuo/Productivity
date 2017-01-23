@@ -1,4 +1,4 @@
-﻿using Neptuo.Collections.ObjectModel;
+﻿using Neptuo.Observables.Collections;
 using Neptuo.Productivity.Builds;
 using System;
 using System.Collections.Generic;
