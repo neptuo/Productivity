@@ -59,6 +59,7 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
                 if (!isDuplicationDown)
                     textDocument.Selection.LineUp();
 
+                textDocument.Selection.MoveToPoint(endLinePoint);
                 textDocument.Selection.EndOfLine();
                 textDocument.Selection.NewLine();
                 textDocument.Selection.DeleteLeft(textDocument.Selection.ActivePoint.DisplayColumn - 1);
@@ -70,11 +71,12 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
                     // Move original point to the new line.
                     if (isDuplicationDown)
                         originalPoint.LineDown();
-                    else
-                        originalPoint.LineUp();
 
                     // Move to original column index on new line.
                     textDocument.Selection.MoveToPoint(originalPoint);
+
+                    if (originalPoint.DisplayColumn != endLine.DisplayColumn)
+                        textDocument.Selection.MoveToPoint(endLine, true);
                 }
                 else
                 {
@@ -83,8 +85,6 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
 
                     if (isDuplicationDown)
                         originalPoint.LineDown(lineCount + 1);
-                    else
-                        originalPoint.LineUp(lineCount + 1);
 
                     originalPoint.StartOfLine();
                     textDocument.Selection.EndOfLine();
