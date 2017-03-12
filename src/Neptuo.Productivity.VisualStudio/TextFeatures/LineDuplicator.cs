@@ -19,37 +19,37 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
 
         public void DuplicateCurrentLineDown()
         {
-            DuplicateLineDown(textDocument.Selection.ActivePoint);
+            DuplicateLineDown(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
         }
 
-        public void DuplicateLineDown(TextPoint lineToDuplicate)
+        public void DuplicateLineDown(TextPoint startLine, TextPoint endLine)
         {
-            DuplicateLine(lineToDuplicate, true);
+            DuplicateLine(startLine, endLine, true);
         }
 
         public void DuplicateCurrentLineUp()
         {
-            DuplicateLineUp(textDocument.Selection.ActivePoint);
+            DuplicateLineUp(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
         }
 
-        public void DuplicateLineUp(TextPoint lineToDuplicate)
+        public void DuplicateLineUp(TextPoint startLine, TextPoint endLine)
         {
-            DuplicateLine(lineToDuplicate, false);
+            DuplicateLine(startLine, endLine, false);
         }
 
-        private void DuplicateLine(TextPoint lineToDuplicate, bool isDuplicationDown)
+        private void DuplicateLine(TextPoint startLine, TextPoint endLine, bool isDuplicationDown)
         {
-            using (new UndoContextDisposable(lineToDuplicate.DTE, "lineduplicator"))
+            using (new UndoContextDisposable(startLine.DTE, "lineduplicator"))
             {
                 // Create edit point from original point.
-                EditPoint originalPoint = textDocument.CreateEditPoint(lineToDuplicate);
+                EditPoint originalPoint = textDocument.CreateEditPoint(startLine);
 
                 // Create line start point.
-                EditPoint startLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
+                EditPoint startLinePoint = textDocument.CreateEditPoint(startLine);
                 startLinePoint.StartOfLine();
 
                 // Create line end point.
-                EditPoint endLinePoint = textDocument.CreateEditPoint(lineToDuplicate);
+                EditPoint endLinePoint = textDocument.CreateEditPoint(endLine);
                 endLinePoint.EndOfLine();
 
                 // Get line text content.
@@ -65,14 +65,31 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
                 textDocument.Selection.DeleteWhitespace();
                 textDocument.Selection.Insert(lineContent);
 
-                // Move original point to the new line.
-                if (isDuplicationDown)
-                    originalPoint.LineDown();
-                else
-                    originalPoint.LineUp();
+                if (startLinePoint.Line == endLinePoint.Line)
+                {
+                    // Move original point to the new line.
+                    if (isDuplicationDown)
+                        originalPoint.LineDown();
+                    else
+                        originalPoint.LineUp();
 
-                // Move to original column index on new line.
-                textDocument.Selection.MoveToPoint(originalPoint);
+                    // Move to original column index on new line.
+                    textDocument.Selection.MoveToPoint(originalPoint);
+                }
+                else
+                {
+                    // When duplicating multiple lines, select them all.
+                    int lineCount = endLinePoint.Line - startLinePoint.Line;
+
+                    if (isDuplicationDown)
+                        originalPoint.LineDown(lineCount + 1);
+                    else
+                        originalPoint.LineUp(lineCount + 1);
+
+                    originalPoint.StartOfLine();
+                    textDocument.Selection.EndOfLine();
+                    textDocument.Selection.MoveToPoint(originalPoint, true);
+                }
             }
         }
     }
