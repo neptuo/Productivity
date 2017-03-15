@@ -15,7 +15,7 @@ namespace Neptuo.Productivity.FriendlyNamespaces
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(
                 textContent, 
-                new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Interactive)
+                new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Parse, SourceCodeKind.Script)
             );
 
             UnderscoreSyntaxRewriter rewriter = new UnderscoreSyntaxRewriter();
