@@ -121,9 +121,10 @@
 
     </Commands>
 
-
-
-
+    <KeyBindings>
+        <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" mod1="Control Shift Alt" key1="VK_DOWN" editor="guidVSStd97"/>
+        <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" mod1="Control Shift Alt" key1="VK_UP" editor="guidVSStd97"/>
+    </KeyBindings>
 
     <Symbols>
         <!-- This is the package guid. -->
