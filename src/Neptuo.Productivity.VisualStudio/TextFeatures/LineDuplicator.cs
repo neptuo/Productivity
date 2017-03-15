@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.TextFeatures
 {
+    /// <summary>
+    /// A line duplication service.
+    /// </summary>
     public class LineDuplicator
     {
         private readonly TextDocument textDocument;
 
+        /// <summary>
+        /// Creates a new instance that duplicates lines in the <paramref name="textDocument"/>.
+        /// </summary>
+        /// <param name="textDocument">A document to duplicate lines in.</param>
         public LineDuplicator(TextDocument textDocument)
         {
             Ensure.NotNull(textDocument, "textDocument");
@@ -22,9 +29,9 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
             DuplicateLineDown(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
         }
 
-        public void DuplicateLineDown(TextPoint startLine, TextPoint endLine)
+        public void DuplicateLineDown(TextPoint startPoint, TextPoint endPoint)
         {
-            DuplicateLine(startLine, endLine, true);
+            DuplicateLine(startPoint, endPoint, true);
         }
 
         public void DuplicateCurrentLineUp()
@@ -32,64 +39,75 @@ namespace Neptuo.Productivity.VisualStudio.TextFeatures
             DuplicateLineUp(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
         }
 
-        public void DuplicateLineUp(TextPoint startLine, TextPoint endLine)
+        public void DuplicateLineUp(TextPoint startPoint, TextPoint endPoint)
         {
-            DuplicateLine(startLine, endLine, false);
+            DuplicateLine(startPoint, endPoint, false);
         }
 
-        private void DuplicateLine(TextPoint startLine, TextPoint endLine, bool isDuplicationDown)
+        private void DuplicateLine(TextPoint startPoint, TextPoint endPoint, bool isDuplicationDown)
         {
-            using (new UndoContextDisposable(startLine.DTE, "lineduplicator"))
+            // Take the positions before any modification.
+            int startPointColumn = startPoint.DisplayColumn;
+            int startPointLine = startPoint.Line;
+            int endPointColumn = endPoint.DisplayColumn;
+            int endPointLine = endPoint.Line;
+            int activePointColumn = textDocument.Selection.ActivePoint.DisplayColumn;
+
+            using (new UndoContextDisposable(startPoint.DTE, "lineduplicator"))
             {
                 // Create edit point from original point.
-                EditPoint originalPoint = textDocument.CreateEditPoint(startLine);
+                EditPoint originalPoint = textDocument.CreateEditPoint(startPoint);
 
                 // Create line start point.
-                EditPoint startLinePoint = textDocument.CreateEditPoint(startLine);
-                startLinePoint.StartOfLine();
+                EditPoint startLine = textDocument.CreateEditPoint(startPoint);
+                startLine.StartOfLine();
 
                 // Create line end point.
-                EditPoint endLinePoint = textDocument.CreateEditPoint(endLine);
-                endLinePoint.EndOfLine();
+                EditPoint endLine = textDocument.CreateEditPoint(endPoint);
+                endLine.EndOfLine();
 
                 // Get line text content.
-                string lineContent = startLinePoint.GetText(endLinePoint);
+                string textContent = startLine.GetText(endLine);
 
                 // Create new line, empty it and insert text from previous/next line.
                 if (!isDuplicationDown)
                     textDocument.Selection.LineUp();
 
-                textDocument.Selection.MoveToPoint(endLinePoint);
+                textDocument.Selection.MoveToPoint(endLine);
                 textDocument.Selection.EndOfLine();
                 textDocument.Selection.NewLine();
-                textDocument.Selection.DeleteLeft(textDocument.Selection.ActivePoint.DisplayColumn - 1);
+                textDocument.Selection.DeleteLeft(activePointColumn - 1);
                 textDocument.Selection.DeleteWhitespace();
-                textDocument.Selection.Insert(lineContent);
+                textDocument.Selection.Insert(textContent);
 
-                if (startLinePoint.Line == endLinePoint.Line)
+
+                // Move original selection to the new text.
+                int lineCount = endLine.Line - startLine.Line + 1;
+
+                EditPoint startPointEdit = textDocument.CreateEditPoint(startPoint);
+                startPointEdit.MoveToLineAndOffset(startPointLine, startPointColumn);
+
+                EditPoint endPointEdit = textDocument.CreateEditPoint(endPoint);
+                endPointEdit.MoveToLineAndOffset(endPointLine, endPointColumn);
+
+                // If the selection if from end to start, we need to switch the points.
+                if (activePointColumn == startPointColumn)
                 {
-                    // Move original point to the new line.
-                    if (isDuplicationDown)
-                        originalPoint.LineDown();
-
-                    // Move to original column index on new line.
-                    textDocument.Selection.MoveToPoint(originalPoint);
-
-                    if (originalPoint.DisplayColumn != endLine.DisplayColumn)
-                        textDocument.Selection.MoveToPoint(endLine, true);
+                    EditPoint transfer = endPointEdit;
+                    endPointEdit = startPointEdit;
+                    startPointEdit = transfer;
                 }
-                else
+
+                // If duplication down, move to the new lines.
+                if (isDuplicationDown)
                 {
-                    // When duplicating multiple lines, select them all.
-                    int lineCount = endLinePoint.Line - startLinePoint.Line;
-
-                    if (isDuplicationDown)
-                        originalPoint.LineDown(lineCount + 1);
-
-                    originalPoint.StartOfLine();
-                    textDocument.Selection.EndOfLine();
-                    textDocument.Selection.MoveToPoint(originalPoint, true);
+                    startPointEdit.LineDown(lineCount);
+                    endPointEdit.LineDown(lineCount);
                 }
+
+                // Create new selection.
+                textDocument.Selection.MoveToPoint(startPointEdit);
+                textDocument.Selection.MoveToPoint(endPointEdit, true);
             }
         }
     }
