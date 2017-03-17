@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Neptuo;
 using System;
 using System.Collections.Generic;
@@ -28,15 +29,23 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         private void WireUpMenuCommands(IMenuCommandService commandService)
         {
             CommandID downCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.DuplicateLineDown);
-            MenuCommand downItem = new MenuCommand(DuplicateLineDownCallback, downCommandID);
-            commandService.AddCommand(downItem);
+            OleMenuCommand downCommand = new OleMenuCommand(OnDuplicateLineDown, downCommandID);
+            downCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
+            commandService.AddCommand(downCommand);
 
             CommandID upCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.DuplicateLineUp);
-            MenuCommand upItem = new MenuCommand(DuplicateLineUpCallback, upCommandID);
-            commandService.AddCommand(upItem);
+            OleMenuCommand upCommand = new OleMenuCommand(OnDuplicateLineUp, upCommandID);
+            upCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
+            commandService.AddCommand(upCommand);;
         }
 
-        private void DuplicateLineDownCallback(object sender, EventArgs e)
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            OleMenuCommand command = (OleMenuCommand)sender;
+            command.Enabled = dte.ActiveDocument != null && dte.ActiveDocument.GetTextDocument() != null;
+        } 
+
+        private void OnDuplicateLineDown(object sender, EventArgs e)
         {
             if (dte.ActiveDocument != null)
             {
@@ -49,7 +58,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             }
         }
 
-        private void DuplicateLineUpCallback(object sender, EventArgs e)
+        private void OnDuplicateLineUp(object sender, EventArgs e)
         {
             if (dte.ActiveDocument != null)
             {
