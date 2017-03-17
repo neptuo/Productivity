@@ -92,7 +92,6 @@
     <Compile Include="TextFeatures\LineDuplicationService.cs" />
     <Compile Include="TextFeatures\LineDuplicator.cs" />
     <Compile Include="_Services\VsServiceContainer.cs" />
-    <Compile Include="_DteExtensions.cs" />
     <Compile Include="_Services\_VsServiceContainerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
