@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Neptuo.Productivity.LineDuplication.Marek Fišera.08f5f432-2cb0-4d42-876c-733febd4d5ad" Version="1.0" Language="en-US" Publisher="Marek Fišera" />
+    <Identity Id="08f5f432-2cb0-4d42-876c-733febd4d5ad" Version="0.1" Language="en-US" Publisher="Neptuo" />
     <DisplayName>Neptuo.Productivity.LineDuplication</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">Productivity tools by Neptuo: Line duplication.
+Provides commands for duplicating current line or selected lines above or under.</Description>
+    <MoreInfo>http://www.neptuo.com/project/vsix/lineduplication</MoreInfo>
+    <License>..\..\LICENCE</License>
+    <Tags>neptuo productivity lineduplication</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
