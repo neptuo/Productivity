@@ -84,7 +84,7 @@
         </Strings>
       </Button>
 
-      <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" priority="0x0101" type="Button">
+      <!--<Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" priority="0x0101" type="Button">
         <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.Group2" />
         <Icon guid="ImageCatalogGuid" id="MoveUp" />
         <CommandFlag>IconIsMoniker</CommandFlag>
@@ -99,7 +99,7 @@
         <Strings>
           <ButtonText>Duplicate current line down</ButtonText>
         </Strings>
-      </Button>
+      </Button>-->
 
 
 
@@ -126,10 +126,10 @@
 
   </Commands>
 
-  <KeyBindings>
+  <!--<KeyBindings>
     <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" mod1="Control Shift Alt" key1="VK_DOWN" editor="guidVSStd97"/>
     <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" mod1="Control Shift Alt" key1="VK_UP" editor="guidVSStd97"/>
-  </KeyBindings>
+  </KeyBindings>-->
 
   <Symbols>
     <!-- This is the package guid. -->
@@ -144,8 +144,8 @@
       <IDSymbol name="VsPackage.CommandSet.Group2" value="0x1030" />
 
       <IDSymbol name="VsPackage.CommandSet.UnderscoreRemover" value="0x0100" />
-      <IDSymbol name="VsPackage.CommandSet.DuplicateLineDown" value="0x0101" />
-      <IDSymbol name="VsPackage.CommandSet.DuplicateLineUp" value="0x0102" />
+      <!--<IDSymbol name="VsPackage.CommandSet.DuplicateLineDown" value="0x0101" />
+      <IDSymbol name="VsPackage.CommandSet.DuplicateLineUp" value="0x0102" />-->
 
 
       <IDSymbol name="VsPackage.CommandSet.ToolWindows.BuildHistory" value="0x0150" />

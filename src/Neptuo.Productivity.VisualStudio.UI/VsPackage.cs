@@ -70,7 +70,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
             ServiceFactory.VsServices.Add(c => c.IsUnderscoreNamespaceRemoverUsed, new UnderscoreServiceActivator(dte, commandService));
 
             // Line duplications.
-            ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
+            //ServiceFactory.VsServices.Add(c => c.IsLineDuplicatorUsed, new LineDuplicationServiceActivator(dte, commandService));
 
             // Builds.
             ServiceFactory.VsServices.Add(c => c.IsBuildHistoryUsed, new BuildServiceActivator(dte, ServiceFactory.EventDispatcher, commandService, BuildHistoryCallback));
