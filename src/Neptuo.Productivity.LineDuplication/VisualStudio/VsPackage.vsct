@@ -18,7 +18,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Duplicate current line &amp;up</ButtonText>
+          <ButtonText>Duplicate Current Line &amp;Up</ButtonText>
         </Strings>
       </Button>
       <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" priority="0x011" type="Button">
@@ -27,7 +27,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Duplicate current line &amp;down</ButtonText>
+          <ButtonText>Duplicate Current Line &amp;Down</ButtonText>
         </Strings>
       </Button>
     </Buttons>

@@ -24,6 +24,9 @@ namespace Neptuo.Productivity.VisualStudio
             this.textDocument = textDocument;
         }
 
+        /// <summary>
+        /// Duplicates current line (or selected lines) down.
+        /// </summary>
         public void DuplicateCurrentLineDown()
         {
             DuplicateLineDown(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
@@ -34,6 +37,9 @@ namespace Neptuo.Productivity.VisualStudio
             DuplicateLine(startPoint, endPoint, true);
         }
 
+        /// <summary>
+        /// Duplicates current line (or selected lines) up.
+        /// </summary>
         public void DuplicateCurrentLineUp()
         {
             DuplicateLineUp(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
