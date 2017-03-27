@@ -53,11 +53,11 @@ namespace Neptuo.Productivity.VisualStudio
         private void DuplicateLine(TextPoint startPoint, TextPoint endPoint, bool isDuplicationDown)
         {
             // Take the positions before any modification.
-            int startPointColumn = startPoint.DisplayColumn;
+            int startPointColumn = startPoint.LineCharOffset;
             int startPointLine = startPoint.Line;
-            int endPointColumn = endPoint.DisplayColumn;
+            int endPointColumn = endPoint.LineCharOffset;
             int endPointLine = endPoint.Line;
-            int activePointColumn = textDocument.Selection.ActivePoint.DisplayColumn;
+            int activePointColumn = textDocument.Selection.ActivePoint.LineCharOffset;
 
             using (new UndoContextDisposable(startPoint.DTE, "lineduplicator"))
             {
@@ -82,7 +82,6 @@ namespace Neptuo.Productivity.VisualStudio
                 textDocument.Selection.MoveToPoint(endLine);
                 textDocument.Selection.EndOfLine();
                 textDocument.Selection.NewLine();
-                textDocument.Selection.DeleteLeft(activePointColumn - 1);
                 textDocument.Selection.DeleteWhitespace();
                 textDocument.Selection.Insert(textContent);
 
