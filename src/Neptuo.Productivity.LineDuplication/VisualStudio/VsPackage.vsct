@@ -14,7 +14,7 @@
     <Buttons>
       <Button guid="CommandSet" id="DuplicateLineUp" priority="0x010" type="Button">
         <Parent guid="CommandSet" id="MainMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="MoveUp" />
+        <Icon guid="ImageCatalogGuid" id="CollapseUpGroup" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
@@ -23,7 +23,7 @@
       </Button>
       <Button guid="CommandSet" id="DuplicateLineDown" priority="0x011" type="Button">
         <Parent guid="CommandSet" id="MainMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="MoveDown" />
+        <Icon guid="ImageCatalogGuid" id="ExpandDownGroup" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
