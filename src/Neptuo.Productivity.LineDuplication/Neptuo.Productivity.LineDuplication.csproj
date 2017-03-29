@@ -104,8 +104,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UndoContextDisposable.cs" />
     <Compile Include="VisualStudio\Commands\LineDuplicationCommand.cs" />
-    <Compile Include="VisualStudio\MyConstants.cs" />
     <Compile Include="VisualStudio\VsPackage.cs" />
+    <Compile Include="VisualStudio\VsPackage1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VsPackage.vsct</DependentUpon>
+    </Compile>
     <Compile Include="VisualStudio\_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +128,8 @@
     <VSCTCompile Include="VisualStudio\VsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>VsPackage1.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <PropertyGroup>

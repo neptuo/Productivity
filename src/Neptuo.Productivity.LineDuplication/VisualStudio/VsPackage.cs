@@ -10,7 +10,7 @@ namespace Neptuo.Productivity.VisualStudio
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("Neptuo.Productivity.LineDuplication", "Productivity tools by Neptuo: Line duplication.", "1.0", IconResourceID = 400)]
-    [Guid(MyConstants.PackageString)]
+    [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed partial class VsPackage : Package

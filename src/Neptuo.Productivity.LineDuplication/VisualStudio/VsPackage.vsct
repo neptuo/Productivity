@@ -4,16 +4,16 @@
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
 
-  <Commands package="VsPackage.Package">
+  <Commands package="Package">
     <Groups>
-      <Group guid="VsPackage.CommandSet" id="VsPackage.CommandSet.MainMenuGroup" priority="0x0600">
+      <Group guid="CommandSet" id="MainMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EDIT"/>
       </Group>
     </Groups>
 
     <Buttons>
-      <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" priority="0x010" type="Button">
-        <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.MainMenuGroup" />
+      <Button guid="CommandSet" id="DuplicateLineUp" priority="0x010" type="Button">
+        <Parent guid="CommandSet" id="MainMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="MoveUp" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -21,8 +21,8 @@
           <ButtonText>Duplicate Current Line &amp;Up</ButtonText>
         </Strings>
       </Button>
-      <Button guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" priority="0x011" type="Button">
-        <Parent guid="VsPackage.CommandSet" id="VsPackage.CommandSet.MainMenuGroup" />
+      <Button guid="CommandSet" id="DuplicateLineDown" priority="0x011" type="Button">
+        <Parent guid="CommandSet" id="MainMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="MoveDown" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -34,18 +34,18 @@
   </Commands>
 
   <KeyBindings>
-    <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineDown" mod1="Control Shift Alt" key1="VK_DOWN" editor="guidVSStd97"/>
-    <KeyBinding guid="VsPackage.CommandSet" id="VsPackage.CommandSet.DuplicateLineUp" mod1="Control Shift Alt" key1="VK_UP" editor="guidVSStd97"/>
+    <KeyBinding guid="CommandSet" id="DuplicateLineDown" mod1="Control Shift Alt" key1="VK_DOWN" editor="guidVSStd97"/>
+    <KeyBinding guid="CommandSet" id="DuplicateLineUp" mod1="Control Shift Alt" key1="VK_UP" editor="guidVSStd97"/>
   </KeyBindings>
 
   <Symbols>
-    <GuidSymbol name="VsPackage.Package" value="{6b896283-2b15-4f82-bb4e-186c94784f79}" />
+    <GuidSymbol name="Package" value="{6b896283-2b15-4f82-bb4e-186c94784f79}" />
 
-    <GuidSymbol name="VsPackage.CommandSet" value="{e4a2c479-8fe3-4778-9dca-6a6f3ef5948c}">
-      <IDSymbol name="VsPackage.CommandSet.MainMenuGroup" value="0x100" />
+    <GuidSymbol name="CommandSet" value="{e4a2c479-8fe3-4778-9dca-6a6f3ef5948c}">
+      <IDSymbol name="MainMenuGroup" value="0x100" />
 
-      <IDSymbol name="VsPackage.CommandSet.DuplicateLineDown" value="0x0101" />
-      <IDSymbol name="VsPackage.CommandSet.DuplicateLineUp" value="0x0102" />
+      <IDSymbol name="DuplicateLineDown" value="0x0101" />
+      <IDSymbol name="DuplicateLineUp" value="0x0102" />
     </GuidSymbol>
   </Symbols>
 
