@@ -132,6 +132,20 @@
       <LastGenOutput>VsPackage1.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\assets\Productivity-Preview.jpg">
+      <Link>Resources\Productivity-Preview.jpg</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\LICENCE">
+      <Link>Resources\LICENCE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\assets\Productivity-Icon.jpg">
+      <Link>Resources\Productivity-Icon.jpg</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
