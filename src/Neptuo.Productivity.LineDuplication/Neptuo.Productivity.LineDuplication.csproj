@@ -120,6 +120,7 @@
     <EmbeddedResource Include="VisualStudio\VsPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VsPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +138,10 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\assets\Productivity-Icon.ico">
+      <Link>Resources\Productivity-Icon.ico</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="..\..\assets\Productivity-Preview.jpg">
       <Link>Resources\Productivity-Preview.jpg</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
