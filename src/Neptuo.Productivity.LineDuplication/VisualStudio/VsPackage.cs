@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 namespace Neptuo.Productivity.VisualStudio
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("Neptuo.Productivity.LineDuplication", "Productivity tools by Neptuo: Line duplication.", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration(ProductInfo.Name, ProductInfo.Description, VersionInfo.Version, IconResourceID = 400)]
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
