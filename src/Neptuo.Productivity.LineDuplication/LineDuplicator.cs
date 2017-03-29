@@ -59,7 +59,8 @@ namespace Neptuo.Productivity.VisualStudio
             int endPointLine = endPoint.Line;
             int activePointColumn = textDocument.Selection.ActivePoint.LineCharOffset;
 
-            using (new UndoContextDisposable(startPoint.DTE, "lineduplicator"))
+            string name = String.Format("Duplicate Current Line {0}", isDuplicationDown ? "Down" : "Up");
+            using (new UndoContextDisposable(startPoint.DTE, name))
             {
                 // Create edit point from original point.
                 EditPoint originalPoint = textDocument.CreateEditPoint(startPoint);
