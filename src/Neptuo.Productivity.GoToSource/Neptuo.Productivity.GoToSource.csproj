@@ -89,14 +89,14 @@
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\GoToSourceCommand.cs" />
-    <Compile Include="VisualStudio\VsOleCommandTarget.cs" />
+    <Compile Include="VisualStudio\Listeners\VsCommandFilter.cs" />
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
-    <Compile Include="VisualStudio\VsTextViewCreationListener.cs" />
+    <Compile Include="VisualStudio\Listeners\VsTextViewCreationListener.cs" />
     <Compile Include="VisualStudio\_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
