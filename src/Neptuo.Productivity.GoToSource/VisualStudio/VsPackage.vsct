@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Include href="KnownImageIds.vsct"/>
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="Package">
+    <Buttons>
+      <Button guid="CommandSet" id="GoToSource" priority="0x070" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_EDIT_GOTO" />
+        <Icon guid="ImageCatalogGuid" id="GoToSourceCode" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>Go To Source</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="Package" value="{6b896283-2b15-4f82-bb4e-186c94784f79}" />
+
+    <GuidSymbol name="CommandSet" value="{e4a2c479-8fe3-4778-9dca-6a6f3ef5948c}">
+      <IDSymbol name="GoToSource" value="0x0101" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>
