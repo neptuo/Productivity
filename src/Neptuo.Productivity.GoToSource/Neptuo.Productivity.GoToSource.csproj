@@ -51,6 +51,9 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.12.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
+    <Compile Include="VisualStudio\_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudio\VsPackage.resx">
@@ -95,6 +99,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
