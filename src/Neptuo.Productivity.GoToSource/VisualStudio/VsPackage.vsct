@@ -13,6 +13,7 @@
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>Go To Source</ButtonText>
+          <CommandName>Productivity.GoToSource</CommandName>
         </Strings>
       </Button>
     </Buttons>

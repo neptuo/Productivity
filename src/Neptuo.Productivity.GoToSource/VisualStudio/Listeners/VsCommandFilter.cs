@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio;
+﻿using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -31,7 +32,8 @@ namespace Neptuo.Productivity.VisualStudio.Listeners
         {
             if (nCmdID == (uint)VSConstants.VSStd97CmdID.GotoDefn)
             {
-                Console.WriteLine("Go to...");
+                DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
+                dte.ExecuteCommand("Productivity.GoToSource");
             }
             
             int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
