@@ -8,7 +8,7 @@
     <Buttons>
       <Button guid="CommandSet" id="GoToSource" priority="0x070" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_EDIT_GOTO" />
-        <Icon guid="ImageCatalogGuid" id="GoToSourceCode" />
+        <Icon guid="ImageCatalogGuid" id="FileDestination" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
