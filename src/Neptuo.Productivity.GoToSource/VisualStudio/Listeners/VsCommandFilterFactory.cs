@@ -19,7 +19,7 @@ namespace Neptuo.Productivity.VisualStudio.Listeners
     [Name("GoToSource Command Listener.")]
     [ContentType("code")]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class VsTextViewCreationListener : IVsTextViewCreationListener
+    internal class VsCommandFilterFactory : IVsTextViewCreationListener
     {
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService { get; set; }

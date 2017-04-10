@@ -96,7 +96,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
-    <Compile Include="VisualStudio\Listeners\VsTextViewCreationListener.cs" />
+    <Compile Include="VisualStudio\Listeners\VsCommandFilterFactory.cs" />
     <Compile Include="VisualStudio\_DteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
