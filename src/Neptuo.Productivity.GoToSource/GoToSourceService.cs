@@ -1,5 +1,6 @@
 ﻿using Neptuo.Productivity.Parsers;
 using Neptuo.Productivity.Processors;
+using Neptuo.Productivity.Processors.Mappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -18,9 +19,12 @@ namespace Neptuo.Productivity
         [ImportMany]
         public IEnumerable<IPathProcessor> Processors { get; set; }
 
+        [ImportMany]
+        public IEnumerable<IPathMapper> Mappers { get; set; }
+
         public bool TryRun(string line, int index)
         {
-            return TryParse(line, index, out string path) && TryRun(path);
+            return TryParse(line, index, out string path) && TryRun(Map(path));
         }
 
         private bool TryParse(string line, int index, out string path)
@@ -33,6 +37,14 @@ namespace Neptuo.Productivity
 
             path = null;
             return false;
+        }
+
+        private string Map(string path)
+        {
+            foreach (IPathMapper mapper in Mappers)
+                path = mapper.Map(path);
+
+            return path;
         }
 
         private bool TryRun(string path)
