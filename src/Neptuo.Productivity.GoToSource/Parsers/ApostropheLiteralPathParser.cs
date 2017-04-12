@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Parsers
 {
+    /// <summary>
+    /// An implementation of <see cref="IPathParser"/> which parses string literal wrapped by <c>'</c>.
+    /// Eg. '~/Path'.
+    /// </summary>
     [Export(typeof(IPathParser))]
     [Name(Name)]
     public class ApostropheLiteralPathParser : LiteralPathParser

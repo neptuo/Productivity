@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Processors.Mappers
 {
+    /// <summary>
+    /// An implementation of <see cref="IPathMapper"/> which replaces <c>~/</c> by project path.
+    /// </summary>
     [Export(typeof(IPathMapper))]
     [Name(Name)]
     public class VirtualPathMapper : IPathMapper

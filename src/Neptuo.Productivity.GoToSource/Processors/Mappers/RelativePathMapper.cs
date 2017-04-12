@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Processors.Mappers
 {
+    /// <summary>
+    /// An implementation of <see cref="IPathMapper"/> which extends relative paths to absolute.
+    /// </summary>
     [Export(typeof(IPathMapper))]
     [Name(Name)]
     [Order(After = VirtualPathMapper.Name)]
@@ -24,7 +27,7 @@ namespace Neptuo.Productivity.Processors.Mappers
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             if (!String.IsNullOrEmpty(dte.ActiveWindow.Document.FullName))
             {
-                if (!Path.IsPathRooted(source) && !source.StartsWith("~/"))
+                if (!Path.IsPathRooted(source))
                     source = Path.Combine(Path.GetDirectoryName(dte.ActiveWindow.Document.FullName), source);
             }
 

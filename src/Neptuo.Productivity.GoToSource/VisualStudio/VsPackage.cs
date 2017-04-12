@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio
 {
+    /// <summary>
+    /// VS package.
+    /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration(ProductInfo.Name, ProductInfo.Description, VersionInfo.Version, IconResourceID = 400)]
     [Guid(PackageGuids.PackageString)]

@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
+    /// <summary>
+    /// A service responsible of navigating to source.
+    /// </summary>
     [Export(typeof(GoToSourceService))]
     public class GoToSourceService
     {
