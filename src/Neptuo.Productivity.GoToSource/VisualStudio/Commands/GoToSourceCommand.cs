@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
@@ -49,16 +50,8 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 {
                     if (TryGetLineAt(textDocument, out string line, out int index))
                     {
-                        string message = $"'{line}' at '{index}'";
-                        Console.WriteLine(message);
-
-                        if (TryGetStringLiteralAt(line, index, out string path))
-                        {
-                            message = $"Path is '{path}'";
-                            Console.WriteLine(path);
-
-                            TryOpenStringLiteral(path);
-                        }
+                        GoToSourceService service = GetService<GoToSourceService>();
+                        service.TryRun(line, index);
                     }
                 }
             }
@@ -81,34 +74,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             return true;
         }
 
-        private bool TryGetStringLiteralAt(string content, int index, out string path)
+        private T GetService<T>()
+            where T : class
         {
-            int indexOfStartQuote = content.IndexOf("\"", 0, index);
-            int indexOfEndQuote = content.IndexOf("\"", index);
-
-            if (indexOfStartQuote >= 0 && indexOfEndQuote >= 0)
-            {
-                indexOfStartQuote++;
-                path = content.Substring(indexOfStartQuote, indexOfEndQuote - indexOfStartQuote);
-                return true;
-            }
-
-            path = null;
-            return false;
-        }
-
-        private bool TryOpenStringLiteral(string literal)
-        {
-            string projectPath = Path.GetDirectoryName(dte.ActiveWindow.Project.FullName);
-            string filePath = literal.Replace("~/", projectPath + @"\");
-
-            ProjectItem item = dte.Solution.FindProjectItem(filePath);
-            if (item == null)
-                return false;
-
-            Window window = item.Open();
-            window.Activate();
-            return true;
+            IComponentModel componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
+            T service = componentModel.GetService<T>();
+            return service;
         }
 
         #region Singleton
