@@ -20,7 +20,7 @@ namespace Neptuo.Productivity.Processors
 
         public bool TryRun(string path)
         {
-            if (Path.IsPathRooted(path))
+            if (File.Exists(path))
             {
                 DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
                 dte.ExecuteCommand("File.OpenFile", path);

@@ -1,9 +1,8 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio;
+﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Neptuo;
+using Neptuo.Productivity.VisualStudio.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +14,10 @@ namespace Neptuo.Productivity.VisualStudio.Listeners
     internal class VsCommandFilter : IOleCommandTarget
     {
         private readonly IOleCommandTarget nextController;
-        private readonly SVsServiceProvider serviceProvider;
 
-        public VsCommandFilter(IVsTextView textViewAdapter, SVsServiceProvider serviceProvider)
+        public VsCommandFilter(IVsTextView textViewAdapter)
         {
             textViewAdapter.AddCommandFilter(this, out nextController);
-            this.serviceProvider = serviceProvider;
         }
 
         public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
@@ -32,8 +29,8 @@ namespace Neptuo.Productivity.VisualStudio.Listeners
         {
             if (nCmdID == (uint)VSConstants.VSStd97CmdID.GotoDefn)
             {
-                DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-                dte.ExecuteCommand("Productivity.GoToSource");
+                if (GoToSourceCommand.TryExecute())
+                    return VSConstants.S_OK;
             }
             
             int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);

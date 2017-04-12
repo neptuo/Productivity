@@ -29,19 +29,17 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private void WireUpMenuCommands(IMenuCommandService commandService)
         {
-            CommandID downCommandID = new CommandID(PackageGuids.CommandSet, PackageIds.GoToSource);
-            OleMenuCommand downCommand = new OleMenuCommand(OnGoToSource, downCommandID);
-            downCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
-            commandService.AddCommand(downCommand);
+            CommandID commandId = new CommandID(PackageGuids.CommandSet, PackageIds.GoToSource);
+            MenuCommand command = new MenuCommand(OnExecute, commandId);
+            commandService.AddCommand(command);
         }
 
-        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        private void OnExecute(object sender, EventArgs e)
         {
-            OleMenuCommand command = (OleMenuCommand)sender;
-            command.Enabled = true;
+            OnExecute();
         }
 
-        private void OnGoToSource(object sender, EventArgs e)
+        private bool OnExecute()
         {
             if (dte.ActiveDocument != null)
             {
@@ -51,10 +49,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                     if (TryGetLineAt(textDocument, out string line, out int index))
                     {
                         GoToSourceService service = GetService<GoToSourceService>();
-                        service.TryRun(line, index);
+                        return service.TryRun(line, index);
                     }
                 }
             }
+
+            return false;
         }
 
         private bool TryGetLineAt(TextDocument textDocument, out string content, out int index)
@@ -96,6 +96,14 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         {
             if (instance == null)
                 instance = new GoToSourceCommand(package, dte, commandService);
+        }
+
+        public static bool TryExecute()
+        {
+            if (instance != null)
+                return instance.OnExecute();
+
+            return false;
         }
 
         #endregion

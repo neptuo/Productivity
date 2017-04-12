@@ -10,10 +10,9 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_EDIT_GOTO" />
         <Icon guid="ImageCatalogGuid" id="FileDestination" />
         <CommandFlag>IconIsMoniker</CommandFlag>
-        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Go To Source</ButtonText>
-          <CommandName>Productivity.GoToSource</CommandName>
+          <ButtonText>Go To &amp;Source</ButtonText>
+          <ToolTipText>If cursor is placed in the path string, open a document at that path.</ToolTipText>
         </Strings>
       </Button>
     </Buttons>
