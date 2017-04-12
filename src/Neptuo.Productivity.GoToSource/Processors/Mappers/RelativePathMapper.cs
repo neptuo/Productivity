@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,17 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors.Mappers
 {
     [Export(typeof(IPathMapper))]
-    [Name(MapperName.Virtual)]
-    public class VirtualPathMapper : IPathMapper
+    [Name(MapperName.Relative)]
+    [Order(After = MapperName.Virtual)]
+    public class RelativePathMapper : IPathMapper
     {
         public string Map(string source)
         {
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            if (!String.IsNullOrEmpty(dte.ActiveWindow.Project.FullName))
+            if (!String.IsNullOrEmpty(dte.ActiveWindow.Document.FullName))
             {
-                string projectPath = Path.GetDirectoryName(dte.ActiveWindow.Project.FullName);
-                if (source.StartsWith("~/"))
-                    source = source.Replace("~/", projectPath + @"\");
+                if (!Path.IsPathRooted(source) && !source.StartsWith("~/"))
+                    source = Path.Combine(Path.GetDirectoryName(dte.ActiveWindow.Document.FullName), source);
             }
 
             return source;

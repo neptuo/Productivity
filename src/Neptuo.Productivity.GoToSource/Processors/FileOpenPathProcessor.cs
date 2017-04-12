@@ -10,17 +10,12 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors
 {
     [Export(typeof(IPathProcessor))]
-    public class ProjectItemPathProcessor : IPathProcessor
+    public class FileOpenPathProcessor : IPathProcessor
     {
         public bool TryRun(string path)
         {
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            ProjectItem item = dte.Solution.FindProjectItem(path);
-            if (item == null)
-                return false;
-
-            Window window = item.Open();
-            window.Activate();
+            dte.ExecuteCommand("File.OpenFile", path);
             return true;
         }
     }

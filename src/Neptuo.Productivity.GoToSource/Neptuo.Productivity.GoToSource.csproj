@@ -94,6 +94,8 @@
     <Compile Include="Parsers\QuoteLiteralPathParser.cs" />
     <Compile Include="Processors\IPathProcessor.cs" />
     <Compile Include="Processors\Mappers\IPathMapper.cs" />
+    <Compile Include="Processors\Mappers\MapperName.cs" />
+    <Compile Include="Processors\Mappers\RelativePathMapper.cs" />
     <Compile Include="Processors\Mappers\VirtualPathMapper.cs" />
     <Compile Include="Processors\ProjectItemPathProcessor.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
