@@ -86,6 +86,14 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Parsers\ApostropheLiteralPathParser.cs" />
+    <Compile Include="Parsers\IPathParser.cs" />
+    <Compile Include="Parsers\LiteralPathParser.cs" />
+    <Compile Include="Parsers\QuoteLiteralPathParser.cs" />
+    <Compile Include="Processors\IPathProcessor.cs" />
+    <Compile Include="Processors\Mappers\IPathMapper.cs" />
+    <Compile Include="Processors\Mappers\VirtualPathMapper.cs" />
+    <Compile Include="Processors\ProjectItemPathProcessor.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\GoToSourceCommand.cs" />
