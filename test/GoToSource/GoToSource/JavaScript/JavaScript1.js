@@ -1,0 +1,1 @@
+﻿var path = "../Xml/XMLFile1.xml";

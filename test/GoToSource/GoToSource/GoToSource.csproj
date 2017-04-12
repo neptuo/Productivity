@@ -51,6 +51,7 @@
     <None Include="Json\JsonFile1.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JavaScript\JavaScript1.js" />
     <Content Include="Xml\XMLFile1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
