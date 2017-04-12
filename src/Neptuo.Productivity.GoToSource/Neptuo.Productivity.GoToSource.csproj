@@ -92,6 +92,7 @@
     <Compile Include="Parsers\IPathParser.cs" />
     <Compile Include="Parsers\LiteralPathParser.cs" />
     <Compile Include="Parsers\QuoteLiteralPathParser.cs" />
+    <Compile Include="Processors\FileOpenPathProcessor.cs" />
     <Compile Include="Processors\IPathProcessor.cs" />
     <Compile Include="Processors\Mappers\IPathMapper.cs" />
     <Compile Include="Processors\Mappers\MapperName.cs" />

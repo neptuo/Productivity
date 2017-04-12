@@ -78,7 +78,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             where T : class
         {
             IComponentModel componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-            T service = componentModel.GetService<T>();
+            T service = componentModel.DefaultExportProvider.GetExportedValue<T>();
             return service;
         }
 
