@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors
 {
     [Export(typeof(IPathProcessor))]
+    [Name(ProcessorName.ProjectItem)]
     public class ProjectItemPathProcessor : IPathProcessor
     {
         public bool TryRun(string path)
