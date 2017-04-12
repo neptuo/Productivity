@@ -86,6 +86,7 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="GoToSourceService.cs" />
     <Compile Include="Parsers\ApostropheLiteralPathParser.cs" />
     <Compile Include="Parsers\IPathParser.cs" />
     <Compile Include="Parsers\LiteralPathParser.cs" />
