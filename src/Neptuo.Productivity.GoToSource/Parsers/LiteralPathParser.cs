@@ -27,7 +27,7 @@ namespace Neptuo.Productivity.Parsers
 
         public bool TryParse(string line, int index, out string path)
         {
-            int indexOfStartQuote = line.IndexOf(separator, 0, index - 1);
+            int indexOfStartQuote = line.Substring(0, index).LastIndexOf(separator);
             int indexOfEndQuote = line.IndexOf(separator, index);
 
             if (indexOfStartQuote >= 0 && indexOfEndQuote >= 0)
