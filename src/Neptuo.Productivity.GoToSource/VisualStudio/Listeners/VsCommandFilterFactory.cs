@@ -17,6 +17,7 @@ namespace Neptuo.Productivity.VisualStudio.Listeners
     [Export(typeof(IVsTextViewCreationListener))]
     [Name("GoToSource Command Listener.")]
     [ContentType("code")]
+    [ContentType("JSON")]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
     internal class VsCommandFilterFactory : IVsTextViewCreationListener
     {
