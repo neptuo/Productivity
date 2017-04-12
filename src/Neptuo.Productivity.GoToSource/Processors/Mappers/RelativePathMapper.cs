@@ -13,10 +13,12 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors.Mappers
 {
     [Export(typeof(IPathMapper))]
-    [Name(MapperName.Relative)]
-    [Order(After = MapperName.Virtual)]
+    [Name(Name)]
+    [Order(After = VirtualPathMapper.Name)]
     public class RelativePathMapper : IPathMapper
     {
+        public const string Name = "Relative Path Mapper";
+
         public string Map(string source)
         {
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));

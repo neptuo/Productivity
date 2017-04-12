@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors
 {
     [Export(typeof(IPathProcessor))]
-    [Name(ProcessorName.ProjectItem)]
+    [Name(Name)]
     public class ProjectItemPathProcessor : IPathProcessor
     {
+        public const string Name = "Project Item Processor";
+
         public bool TryRun(string path)
         {
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));

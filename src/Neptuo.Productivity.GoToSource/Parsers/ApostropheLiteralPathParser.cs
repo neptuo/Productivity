@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Parsers
 {
     [Export(typeof(IPathParser))]
-    [Name(ParserName.Apostrophe)]
+    [Name(Name)]
     public class ApostropheLiteralPathParser : LiteralPathParser
     {
+        public const string Name = "Apostrophe Literal Parser";
+
         public ApostropheLiteralPathParser() 
             : base("'")
         { }

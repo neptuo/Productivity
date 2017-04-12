@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Parsers
 {
     [Export(typeof(IPathParser))]
-    [Name(ParserName.Quote)]
+    [Name(Name)]
     public class QuoteLiteralPathParser : LiteralPathParser
     {
+        public const string Name = "Quote Literal Parser";
+
         public QuoteLiteralPathParser()
             : base("\"")
         { }

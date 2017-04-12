@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors
 {
     [Export(typeof(IPathProcessor))]
-    [Name(ProcessorName.FileOpen)]
-    [Order(After = ProcessorName.ProjectItem)]
+    [Name(Name)]
+    [Order(After = ProjectItemPathProcessor.Name)]
     public class FileOpenPathProcessor : IPathProcessor
     {
+        public const string Name = "Open file Processor";
+
         public bool TryRun(string path)
         {
             if (Path.IsPathRooted(path))

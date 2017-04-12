@@ -12,9 +12,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity.Processors.Mappers
 {
     [Export(typeof(IPathMapper))]
-    [Name(MapperName.Virtual)]
+    [Name(Name)]
     public class VirtualPathMapper : IPathMapper
     {
+        public const string Name = "Virtual Path Mapper";
+
         public string Map(string source)
         {
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
