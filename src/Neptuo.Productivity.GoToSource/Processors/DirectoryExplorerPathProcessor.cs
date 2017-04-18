@@ -22,7 +22,6 @@ namespace Neptuo.Productivity.Processors
         
         public bool TryRun(string path)
         {
-
             if (Directory.Exists(path))
             {
                 int result = VsShellUtilities.ShowMessageBox(
