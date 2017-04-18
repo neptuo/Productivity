@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.Parsers
 {
+    /// <summary>
+    /// An implementation of <see cref="IPathReader"/> which tries to parse text around caret.
+    /// </summary>
     [Export(typeof(IPathReader))]
     [Name(Name)]
     [Order(Before = DefaultPathReader.Name)]

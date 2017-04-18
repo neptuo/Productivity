@@ -9,6 +9,9 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace Neptuo.Productivity.Parsers
 {
+    /// <summary>
+    /// An implementation of <see cref="IPathReader"/> which tries to use exported <see cref="IPathParser"/> to find path in document current line.
+    /// </summary>
     [Export(typeof(IPathReader))]
     [Name(Name)]
     public class DefaultPathReader : IPathReader
