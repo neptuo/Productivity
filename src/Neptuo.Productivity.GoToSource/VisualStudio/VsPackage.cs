@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Commands;
+using Neptuo.Productivity.VisualStudio.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -20,8 +21,16 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(ConfigurationPage), "Neptuo Productivity", "Go To Source", 0, 0, true)]
     public class VsPackage : Package
     {
+        private static VsPackage instance;
+
+        public static VsPackage Instance
+        {
+            get { return instance; }
+        }
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -29,6 +38,11 @@ namespace Neptuo.Productivity.VisualStudio
             DTE dte = (DTE)GetService(typeof(DTE));
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
             GoToSourceCommand.Initialize(this, dte, commandService);
+        }
+
+        public ConfigurationPage GetConfiguration()
+        {
+            return (ConfigurationPage)GetDialogPage(typeof(ConfigurationPage));
         }
     }
 }

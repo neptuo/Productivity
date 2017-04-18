@@ -19,7 +19,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         private VsPackage package;
         private DTE dte;
 
-        public GoToSourceCommand(VsPackage package, DTE dte, IMenuCommandService commandService)
+        private GoToSourceCommand(VsPackage package, DTE dte, IMenuCommandService commandService)
         {
             this.package = package;
             this.dte = dte;
@@ -36,7 +36,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private void OnExecute(object sender, EventArgs e)
         {
-            OnExecute();
+            if (!OnExecute() && package.GetConfiguration().IsGoToDefinitionExecuted)
+            {
+                Command command = dte.Commands.Item("Edit.GoToDefinition");
+                if (command != null && command.IsAvailable)
+                    dte.ExecuteCommand("Edit.GoToDefinition");
+            }
         }
 
         private bool OnExecute()
