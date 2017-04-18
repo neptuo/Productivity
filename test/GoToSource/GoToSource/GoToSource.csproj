@@ -48,9 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Aspx\StyleSheet1.scss" />
     <None Include="Json\JsonFile1.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Aspx\WebForm1.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="JavaScript\JavaScript1.js" />
     <Content Include="Xml\XMLFile1.xml" />
   </ItemGroup>
