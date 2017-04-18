@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Utilities;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Utilities;
 using Neptuo.Productivity.Parsers;
 using Neptuo.Productivity.Processors;
 using Neptuo.Productivity.Processors.Mappers;
@@ -19,17 +20,17 @@ namespace Neptuo.Productivity
     public class GoToSourceService
     {
         [ImportMany]
-        public IEnumerable<Lazy<IPathParser, IOrderable>> Parsers { get; set; }
+        public IEnumerable<Lazy<IPathReader, IOrderable>> Readers { get; set; }
 
-        private bool isParsersOrdered;
+        private bool isReadersOrdered;
 
-        private void EnsureParsersOrder()
+        private void EnsureReadersOrder()
         {
-            if (isParsersOrdered)
+            if (isReadersOrdered)
                 return;
 
-            Parsers = Orderer.Order(Parsers);
-            isParsersOrdered = true;
+            Readers = Orderer.Order(Readers);
+            isReadersOrdered = true;
         }
 
         [ImportMany]
@@ -60,24 +61,18 @@ namespace Neptuo.Productivity
             isMappersOrdered = true;
         }
 
-        public bool TryRun(string line, int index)
+        public bool TryRun(TextDocument textDocument)
         {
-            return TryParse(line, index, out string path) && TryRun(Map(path));
-        }
-
-        private bool TryParse(string line, int index, out string path)
-        {
-            EnsureParsersOrder();
-            foreach (var parser in Parsers)
+            EnsureReadersOrder();
+            foreach (var reader in Readers)
             {
-                if (parser.Value.TryParse(line, index, out path))
+                if (reader.Value.TryRead(textDocument, out string path) && TryRun(Map(path)))
                     return true;
             }
 
-            path = null;
             return false;
         }
-
+        
         private string Map(string path)
         {
             EnsureMappersOrder();
