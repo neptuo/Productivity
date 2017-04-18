@@ -46,32 +46,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 TextDocument textDocument = dte.ActiveDocument.GetTextDocument();
                 if (textDocument != null)
                 {
-                    if (TryGetLineAt(textDocument, out string line, out int index))
-                    {
-                        GoToSourceService service = GetService<GoToSourceService>();
-                        return service.TryRun(line, index);
-                    }
+                    GoToSourceService service = GetService<GoToSourceService>();
+                    return service.TryRun(textDocument);
                 }
             }
 
             return false;
-        }
-
-        private bool TryGetLineAt(TextDocument textDocument, out string content, out int index)
-        {
-            EditPoint currentPoint = textDocument.CreateEditPoint();
-
-            EditPoint startLine = textDocument.CreateEditPoint(textDocument.Selection.TopPoint);
-            startLine.StartOfLine();
-
-            // Create line end point.
-            EditPoint endLine = textDocument.CreateEditPoint(textDocument.Selection.TopPoint);
-            endLine.EndOfLine();
-
-            // Get line text content.
-            content = startLine.GetText(endLine);
-            index = textDocument.Selection.TopPoint.LineCharOffset;
-            return true;
         }
 
         private T GetService<T>()
