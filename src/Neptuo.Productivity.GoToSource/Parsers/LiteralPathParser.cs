@@ -27,14 +27,17 @@ namespace Neptuo.Productivity.Parsers
 
         public bool TryParse(string line, int index, out string path)
         {
-            int indexOfStartQuote = line.Substring(0, index).LastIndexOf(separator);
-            int indexOfEndQuote = line.IndexOf(separator, index);
-
-            if (indexOfStartQuote >= 0 && indexOfEndQuote >= 0)
+            if (line.Length > index)
             {
-                indexOfStartQuote++;
-                path = line.Substring(indexOfStartQuote, indexOfEndQuote - indexOfStartQuote);
-                return true;
+                int indexOfStartQuote = line.Substring(0, index).LastIndexOf(separator);
+                int indexOfEndQuote = line.IndexOf(separator, index);
+
+                if (indexOfStartQuote >= 0 && indexOfEndQuote >= 0)
+                {
+                    indexOfStartQuote++;
+                    path = line.Substring(indexOfStartQuote, indexOfEndQuote - indexOfStartQuote);
+                    return true;
+                }
             }
 
             path = null;
