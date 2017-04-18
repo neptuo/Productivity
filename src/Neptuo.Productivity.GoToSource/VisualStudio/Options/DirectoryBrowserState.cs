@@ -9,8 +9,8 @@ namespace Neptuo.Productivity.VisualStudio.Options
 {
     public enum DirectoryBrowserState
     {
+        Ask,
         Enabled,
-        Disabled,
-        Ask
+        Disabled
     }
 }
