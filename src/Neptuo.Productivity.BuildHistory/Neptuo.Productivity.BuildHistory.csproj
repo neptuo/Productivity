@@ -60,6 +60,15 @@
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Events, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Events.1.3.1\lib\net45\Neptuo.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="Neptuo.Models, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Models.1.2.0\lib\net45\Neptuo.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Neptuo.Observables, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Observables.1.2.0\lib\net45\Neptuo.Observables.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -89,8 +98,12 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BuildProgress.cs" />
+    <Compile Include="BuildProjectProgress.cs" />
+    <Compile Include="BuildWatcher.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
     <Compile Include="UI\Converters\BuildLengthConverter.cs" />
     <Compile Include="UI\Converters\DateTimeConverter.cs" />
@@ -101,6 +114,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="BuildType.cs" />
+    <Compile Include="BuildModel.cs" />
+    <Compile Include="BuildProjectModel.cs" />
+    <Compile Include="BuildScope.cs" />
+    <Compile Include="Events\BuildFinished.cs" />
+    <Compile Include="Events\BuildStarted.cs" />
+    <Compile Include="Events\ProjectBuildFinished.cs" />
+    <Compile Include="Events\ProjectBuildStarted.cs" />
+    <Compile Include="Events\ProjectCountEstimated.cs" />
+    <Compile Include="IBuildKeyAware.cs" />
+    <Compile Include="ProjectKey.cs" />
+    <Compile Include="BuildModelActivator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudio\VsPackage.resx">
