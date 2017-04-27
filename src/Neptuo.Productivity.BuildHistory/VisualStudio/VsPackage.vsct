@@ -6,8 +6,8 @@
 
   <Commands package="Package">
     <Groups>
-      <Group guid="CommandSet" id="MainMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+      <Group guid="CommandSet" id="MainMenuGroup" priority="0x0001">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CSCD_WINDOWS"/>
       </Group>
     </Groups>
 
@@ -17,7 +17,7 @@
         <Icon guid="ImageCatalogGuid" id="BuildCollection" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>_Build History Overview</ButtonText>
+          <ButtonText>Build &amp;History Overview</ButtonText>
         </Strings>
       </Button>
     </Buttons>
