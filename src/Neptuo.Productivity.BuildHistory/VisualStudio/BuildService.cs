@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.Builds
+namespace Neptuo.Productivity.VisualStudio
 {
     public class BuildService : DisposableBase
     {
@@ -119,5 +119,23 @@ namespace Neptuo.Productivity.VisualStudio.Builds
             events.OnBuildProjConfigBegin -= OnBuildProjConfigBegin;
             events.OnBuildProjConfigDone -= OnBuildProjConfigDone;
         }
+
+        #region Singleton
+
+        private static BuildService instance;
+
+        /// <summary>
+        /// Initializes new (singleton) instance if not already created.
+        /// </summary>
+        /// <param name="package">An instance of the package.</param>
+        /// <param name="dte">A DTE.</param>
+        /// <param name="commandService">A menu command service.</param>
+        internal static void Initialize(DTE dte, IEventDispatcher events)
+        {
+            if (instance == null)
+                instance = new BuildService(dte, events);
+        }
+
+        #endregion
     }
 }

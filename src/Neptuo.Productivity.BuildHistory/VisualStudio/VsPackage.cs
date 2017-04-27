@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Neptuo.Events;
 using Neptuo.Productivity.VisualStudio.Commands;
 using Neptuo.Productivity.VisualStudio.UI;
 using System;
@@ -21,9 +22,12 @@ namespace Neptuo.Productivity.VisualStudio
         {
             base.Initialize();
 
+            DefaultEventManager eventManager = new DefaultEventManager();
             DTE dte = (DTE)GetService(typeof(DTE));
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+
             OverviewCommand.Initialize(this, dte, commandService);
+            BuildService.Initialize(dte, eventManager);
         }
     }
 }
