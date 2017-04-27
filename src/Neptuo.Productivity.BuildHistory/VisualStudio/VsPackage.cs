@@ -1,12 +1,10 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Neptuo.Productivity.VisualStudio.Commands;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio
 {
@@ -14,16 +12,16 @@ namespace Neptuo.Productivity.VisualStudio
     [InstalledProductRegistration(ProductInfo.Name, ProductInfo.Description, VersionInfo.Version, IconResourceID = 400)]
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
-    public class VsPackage : Package
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    public sealed partial class VsPackage : Package
     {
-        private DTE dte;
-
-        
         protected override void Initialize()
         {
             base.Initialize();
 
-            dte = (DTE)GetService(typeof(DTE));
+            DTE dte = (DTE)GetService(typeof(DTE));
+            IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+            OverviewCommand.Initialize(this, dte, commandService);
         }
     }
 }

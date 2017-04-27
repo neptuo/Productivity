@@ -6,13 +6,23 @@
 namespace Neptuo.Productivity.VisualStudio
 {
     using System;
-
+    
     /// <summary>
     /// Helper class that exposes all GUIDs used across VS Package.
     /// </summary>
     internal sealed partial class PackageGuids
     {
-        public const string PackageString = "8d017f34-e34e-4d2a-a9e9-124b463f8a87";
+        public const string PackageString = "759ed465-83eb-4d0a-8301-66d2567719cb";
+        public const string CommandSetString = "787af0e8-80f8-4421-9426-27f7ad9296fe";
         public static Guid Package = new Guid(PackageString);
+        public static Guid CommandSet = new Guid(CommandSetString);
+    }
+    /// <summary>
+    /// Helper class that encapsulates all CommandIDs uses across VS Package.
+    /// </summary>
+    internal sealed partial class PackageIds
+    {
+        public const int MainMenuGroup = 0x0100;
+        public const int BuildHistoryOverview = 0x0101;
     }
 }

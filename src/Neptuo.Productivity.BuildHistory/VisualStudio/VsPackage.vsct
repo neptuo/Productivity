@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Include href="KnownImageIds.vsct"/>
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="Package">
+    <Groups>
+      <Group guid="CommandSet" id="MainMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="CommandSet" id="BuildHistoryOverview" priority="0x010" type="Button">
+        <Parent guid="CommandSet" id="MainMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="BuildCollection" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>_Build History Overview</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="Package" value="{759ed465-83eb-4d0a-8301-66d2567719cb}" />
+
+    <GuidSymbol name="CommandSet" value="{787af0e8-80f8-4421-9426-27f7ad9296fe}">
+      <IDSymbol name="MainMenuGroup" value="0x100" />
+
+      <IDSymbol name="BuildHistoryOverview" value="0x0101" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>
