@@ -60,6 +60,8 @@
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
@@ -90,6 +92,9 @@
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
+    <Compile Include="UI\Converters\BuildLengthConverter.cs" />
+    <Compile Include="UI\Converters\DateTimeConverter.cs" />
+    <Compile Include="UI\Converters\FirstLetterConverter.cs" />
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">
       <DependentUpon>VsPackage.vsct</DependentUpon>
