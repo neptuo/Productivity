@@ -1,5 +1,8 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Neptuo.Productivity.VisualStudio.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -34,7 +37,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private void OnOpenOverview(object sender, EventArgs e)
         {
-            
+            BuildOverviewWindow window = (BuildOverviewWindow)package.FindToolWindow(typeof(BuildOverviewWindow), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
         }
 
         #region Singleton

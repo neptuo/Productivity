@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Commands;
+using Neptuo.Productivity.VisualStudio.UI;
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
@@ -13,6 +14,7 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(BuildOverviewWindow))]
     public sealed partial class VsPackage : Package
     {
         protected override void Initialize()

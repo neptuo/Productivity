@@ -103,6 +103,7 @@
     <Compile Include="BuildWatcher.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="UI\BuildOverviewWindow.cs" />
     <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
     <Compile Include="UI\Converters\BuildLengthConverter.cs" />
