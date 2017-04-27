@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Collections.Specialized;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace Neptuo.Productivity.VisualStudio.UI
 {
@@ -43,9 +45,15 @@ namespace Neptuo.Productivity.VisualStudio.UI
             : base(null)
         {
             Caption = "Build History";
-            BitmapResourceID = 301;
-            BitmapIndex = 1;
+            //BitmapResourceID = 301;
+            //BitmapIndex = 1;
 
+            Content = new TextBlock()
+            {
+                Text = "Comming Soon...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             //Content = new QuickView();
 
             //ViewModel = new QuickMainViewModel(ServiceFactory.EventHandlers, ServiceFactory.Configuration);
