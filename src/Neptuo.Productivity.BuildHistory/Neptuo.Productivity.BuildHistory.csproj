@@ -118,9 +118,6 @@
     <Compile Include="UI\Views\QuickView.xaml.cs">
       <DependentUpon>QuickView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\BuildView.xaml.cs">
-      <DependentUpon>BuildView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Views\ServiceFactory.cs" />
     <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
@@ -192,10 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\Views\QuickView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Views\BuildView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

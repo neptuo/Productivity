@@ -31,6 +31,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     ));
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 3550;
                     quickMainViewModel.Builds.Last().IsSuccessful = false;
+                    quickMainViewModel.Builds.Last().PrepareDescription();
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
                         Int32Key.Create(2, "Build"),
@@ -40,6 +41,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     ));
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 76343;
                     quickMainViewModel.Builds.Last().IsSuccessful = true;
+                    quickMainViewModel.Builds.Last().PrepareDescription();
                 }
 
                 return quickMainViewModel;

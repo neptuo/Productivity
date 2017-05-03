@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dd="clr-namespace:Neptuo.Productivity.UI.Views.DesignData"
              xmlns:converters="clr-namespace:Neptuo.Productivity.UI.Views.Converters"
+             xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.12.0"
              x:Name="Root"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{x:Static dd:ViewModelLocator.QuickMainViewModel}"
-             Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}">
+             Background="{DynamicResource {x:Static shell:VsBrushes.WindowKey}}" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
     <UserControl.Resources>
         <Style TargetType="Label">
-            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
         </Style>
         <converters:BuildLengthConverter x:Key="BuildLengthConverter" />
         <converters:DateTimeConverter x:Key="DateTimeConverter" />
@@ -23,7 +24,7 @@
             <ItemsControl ItemsSource="{Binding Builds}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="0 0 0 1" BorderBrush="{DynamicResource VsBrush.PanelSeparator}">
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{DynamicResource {x:Static shell:VsBrushes.PanelSeparatorKey}}">
                             <Grid Margin="0 5 0 5">
                                 <Rectangle Fill="{Binding IsSuccessful, Converter={StaticResource TrueToSuccessColorConverter}}" Width="{Binding ElapsedMilliseconds, Converter={StaticResource BuildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
                                 <Grid>

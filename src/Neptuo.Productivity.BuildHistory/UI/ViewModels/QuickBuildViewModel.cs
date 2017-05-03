@@ -152,7 +152,7 @@ namespace Neptuo.Productivity.UI.ViewModels
             if (payload.Key == buildKey)
             {
                 ProjectCount = payload.EstimatedProjectCount;
-                Description = PrepareDescription();
+                PrepareDescription();
             }
 
             return Task.FromResult(true);
@@ -165,7 +165,7 @@ namespace Neptuo.Productivity.UI.ViewModels
                 if (builtProjectNames.Add(payload.Model.Name))
                 {
                     BuiltProjectCount++;
-                    Description = PrepareDescription();
+                    PrepareDescription();
                 }
             }
 
@@ -177,7 +177,7 @@ namespace Neptuo.Productivity.UI.ViewModels
             if (buildKey == payload.Key)
             {
                 ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
-                Description = PrepareDescription();
+                PrepareDescription();
 
                 IsSuccessful = payload.Model.Projects
                     .Where(p => p.IsSuccessful != null)
@@ -188,18 +188,18 @@ namespace Neptuo.Productivity.UI.ViewModels
             return Task.FromResult(true);
         }
 
-        private string PrepareDescription()
+        public void PrepareDescription()
         {
             long? lengthValue = ElapsedMilliseconds;
             if (lengthValue == null)
             {
                 if (ProjectCount == null)
-                    return String.Format("Building {0} of...", BuiltProjectCount + 1);
+                    Description = String.Format("Building {0} of...", BuiltProjectCount + 1);
                 else
-                    return String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
+                    Description = String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
             }
 
-            return buildTimeFormatter.Format(lengthValue.Value);
+            Description = buildTimeFormatter.Format(lengthValue.Value);
         }
 
         #region IDisposable
