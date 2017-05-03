@@ -37,7 +37,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private void OnOpenOverview(object sender, EventArgs e)
         {
-            BuildOverviewWindow window = (BuildOverviewWindow)package.FindToolWindow(typeof(BuildOverviewWindow), 0, true);
+            QuickWindow window = (QuickWindow)package.FindToolWindow(typeof(QuickWindow), 0, true);
             if (window != null && window.Frame != null)
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;

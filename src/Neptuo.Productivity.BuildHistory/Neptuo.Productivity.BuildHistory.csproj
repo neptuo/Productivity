@@ -73,6 +73,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.VisualStudio.CommandBars">
@@ -103,7 +105,19 @@
     <Compile Include="BuildWatcher.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="UI\BuildOverviewWindow.cs" />
+    <Compile Include="UI\Converters\BoolConverter.cs" />
+    <Compile Include="UI\QuickWindow.cs" />
+    <Compile Include="UI\ViewModels\BuildTimeFormatter.cs" />
+    <Compile Include="UI\ViewModels\QuickBuildViewModel.cs" />
+    <Compile Include="UI\ViewModels\QuickMainViewModel.cs" />
+    <Compile Include="UI\Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="UI\Views\QuickView.xaml.cs">
+      <DependentUpon>QuickView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\BuildView.xaml.cs">
+      <DependentUpon>BuildView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\ServiceFactory.cs" />
     <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
     <Compile Include="UI\Converters\BuildLengthConverter.cs" />
@@ -168,6 +182,16 @@
       <Link>Resources\Productivity-Icon.jpg</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\Views\QuickView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\BuildView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

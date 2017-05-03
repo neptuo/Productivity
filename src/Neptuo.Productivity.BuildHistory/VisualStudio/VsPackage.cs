@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Events;
+using Neptuo.Productivity.UI.Views;
 using Neptuo.Productivity.VisualStudio.Commands;
 using Neptuo.Productivity.VisualStudio.UI;
 using System;
@@ -15,7 +16,7 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(BuildOverviewWindow))]
+    [ProvideToolWindow(typeof(QuickWindow))]
     public sealed partial class VsPackage : Package
     {
         protected override void Initialize()
@@ -25,6 +26,8 @@ namespace Neptuo.Productivity.VisualStudio
             DefaultEventManager eventManager = new DefaultEventManager();
             DTE dte = (DTE)GetService(typeof(DTE));
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+
+            ServiceFactory.EventHandlers = eventManager;
 
             OverviewCommand.Initialize(this, dte, commandService);
             BuildService.Initialize(dte, eventManager);

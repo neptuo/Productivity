@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Neptuo.Productivity.UI.Views.QuickView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dd="clr-namespace:Neptuo.Productivity.UI.Views.DesignData"
+             xmlns:converters="clr-namespace:Neptuo.Productivity.UI.Converters"
+             x:Name="Root"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{x:Static dd:ViewModelLocator.QuickMainViewModel}"
+             Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        </Style>
+        <converters:BuildLengthConverter x:Key="buildLengthConverter" />
+        <converters:DateTimeConverter x:Key="dateTimeConverter" />
+        <converters:FirstLetterConverter x:Key="firstLetterConverter" />
+
+        <converters:BoolConverter x:Key="TrueToSuccessColorConverter" TrueValue="#15C23C" FalseValue="#FF4534" />
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <ItemsControl ItemsSource="{Binding Builds}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{DynamicResource VsBrush.PanelSeparator}">
+                            <Grid Margin="0 5 0 5">
+                                <Rectangle Fill="{Binding IsSuccessful, Converter={StaticResource TrueToSuccessColorConverter}}" Width="{Binding ElapsedMilliseconds, Converter={StaticResource buildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                
+                                    <Label Grid.Column="0" Content="{Binding StartedAt, Converter={StaticResource dateTimeConverter}}" />
+                                    <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Scope }" />
+                                    <Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Action}" />
+                                    <Label Grid.Column="3" Content="{Binding Description}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
