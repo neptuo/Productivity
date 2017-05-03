@@ -6,22 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Neptuo.Productivity.UI.Converters
+namespace Neptuo.Productivity.UI.Views.Converters
 {
-    public class BuildLengthConverter : IValueConverter
+    public class DateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            long? length = value as long?;
-            if (length == null)
-                return 0;
+            DateTime? dateTime = value as DateTime?;
+            if (dateTime != null)
+            {
+                if (dateTime.Value.Date == DateTime.Today)
+                    return dateTime.Value.ToShortTimeString();
 
-            //double result = length.Value * 0.0025;
-            double result = length.Value * 0.005;
-            if (result < 2)
-                result = 2;
+                return dateTime.Value.ToString();
+            }
 
-            return result;
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

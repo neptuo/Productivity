@@ -6,20 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Neptuo.Productivity.UI.Converters
+namespace Neptuo.Productivity.UI.Views.Converters
 {
-    public class FirstLetterConverter : IValueConverter
+    public class BuildLengthConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return null;
+            long? length = value as long?;
+            if (length == null)
+                return 0;
 
-            string stringValue = value.ToString();
-            if (String.IsNullOrEmpty(stringValue))
-                return null;
+            //double result = length.Value * 0.0025;
+            double result = length.Value * 0.005;
+            if (result < 2)
+                result = 2;
 
-            return stringValue.First();
+            return result;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

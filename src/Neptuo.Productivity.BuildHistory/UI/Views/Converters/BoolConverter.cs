@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Neptuo.Productivity.UI.Converters
+namespace Neptuo.Productivity.UI.Views.Converters
 {
     public class BoolConverter : IValueConverter
     {

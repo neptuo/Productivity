@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.UI.Views.DesignData
 {
-    public class ViewModelLocator
+    internal class ViewModelLocator
     {
         public static DefaultEventManager EventManager { get; } = new DefaultEventManager();
+        public static QuickConfiguration QuickConfiguration { get; } = new QuickConfiguration();
 
         private static QuickMainViewModel quickMainViewModel;
         public static QuickMainViewModel QuickMainViewModel
@@ -20,7 +21,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
             {
                 if (quickMainViewModel == null)
                 {
-                    quickMainViewModel = new QuickMainViewModel(EventManager);
+                    quickMainViewModel = new QuickMainViewModel(EventManager, QuickConfiguration);
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
                         Int32Key.Create(1, "Build"),

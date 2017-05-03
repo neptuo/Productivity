@@ -9,12 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Neptuo;
 
 namespace Neptuo.Productivity.UI.ViewModels
 {
     public class QuickMainViewModel : ObservableObject, IDisposable, IEventHandler<BuildStarted>, IEventHandler<BuildFinished>
     {
         private readonly IEventHandlerCollection events;
+        private readonly IQuickConfiguration configuration;
         private readonly BuildTimeFormatter buildTimeFormatter = new BuildTimeFormatter();
 
         public ObservableCollection<QuickBuildViewModel> Builds { get; private set; }
@@ -38,10 +40,12 @@ namespace Neptuo.Productivity.UI.ViewModels
 
         public event Action<QuickMainViewModel, string> TitleChanged;
 
-        public QuickMainViewModel(IEventHandlerCollection events)
+        public QuickMainViewModel(IEventHandlerCollection events, IQuickConfiguration configuration)
         {
             Ensure.NotNull(events, "events");
+            Ensure.NotNull(configuration, "configuration");
             this.events = events;
+            this.configuration = configuration;
 
             Builds = new ObservableCollection<QuickBuildViewModel>();
             Title = String.Format("Build History");
@@ -66,9 +70,8 @@ namespace Neptuo.Productivity.UI.ViewModels
             Builds.Insert(0, new QuickBuildViewModel(events, payload.Key, payload.Scope, payload.Action, payload.StartedAt));
             buildCount++;
 
-            // TODO: Uncomment and implement.
-            //while (Builds.Count > configuration.BuildHistoryOverviewCount)
-            //    Builds.RemoveAt(configuration.BuildHistoryOverviewCount);
+            while (Builds.Count > configuration.QuickOverviewCount)
+                Builds.RemoveAt(configuration.QuickOverviewCount);
 
             UpdateTitle();
             return Task.FromResult(true);

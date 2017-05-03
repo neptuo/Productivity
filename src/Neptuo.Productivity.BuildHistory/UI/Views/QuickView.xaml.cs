@@ -15,25 +15,11 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.UI.Views
 {
-    /// <summary>
-    /// Interaction logic for BuildHistoryControl.xaml
-    /// </summary>
     public partial class QuickView : UserControl
     {
         public QuickView()
         {
             InitializeComponent();
-
-            //DataContext = new BuildHistoryViewModel(
-            //    new ObservableCollection<BuildModel>(
-            //        new List<BuildModel>()
-            //        {
-            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now),
-            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now),
-            //            new BuildModel(BuildScope.Project, BuildAction.Build, DateTime.Now)
-            //        }
-            //    )
-            //);
         }
     }
 }

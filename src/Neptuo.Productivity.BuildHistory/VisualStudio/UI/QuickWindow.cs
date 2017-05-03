@@ -52,7 +52,7 @@ namespace Neptuo.Productivity.VisualStudio.UI
 
             Content = new QuickView();
 
-            ViewModel = new QuickMainViewModel(ServiceFactory.EventHandlers);
+            ViewModel = new QuickMainViewModel(ServiceFactory.EventHandlers, ServiceFactory.QuickConfiguration);
             ViewModel.TitleChanged += ViewModel_TitleChanged;
         }
 

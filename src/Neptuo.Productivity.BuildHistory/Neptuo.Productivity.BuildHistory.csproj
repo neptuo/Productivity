@@ -73,6 +73,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -105,9 +106,12 @@
     <Compile Include="BuildWatcher.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="UI\Converters\BoolConverter.cs" />
-    <Compile Include="UI\QuickWindow.cs" />
+    <Compile Include="UI\Views\Converters\BoolConverter.cs" />
+    <Compile Include="UI\Views\Converters\CuttingConverter.cs" />
+    <Compile Include="UI\Views\DesignData\QuickConfiguration.cs" />
+    <Compile Include="VisualStudio\UI\QuickWindow.cs" />
     <Compile Include="UI\ViewModels\BuildTimeFormatter.cs" />
+    <Compile Include="UI\ViewModels\IQuickConfiguration.cs" />
     <Compile Include="UI\ViewModels\QuickBuildViewModel.cs" />
     <Compile Include="UI\ViewModels\QuickMainViewModel.cs" />
     <Compile Include="UI\Views\DesignData\ViewModelLocator.cs" />
@@ -120,9 +124,12 @@
     <Compile Include="UI\Views\ServiceFactory.cs" />
     <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
-    <Compile Include="UI\Converters\BuildLengthConverter.cs" />
-    <Compile Include="UI\Converters\DateTimeConverter.cs" />
-    <Compile Include="UI\Converters\FirstLetterConverter.cs" />
+    <Compile Include="UI\Views\Converters\BuildLengthConverter.cs" />
+    <Compile Include="UI\Views\Converters\DateTimeConverter.cs" />
+    <Compile Include="UI\Views\Converters\FirstLetterConverter.cs" />
+    <Compile Include="VisualStudio\Options\ConfigurationPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">
       <DependentUpon>VsPackage.vsct</DependentUpon>
