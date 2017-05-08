@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.GoToSou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.BuildHistory", "src\Neptuo.Productivity.BuildHistory\Neptuo.Productivity.BuildHistory.csproj", "{6EC473CA-1D23-43F7-80CC-ACC63DB9C246}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.FastBuildCancellation", "src\Neptuo.Productivity.FastBuildCancellation\Neptuo.Productivity.FastBuildCancellation.csproj", "{BD93F982-580F-470F-BBB5-F4A5B6A084A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{6EC473CA-1D23-43F7-80CC-ACC63DB9C246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EC473CA-1D23-43F7-80CC-ACC63DB9C246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EC473CA-1D23-43F7-80CC-ACC63DB9C246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
