@@ -85,6 +85,10 @@
     </Compile>
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="VisualStudio\Options\BuildCancelWindow.cs" />
+    <Compile Include="VisualStudio\Options\ConfigurationPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">
       <DependentUpon>VsPackage.cs</DependentUpon>

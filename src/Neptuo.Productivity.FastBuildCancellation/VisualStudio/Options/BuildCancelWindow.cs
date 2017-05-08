@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.Builds
+namespace Neptuo.Productivity.VisualStudio.Options
 {
     public enum BuildCancelWindow
     {
