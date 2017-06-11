@@ -198,8 +198,10 @@ namespace Neptuo.Productivity.UI.ViewModels
                 else
                     Description = String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
             }
-
-            Description = buildTimeFormatter.Format(lengthValue.Value);
+            else
+            {
+                Description = buildTimeFormatter.Format(lengthValue.Value);
+            }
         }
 
         #region IDisposable
