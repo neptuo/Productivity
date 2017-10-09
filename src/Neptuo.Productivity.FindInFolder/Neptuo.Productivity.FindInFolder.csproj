@@ -61,7 +61,6 @@
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\FindInFolderCommand.cs" />
-    <Compile Include="VisualStudio\FindDialogListener.cs" />
     <Compile Include="VisualStudio\FindInFolderService.cs" />
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">
