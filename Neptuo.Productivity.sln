@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783CCBB2-8E5A-4F80-8D46-BE636A9BAD9B}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.BuildHistory", "src\Neptuo.Productivity.BuildHistory\Neptuo.Productivity.BuildHistory.csproj", "{6EC473CA-1D23-43F7-80CC-ACC63DB9C246}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.FastBuildCancellation", "src\Neptuo.Productivity.FastBuildCancellation\Neptuo.Productivity.FastBuildCancellation.csproj", "{BD93F982-580F-470F-BBB5-F4A5B6A084A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.FindInFolder", "src\Neptuo.Productivity.FindInFolder\Neptuo.Productivity.FindInFolder.csproj", "{AF98D180-1693-4152-AA48-13D234C8EA2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD93F982-580F-470F-BBB5-F4A5B6A084A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF98D180-1693-4152-AA48-13D234C8EA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF98D180-1693-4152-AA48-13D234C8EA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF98D180-1693-4152-AA48-13D234C8EA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF98D180-1693-4152-AA48-13D234C8EA2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,8 @@ Global
 		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
 		{B76AF700-51B5-435D-8E32-9292A8726895} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
 		{F8C1E27D-D0D3-4585-A002-9591DE17918D} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE62CB37-3F28-461A-A589-A67979F87456}
 	EndGlobalSection
 EndGlobal

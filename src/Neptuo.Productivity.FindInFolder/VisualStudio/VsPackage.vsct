@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Include href="KnownImageIds.vsct"/>
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="Package">
+    <Buttons>
+      <Button guid="CommandSet" id="FindInFolder" priority="0x010" type="Button">
+        <Icon guid="ImageCatalogGuid" id="SearchFolderClosed" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Find In Folder</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <CommandPlacements>
+    <CommandPlacement guid="CommandSet" id="FindInFolder">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_FOLDER_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="CommandSet" id="FindInFolder">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="CommandSet" id="FindInFolder">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_EXPLORE" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="Package" value="{e7621347-77ce-4c11-82c9-b1ee7f946811}" />
+
+    <GuidSymbol name="CommandSet" value="{4e34da48-c63d-46f0-9033-a21d21adfead}">
+      <IDSymbol name="FindInFolder" value="0x0101" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>
