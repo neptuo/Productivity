@@ -19,20 +19,13 @@ namespace Neptuo.Productivity.VisualStudio
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public class VsPackage : Package
     {
-        private static VsPackage instance;
-
-        public static VsPackage Instance
-        {
-            get { return instance; }
-        }
-
         protected override void Initialize()
         {
             base.Initialize();
 
             DTE dte = (DTE)GetService(typeof(DTE));
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            FindInFolderCommand.Initialize(this, dte, commandService);
+            FindInFolderCommand.Initialize(dte, commandService, () => new FindInFolderService(dte));
         }
     }
 }
