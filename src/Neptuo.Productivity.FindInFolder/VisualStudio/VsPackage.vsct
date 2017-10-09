@@ -10,7 +10,7 @@
         <Icon guid="ImageCatalogGuid" id="SearchFolderClosed" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>Find In Folder</ButtonText>
+          <ButtonText>Find in Folder</ButtonText>
         </Strings>
       </Button>
     </Buttons>
