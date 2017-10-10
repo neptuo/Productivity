@@ -61,11 +61,15 @@
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\AddNewItemCommand.cs" />
+    <Compile Include="VisualStudio\DteFileService.cs" />
+    <Compile Include="VisualStudio\ViewModels\Commands\AddNewItemCommand.cs" />
+    <Compile Include="VisualStudio\ViewModels\IFileService.cs" />
     <Compile Include="VisualStudio\ViewModels\MainViewModel.cs" />
     <Compile Include="VisualStudio\Views\AddNewItemView.xaml.cs">
       <DependentUpon>AddNewItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VisualStudio\Views\AddNewItemWindow.cs" />
+    <Compile Include="VisualStudio\Views\DesignData\MockFileService.cs" />
     <Compile Include="VisualStudio\Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="VisualStudio\VsPackage.cs" />
     <Compile Include="VisualStudio\VsPackage1.cs">

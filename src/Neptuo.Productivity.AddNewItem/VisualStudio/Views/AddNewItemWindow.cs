@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Productivity.VisualStudio.Views.DesignData;
 using System;
 using System.Collections.Generic;
@@ -23,20 +25,34 @@ namespace Neptuo.Productivity.VisualStudio.Views
 
         private IntPtr handle;
 
+        public new AddNewItemView Content
+        {
+            get { return (AddNewItemView)base.Content; }
+            set { base.Content = value; }
+        }
+
         public AddNewItemWindow()
         {
             Caption = "Add new item...";
-            Content = new AddNewItemView()
-            {
-                DataContext = ViewModelLocator.Main
-            };
+            Content = new AddNewItemView();
+        }
+
+        public override void OnToolWindowCreated()
+        {
+            base.OnToolWindowCreated();
+
+            Content.DataContext = new MainViewModel(
+                new DteFileService(
+                    (DTE)GetService(typeof(DTE))
+                )
+            );
         }
 
         private void EnsureHandle()
         {
             if (handle == IntPtr.Zero)
             {
-                HwndSource source = (HwndSource)PresentationSource.FromVisual((Visual)Content);
+                HwndSource source = (HwndSource)PresentationSource.FromVisual(Content);
                 if (source != null)
                     handle = source.Handle;
             }

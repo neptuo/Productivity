@@ -1,4 +1,5 @@
 ﻿using Neptuo.Observables;
+using Neptuo.Productivity.VisualStudio.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,9 +85,10 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 
         public ICommand Add { get; private set; }
 
-        public MainViewModel()
+        public MainViewModel(IFileService fileService)
         {
             IsFile = true;
+            Add = new AddNewItemCommand(this, fileService);
         }
 
         private void RecomputeActivePath()
