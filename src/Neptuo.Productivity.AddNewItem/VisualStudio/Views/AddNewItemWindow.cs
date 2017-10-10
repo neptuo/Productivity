@@ -5,6 +5,7 @@ using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Productivity.VisualStudio.Views.DesignData;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -24,6 +25,8 @@ namespace Neptuo.Productivity.VisualStudio.Views
         private const int WM_KEYDOWN = 0x100;
 
         private IntPtr handle;
+        private DTE dte;
+        private SelectionEvents events;
 
         public new AddNewItemView Content
         {
@@ -41,11 +44,31 @@ namespace Neptuo.Productivity.VisualStudio.Views
         {
             base.OnToolWindowCreated();
 
-            Content.DataContext = new MainViewModel(
-                new DteFileService(
-                    (DTE)GetService(typeof(DTE))
-                )
-            );
+            dte = (DTE)GetService(typeof(DTE));
+
+            events = dte.Events.SelectionEvents;
+            events.OnChange += OnSelectionChanged;
+
+            Content.DataContext = new MainViewModel(new DteFileService(dte));
+            OnSelectionChanged();
+        }
+
+        private void OnSelectionChanged()
+        {
+            if (dte.SelectedItems.Count == 1)
+            {
+                SelectedItem item = dte.SelectedItems.Item(1);
+                string path = null;
+                if (item.ProjectItem != null)
+                    path = item.ProjectItem.FileNames[0];
+                else if (item.Project != null)
+                    path = Path.GetDirectoryName(item.Project.FileName);
+                else if (dte.Solution != null)
+                    path = Path.GetDirectoryName(dte.Solution.FileName);
+
+                if (path != null)
+                    Content.ViewModel.Path = path;
+            }
         }
 
         private void EnsureHandle()
@@ -70,6 +93,13 @@ namespace Neptuo.Productivity.VisualStudio.Views
         public void Hide()
         {
             ((IVsWindowFrame)Frame).Hide();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            events.OnChange -= OnSelectionChanged;
         }
     }
 }

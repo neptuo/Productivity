@@ -23,7 +23,7 @@
             <TextBlock Text="{Binding ActivePath}" FontWeight="Bold" />
             <TextBlock Text="{Binding InactivePath}" />
         </StackPanel>
-        <TextBox Text="{Binding Name}" Padding="4,2" Margin="0,0,0,8" />
+        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Padding="4,2" Margin="0,0,0,8" />
         <Grid>
             <CheckBox Content="Is file" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding IsFile}" />
             <Button Content="Add" Command="{Binding Add}" IsDefault="True" HorizontalAlignment="Right" />

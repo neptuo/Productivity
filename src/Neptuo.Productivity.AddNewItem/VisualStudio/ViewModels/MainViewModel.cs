@@ -139,8 +139,8 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
                     inactivePath += "/";
             }
 
-            ActivePath = activePath;
-            InactivePath = inactivePath;
+            ActivePath = activePath.Replace(@"\", "/");
+            InactivePath = inactivePath.Replace(@"\", "/");
         }
     }
 }
