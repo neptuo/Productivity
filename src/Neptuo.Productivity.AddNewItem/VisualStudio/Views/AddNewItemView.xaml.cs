@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace Neptuo.Productivity.VisualStudio.Views
 {
     public partial class AddNewItemView : UserControl
     {
+        public MainViewModel ViewModel
+        {
+            get { return (MainViewModel)DataContext; }
+        }
+
         public AddNewItemView()
         {
             InitializeComponent();

@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(AddNewItemWindow), Width = 400, Height = 200)]
+    [ProvideToolWindow(typeof(AddNewItemWindow), Width = 400, Height = 200, Transient = true)]
     public class VsPackage : Package
     {
         protected override void Initialize()

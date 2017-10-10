@@ -11,6 +11,9 @@
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
         </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
+        </Style>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="8,4" />
         </Style>
@@ -22,7 +25,7 @@
         </StackPanel>
         <TextBox Text="{Binding Name}" Padding="4,2" Margin="0,0,0,8" />
         <Grid>
-            <CheckBox Content="Is file" VerticalAlignment="Center" IsChecked="{Binding IsFile}" />
+            <CheckBox Content="Is file" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding IsFile}" />
             <Button Content="Add" Command="{Binding Add}" IsDefault="True" HorizontalAlignment="Right" />
         </Grid>
     </StackPanel>
