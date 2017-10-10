@@ -11,14 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783CCB
 		src\Neptuo.Productivity.VisualStudio.UI\VsPackage.cs = src\Neptuo.Productivity.VisualStudio.UI\VsPackage.cs
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Old", "Old", "{9A9B007B-FF40-42E5-BC98-EC4FCA978478}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.VisualStudio.UI", "src\Neptuo.Productivity.VisualStudio.UI\Neptuo.Productivity.VisualStudio.UI.csproj", "{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity", "src\Neptuo.Productivity\Neptuo.Productivity.csproj", "{B76AF700-51B5-435D-8E32-9292A8726895}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.VisualStudio", "src\Neptuo.Productivity.VisualStudio\Neptuo.Productivity.VisualStudio.csproj", "{F8C1E27D-D0D3-4585-A002-9591DE17918D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.LineDuplication", "src\Neptuo.Productivity.LineDuplication\Neptuo.Productivity.LineDuplication.csproj", "{64972762-3896-44A0-8DC4-E1CEFF762F4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.GoToSource", "src\Neptuo.Productivity.GoToSource\Neptuo.Productivity.GoToSource.csproj", "{EE534E8F-3995-4104-9655-BBB01B77BF9F}"
@@ -35,18 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B76AF700-51B5-435D-8E32-9292A8726895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B76AF700-51B5-435D-8E32-9292A8726895}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B76AF700-51B5-435D-8E32-9292A8726895}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B76AF700-51B5-435D-8E32-9292A8726895}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8C1E27D-D0D3-4585-A002-9591DE17918D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8C1E27D-D0D3-4585-A002-9591DE17918D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8C1E27D-D0D3-4585-A002-9591DE17918D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8C1E27D-D0D3-4585-A002-9591DE17918D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64972762-3896-44A0-8DC4-E1CEFF762F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64972762-3896-44A0-8DC4-E1CEFF762F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64972762-3896-44A0-8DC4-E1CEFF762F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -70,11 +50,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{FDDFF2F0-EAFF-4F92-842D-A25B3C5EC1D4} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
-		{B76AF700-51B5-435D-8E32-9292A8726895} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
-		{F8C1E27D-D0D3-4585-A002-9591DE17918D} = {9A9B007B-FF40-42E5-BC98-EC4FCA978478}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE62CB37-3F28-461A-A589-A67979F87456}
