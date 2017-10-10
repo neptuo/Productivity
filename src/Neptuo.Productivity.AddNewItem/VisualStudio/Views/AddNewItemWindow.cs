@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Neptuo.Productivity.VisualStudio.Views.DesignData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,9 @@ namespace Neptuo.Productivity.VisualStudio.Views
         public AddNewItemWindow()
         {
             Caption = "Add new item...";
-            Content = new TextBlock()
+            Content = new AddNewItemView()
             {
-                Text = "...",
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                DataContext = ViewModelLocator.Main
             };
         }
     }

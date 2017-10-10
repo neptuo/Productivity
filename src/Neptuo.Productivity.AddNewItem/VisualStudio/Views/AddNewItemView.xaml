@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Neptuo.Productivity.VisualStudio.Views.AddNewItemView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:dd="clr-namespace:Neptuo.Productivity.VisualStudio.Views.DesignData"
+    xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.12.0"
+    mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400" d:DataContext="{x:Static dd:ViewModelLocator.Main}"
+    Background="White" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="8,4" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="8">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <TextBlock Text="{Binding ActivePath}" FontWeight="Bold" />
+            <TextBlock Text="{Binding InactivePath}" />
+        </StackPanel>
+        <TextBox Text="{Binding Name}" Padding="4,2" Margin="0,0,0,8" />
+        <Grid>
+            <CheckBox Content="Is file" VerticalAlignment="Center" IsChecked="{Binding IsFile}" />
+            <Button Content="Add" Command="{Binding Add}" IsDefault="True" HorizontalAlignment="Right" />
+        </Grid>
+    </StackPanel>
+</UserControl>

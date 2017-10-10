@@ -1,5 +1,4 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio;
+﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Views;
 using System;
