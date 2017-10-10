@@ -1,4 +1,7 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using Neptuo.Productivity.VisualStudio.Views;
 using System;
 using System.ComponentModel.Design;
 
@@ -9,11 +12,11 @@ namespace Neptuo.Productivity.VisualStudio.Commands
     /// </summary>
     internal sealed class AddNewItemCommand
     {
-        private DTE dte;
+        private VsPackage package;
 
-        private AddNewItemCommand(DTE dte, IMenuCommandService commandService)
+        private AddNewItemCommand(VsPackage package, IMenuCommandService commandService)
         {
-            this.dte = dte;
+            this.package = package;
 
             WireUpMenuCommands(commandService);
         }
@@ -27,7 +30,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private void OnExecute(object sender, EventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Add New Item...");
+            AddNewItemWindow window = (AddNewItemWindow)package.FindToolWindow(typeof(AddNewItemWindow), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
         }
 
         #region Singleton
@@ -37,12 +45,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         /// <summary>
         /// Initializes new (singleton) instance if not already created.
         /// </summary>
-        /// <param name="dte">A DTE.</param>
+        /// <param name="dte">A current package.</param>
         /// <param name="commandService">A menu command service.</param>
-        internal static void Initialize(DTE dte, IMenuCommandService commandService)
+        internal static void Initialize(VsPackage package, IMenuCommandService commandService)
         {
             if (instance == null)
-                instance = new AddNewItemCommand(dte, commandService);
+                instance = new AddNewItemCommand(package, commandService);
         }
 
         #endregion

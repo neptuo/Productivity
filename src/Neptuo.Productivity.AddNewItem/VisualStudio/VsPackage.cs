@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Commands;
+using Neptuo.Productivity.VisualStudio.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -17,15 +18,15 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(AddNewItemWindow), Width = 400, Height = 200)]
     public class VsPackage : Package
     {
         protected override void Initialize()
         {
             base.Initialize();
 
-            DTE dte = (DTE)GetService(typeof(DTE));
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            AddNewItemCommand.Initialize(dte, commandService);
+            AddNewItemCommand.Initialize(this, commandService);
         }
     }
 }
