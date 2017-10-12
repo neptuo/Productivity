@@ -49,8 +49,14 @@ namespace Neptuo.Productivity.VisualStudio.Views
             events = dte.Events.SelectionEvents;
             events.OnChange += OnSelectionChanged;
 
-            Content.DataContext = new MainViewModel(new DteFileService(dte, this), new MockTemplateService(), () => Hide());
+            Content.DataContext = new MainViewModel(new DteFileService(dte, this), new MockTemplateService(), OnItemAdded);
             OnSelectionChanged();
+        }
+
+        private void OnItemAdded()
+        {
+            Content.ViewModel.Name = null;
+            Hide();
         }
 
         private void OnSelectionChanged()
@@ -67,7 +73,12 @@ namespace Neptuo.Productivity.VisualStudio.Views
                     path = Path.GetDirectoryName(dte.Solution.FileName);
 
                 if (path != null)
+                {
+                    if (File.Exists(path))
+                        path = Path.GetDirectoryName(path);
+
                     Content.ViewModel.Path = path;
+                }
             }
         }
 
