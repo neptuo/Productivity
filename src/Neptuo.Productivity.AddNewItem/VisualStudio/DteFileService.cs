@@ -63,8 +63,6 @@ namespace Neptuo.Productivity.VisualStudio
 
         public bool IsValidFileName(string name)
         {
-            //PackageUtilities.IsFileNameInvalid
-
             if (String.IsNullOrEmpty(name))
                 return false;
 
@@ -77,11 +75,8 @@ namespace Neptuo.Productivity.VisualStudio
                 name = Path.GetFileName(name);
             }
 
-            foreach (char item in Path.GetInvalidFileNameChars())
-            {
-                if (name.Contains(item))
-                    return false;
-            }
+            if (PackageUtilities.IsFileNameInvalid(name))
+                return false;
 
             return true;
         }
