@@ -49,7 +49,7 @@ namespace Neptuo.Productivity.VisualStudio.Views
             events = dte.Events.SelectionEvents;
             events.OnChange += OnSelectionChanged;
 
-            Content.DataContext = new MainViewModel(new DteFileService(dte, this), new MockTemplateService());
+            Content.DataContext = new MainViewModel(new DteFileService(dte, this), new MockTemplateService(), () => Hide());
             OnSelectionChanged();
         }
 
