@@ -32,7 +32,7 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(viewModel.Path) || e.PropertyName == nameof(viewModel.Name))
+            if (e.PropertyName == nameof(viewModel.Path) || e.PropertyName == nameof(viewModel.Name) || e.PropertyName == nameof(viewModel.IsFile))
                 RaiseCanExecuteChanged();
         }
 
