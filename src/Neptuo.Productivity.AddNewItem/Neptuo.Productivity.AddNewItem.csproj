@@ -58,6 +58,7 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FileTemplate.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="VisualStudio\Commands\AddNewItemCommand.cs" />
