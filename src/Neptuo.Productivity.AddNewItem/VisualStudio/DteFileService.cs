@@ -113,7 +113,7 @@ namespace Neptuo.Productivity.VisualStudio
 
             // TODO: Add parameters.
             var fileContent = template.GetContent(new KeyValueCollection());
-            WriteFile(project, filePath, fileContent.content, fileContent.encoding);
+            WriteFile(project, filePath, fileContent.Content, template.Encoding);
 
             try
             {
@@ -132,11 +132,11 @@ namespace Neptuo.Productivity.VisualStudio
                 VsShellUtilities.OpenDocument(services, filePath);
 
                 // Move cursor into position
-                if (fileContent.position > 0)
+                if (fileContent.Position > 0)
                 {
                     IWpfTextView view = FindCurentTextView();
                     if (view != null)
-                        view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, fileContent.position));
+                        view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, fileContent.Position));
                 }
 
                 dte.ActiveDocument.Activate();

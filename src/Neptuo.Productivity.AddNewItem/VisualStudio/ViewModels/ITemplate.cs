@@ -9,6 +9,8 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 {
     public interface ITemplate
     {
-        (string content, int position, Encoding encoding) GetContent(IReadOnlyKeyValueCollection parameters);
+        Encoding Encoding { get; }
+
+        TemplateContent GetContent(IReadOnlyKeyValueCollection parameters);
     }
 }

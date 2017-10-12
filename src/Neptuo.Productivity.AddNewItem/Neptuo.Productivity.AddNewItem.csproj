@@ -67,6 +67,7 @@
     <Compile Include="VisualStudio\ViewModels\ITemplate.cs" />
     <Compile Include="VisualStudio\ViewModels\ITemplateService.cs" />
     <Compile Include="VisualStudio\ViewModels\MainViewModel.cs" />
+    <Compile Include="VisualStudio\ViewModels\TemplateContent.cs" />
     <Compile Include="VisualStudio\Views\AddNewItemView.xaml.cs">
       <DependentUpon>AddNewItemView.xaml</DependentUpon>
     </Compile>
