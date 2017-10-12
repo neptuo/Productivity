@@ -94,8 +94,8 @@ namespace Neptuo.Productivity.VisualStudio.Views
 
         protected override bool PreProcessMessage(ref Message m)
         {
-            EnsureHandle();
-            if (m.HWnd == handle && m.Msg == WM_KEYDOWN && m.WParam.ToInt32() == VK_ESCAPE)
+            //EnsureHandle();
+            if (((IVsWindowFrame)Frame).IsVisible() == 0 && m.Msg == WM_KEYDOWN && m.WParam.ToInt32() == VK_ESCAPE)
                 Hide();
 
             return base.PreProcessMessage(ref m);
