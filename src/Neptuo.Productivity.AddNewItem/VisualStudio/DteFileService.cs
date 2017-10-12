@@ -102,6 +102,9 @@ namespace Neptuo.Productivity.VisualStudio
 
         public void CreateFile(string filePath, ITemplate template)
         {
+            FileInfo file = new FileInfo(filePath);
+            filePath = file.FullName;
+
             object item = GetSelectedItem();
 
             ProjectItem selectedItem = item as ProjectItem;
