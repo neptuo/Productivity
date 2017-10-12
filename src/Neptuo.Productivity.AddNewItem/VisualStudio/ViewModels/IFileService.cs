@@ -13,5 +13,8 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 
         bool IsValidFileName(string name);
         bool IsValidDirectoryName(string name);
+
+        void CreateFile(string path, ITemplate template);
+        void CreateDirectory(string path);
     }
 }

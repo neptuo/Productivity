@@ -9,6 +9,16 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
 {
     internal class MockFileService : IFileService
     {
+        public void CreateDirectory(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateFile(string path, ITemplate template)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DirectoryExists(string path)
         {
             return false;

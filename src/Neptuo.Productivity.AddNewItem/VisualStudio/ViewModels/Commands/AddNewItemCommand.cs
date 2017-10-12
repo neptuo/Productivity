@@ -13,14 +13,17 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
     public class AddNewItemCommand : Command
     {
         private readonly MainViewModel viewModel;
-        private readonly IFileService service;
+        private readonly IFileService files;
+        private readonly ITemplateService templates;
 
-        public AddNewItemCommand(MainViewModel viewModel, IFileService service)
+        public AddNewItemCommand(MainViewModel viewModel, IFileService files, ITemplateService templates)
         {
             Ensure.NotNull(viewModel, "viewModel");
-            Ensure.NotNull(service, "service");
+            Ensure.NotNull(files, "service");
+            Ensure.NotNull(templates, "templates");
             this.viewModel = viewModel;
-            this.service = service;
+            this.files = files;
+            this.templates = templates;
 
             viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -42,18 +45,18 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
             string path = Path.Combine(viewModel.Path, viewModel.Name);
             if (viewModel.IsFile)
             {
-                if (!service.IsValidFileName(viewModel.Name))
+                if (!files.IsValidFileName(viewModel.Name))
                     return false;
 
-                if (service.FileExists(path))
+                if (files.FileExists(path))
                     return false;
             }
             else
             {
-                if (!service.IsValidDirectoryName(viewModel.Name))
+                if (!files.IsValidDirectoryName(viewModel.Name))
                     return false;
 
-                if (service.DirectoryExists(path))
+                if (files.DirectoryExists(path))
                     return false;
             }
 
@@ -62,7 +65,20 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
 
         public override void Execute()
         {
-            throw new NotImplementedException();
+            if (CanExecute())
+            {
+                string path = Path.Combine(viewModel.Path, viewModel.Name);
+
+                if (viewModel.IsFile)
+                {
+                    ITemplate template = templates.GetTemplate(path);
+                    files.CreateFile(path, template);
+                }
+                else
+                {
+                    files.CreateDirectory(path);
+                }
+            }
         }
     }
 }
