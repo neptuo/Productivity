@@ -139,7 +139,7 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
                     inactivePath += "/";
             }
 
-            IsFile = !name.EndsWith("/") && !name.EndsWith(@"\");
+            IsFile = !(Name ?? String.Empty).EndsWith("/") && !(Name ?? String.Empty).EndsWith(@"\");
             ActivePath = activePath.Replace(@"\", "/");
             InactivePath = inactivePath.Replace(@"\", "/");
         }
