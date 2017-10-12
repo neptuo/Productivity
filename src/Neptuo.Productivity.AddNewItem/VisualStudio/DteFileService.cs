@@ -100,54 +100,65 @@ namespace Neptuo.Productivity.VisualStudio
             FileInfo file = new FileInfo(filePath);
             filePath = file.FullName;
 
-            object item = GetSelectedItem();
-
-            ProjectItem selectedItem = item as ProjectItem;
-            Project selectedProject = item as Project;
-            Project project = selectedItem?.ContainingProject ?? selectedProject ?? GetActiveProject();
+            object selectedItem = GetSelectedItem();
+            Project project = GetSelectedProject(selectedItem);
 
             string fileName = Path.GetFileName(filePath);
             string folderPath = Path.GetDirectoryName(filePath);
 
             PackageUtilities.EnsureOutputPath(folderPath);
 
-            // TODO: Add parameters.
-            var fileContent = template.GetContent(new KeyValueCollection());
-            WriteFile(project, filePath, fileContent.Content, template.Encoding);
-
             try
             {
-                ProjectItem projectItem = null;
-                var projItem = item as ProjectItem;
+                // TODO: Parameters.
+                TemplateContent templateContent = template.GetContent(new KeyValueCollection());
 
-                if (projItem != null)
+                // Create file and write content.
+                using (FileStream fileContent = File.Create(filePath))
                 {
-                    if (EnvDTE.Constants.vsProjectItemKindVirtualFolder == projItem.Kind)
-                        projectItem = projItem.ProjectItems.AddFromFile(filePath);
+                    ProjectItem projectItem = null;
+
+                    if (selectedItem is ProjectItem parentItem && EnvDTE.Constants.vsProjectItemKindVirtualFolder == parentItem.Kind)
+                        projectItem = parentItem.ProjectItems.AddFromFile(filePath);
+
+                    if (projectItem == null)
+                        projectItem = project.ProjectItems.AddFromFile(filePath);
+
+                    using (var writer = new StreamWriter(fileContent, template.Encoding))
+                        writer.Write(templateContent.Content);
                 }
 
-                if (projectItem == null)
-                    projectItem = project.ProjectItems.AddFromFile(filePath);
-
+                // Open document.
                 VsShellUtilities.OpenDocument(services, filePath);
 
                 // Move cursor into position
-                if (fileContent.Position > 0)
+                if (templateContent.Position > 0)
                 {
                     IWpfTextView view = FindCurentTextView();
                     if (view != null)
-                        view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, fileContent.Position));
+                        view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, templateContent.Position));
                 }
 
+                // Activate.
                 dte.ActiveDocument.Activate();
             }
             catch (Exception ex)
             {
+                // TODO: Handle exceptions.
                 System.Windows.MessageBox.Show(ex.ToString());
             }
         }
 
         #region Helpers
+
+        private Project GetSelectedProject(object rawSelectedItem)
+        {
+            ProjectItem selectedItem = rawSelectedItem as ProjectItem;
+            Project selectedProject = rawSelectedItem as Project;
+            Project project = selectedItem?.ContainingProject ?? selectedProject ?? GetActiveProject();
+
+            return project;
+        }
 
         private Project GetActiveProject()
         {
@@ -236,12 +247,6 @@ namespace Neptuo.Productivity.VisualStudio
         }
 
         #endregion
-
-        private void WriteFile(Project project, string filePath, string content, Encoding encoding)
-        {
-            using (var writer = new StreamWriter(filePath, false, encoding))
-                writer.Write(content);
-        }
 
         public void CreateDirectory(string path)
         {
