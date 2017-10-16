@@ -9,7 +9,7 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
 {
     internal class MockTemplateService : ITemplateService
     {
-        public ITemplate GetTemplate(string path)
+        public ITemplate FindTemplate(string path)
         {
             return new MockTemplate();
         }

@@ -73,7 +73,8 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
 
                 if (viewModel.IsFile)
                 {
-                    ITemplate template = templates.GetTemplate(path);
+                    ITemplate template = templates.FindTemplate(path);
+                    // TODO: Null check!
                     files.CreateFile(path, template);
                 }
                 else

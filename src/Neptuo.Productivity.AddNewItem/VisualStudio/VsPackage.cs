@@ -25,6 +25,8 @@ namespace Neptuo.Productivity.VisualStudio
         {
             base.Initialize();
 
+            XmlTemplateServiceFactory templateServiceFactory = new XmlTemplateServiceFactory();
+
             IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
             AddNewItemCommand.Initialize(this, commandService);
         }

@@ -83,6 +83,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
+    <Compile Include="XmlTemplateService.cs" />
+    <Compile Include="XmlTemplateServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\assets\Productivity-Icon.ico">
@@ -243,6 +245,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
   </ItemGroup>

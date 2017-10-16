@@ -8,6 +8,6 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 {
     public interface ITemplateService
     {
-        ITemplate GetTemplate(string path);
+        ITemplate FindTemplate(string path);
     }
 }

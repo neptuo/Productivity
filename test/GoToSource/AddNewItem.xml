@@ -1,0 +1,25 @@
+<Templates>
+    <Template>
+        <Selector FileName="*.js" />
+        <Content>
+            <![CDATA[// javascript file.{Cursor.End}]]>
+        </Content>
+    </Template>
+    <Template>
+        <Selector FileName="*Exception.cs" />
+        <Snippet Shortcut="exbase" />
+    </Template>
+    <Template>
+        <Selector FileName="*Model.cs" />
+        <Snippet File="Snippets/Model.snippet" />
+    </Template>
+    <Template>
+        <Selector FileName="*.cs" />
+        <File Path="ClassTemplate.cs" />
+    </Template>
+    <Template>
+        <Selector FileName="*Control.xaml" />
+        <Selector FileName="*View.xaml" />
+        <VsTemplate Guid="...." />
+    </Template>
+</Templates>
