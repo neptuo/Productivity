@@ -1,7 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Collections.Specialized;
-using Neptuo.FileSystems;
-using Neptuo.Productivity.VisualStudio.ViewModels;
+﻿using Neptuo.FileSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
-    public class FileTemplate : ITemplate
+    public class FileTemplate : TokenTemplate
     {
         private readonly string filePath;
         private readonly string content;
 
-        public Encoding Encoding { get; }
+        public override Encoding Encoding { get; }
 
         public FileTemplate(string filePath)
         {
@@ -30,9 +27,6 @@ namespace Neptuo.Productivity
             }
         }
 
-        public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters)
-        {
-            return new TemplateContent(content);
-        }
+        protected override string GetContent() => content;
     }
 }
