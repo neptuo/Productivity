@@ -34,6 +34,11 @@ namespace Neptuo.Productivity.VisualStudio.Views
             set { base.Content = value; }
         }
 
+        public MainViewModel ViewModel
+        {
+            get { return Content.ViewModel; }
+        }
+
         public AddNewItemWindow()
         {
             Caption = "Add new item...";
@@ -55,7 +60,7 @@ namespace Neptuo.Productivity.VisualStudio.Views
 
         private void OnItemAdded()
         {
-            Content.ViewModel.Name = null;
+            ViewModel.Name = null;
             Hide();
         }
 
@@ -77,7 +82,7 @@ namespace Neptuo.Productivity.VisualStudio.Views
                     if (File.Exists(path))
                         path = Path.GetDirectoryName(path);
 
-                    Content.ViewModel.Path = path;
+                    ViewModel.Path = path;
                 }
             }
         }
@@ -96,9 +101,28 @@ namespace Neptuo.Productivity.VisualStudio.Views
         {
             //EnsureHandle();
             if (((IVsWindowFrame)Frame).IsVisible() == 0 && m.Msg == WM_KEYDOWN && m.WParam.ToInt32() == VK_ESCAPE)
-                Hide();
+            {
+                if (String.IsNullOrEmpty(ViewModel.Name))
+                {
+                    Hide();
+                }
+                else
+                {
+                    ViewModel.Name = null;
+                    Show();
+                }
 
-            return base.PreProcessMessage(ref m);
+                return true;
+            }
+            else
+            {
+                return base.PreProcessMessage(ref m);
+            }
+        }
+
+        public void Show()
+        {
+            ((IVsWindowFrame)Frame).Show();
         }
 
         public void Hide()
