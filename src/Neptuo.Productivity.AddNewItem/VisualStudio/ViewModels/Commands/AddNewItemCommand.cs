@@ -75,6 +75,7 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
                 {
                     ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
                     files.CreateFile(path, template);
+                    template.Appy()
                 }
                 else
                 {

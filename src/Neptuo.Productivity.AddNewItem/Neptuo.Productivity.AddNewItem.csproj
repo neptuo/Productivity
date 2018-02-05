@@ -58,6 +58,7 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DefaultParameterService.cs" />
     <Compile Include="EmptyTemplate.cs" />
     <Compile Include="FileTemplate.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="VisualStudio\DteFileService.cs" />
     <Compile Include="VisualStudio\ViewModels\Commands\AddNewItemCommand.cs" />
     <Compile Include="VisualStudio\ViewModels\IFileService.cs" />
+    <Compile Include="VisualStudio\ViewModels\IParameterService.cs" />
     <Compile Include="VisualStudio\ViewModels\ITemplate.cs" />
     <Compile Include="VisualStudio\ViewModels\ITemplateService.cs" />
     <Compile Include="VisualStudio\ViewModels\MainViewModel.cs" />

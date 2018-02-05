@@ -110,9 +110,6 @@ namespace Neptuo.Productivity.VisualStudio
 
             try
             {
-                // TODO: Parameters.
-                TemplateContent templateContent = template.GetContent(new KeyValueCollection());
-
                 // Create file and write content.
                 using (FileStream fileContent = File.Create(filePath))
                 {
@@ -123,13 +120,24 @@ namespace Neptuo.Productivity.VisualStudio
 
                     if (projectItem == null)
                         projectItem = project.ProjectItems.AddFromFile(filePath);
-
-                    using (var writer = new StreamWriter(fileContent, template.Encoding))
-                        writer.Write(templateContent.Content);
                 }
 
                 // Open document.
                 VsShellUtilities.OpenDocument(services, filePath);
+
+                // Activate.
+                dte.ActiveDocument.Activate();
+
+                
+
+                // TODO: Parameters.
+                TemplateContent templateContent = template.GetContent(new KeyValueCollection());
+
+                using (FileStream fileContent = File.Create(filePath))
+                using (StreamWriter writer = new StreamWriter(fileContent, template.Encoding))
+                {
+                        writer.Write(templateContent.Content);
+                }
 
                 // Move cursor into position
                 if (templateContent.Position > 0)
@@ -138,9 +146,6 @@ namespace Neptuo.Productivity.VisualStudio
                     if (view != null)
                         view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, templateContent.Position));
                 }
-
-                // Activate.
-                dte.ActiveDocument.Activate();
             }
             catch (Exception ex)
             {
