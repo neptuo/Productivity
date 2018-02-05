@@ -1,24 +1,32 @@
-﻿using Neptuo.Productivity.VisualStudio.ViewModels;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.Productivity.VisualStudio.ViewModels;
+using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Neptuo.Collections.Specialized;
-using Neptuo.Text.Tokens;
 
 namespace Neptuo.Productivity
 {
     public abstract class TokenTemplate : ITemplate
     {
+        public const string CursorEndToken = "{Cursor.End}";
+
         public abstract Encoding Encoding { get; }
 
         public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters)
         {
-            TokenWriter writer = new TokenWriter(GetContent());
+            string template = GetContent();
+            int cursor = template.IndexOf(CursorEndToken);
+            if (cursor >= 0)
+                template = template.Replace(CursorEndToken, String.Empty);
+            else
+                cursor = 0;
+
+            TokenWriter writer = new TokenWriter(template);
             string content = writer.Format(parameters);
-            // TODO: Add support Cursor.
-            return new TemplateContent(content);
+            return new TemplateContent(template, cursor);
         }
 
         protected abstract string GetContent();
