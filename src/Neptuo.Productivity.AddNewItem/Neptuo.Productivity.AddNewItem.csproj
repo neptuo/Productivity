@@ -61,6 +61,7 @@
     <Compile Include="DefaultParameterService.cs" />
     <Compile Include="EmptyTemplate.cs" />
     <Compile Include="FileTemplate.cs" />
+    <Compile Include="FirstNotNullTemplateService.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="StringTemplate.cs" />
@@ -241,6 +242,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />

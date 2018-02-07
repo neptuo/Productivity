@@ -1,6 +1,8 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Utilities;
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Productivity.VisualStudio.Views.DesignData;
 using System;
@@ -50,11 +52,13 @@ namespace Neptuo.Productivity.VisualStudio.Views
             base.OnToolWindowCreated();
 
             dte = (DTE)GetService(typeof(DTE));
+            IComponentModel componentModel = (IComponentModel)GetService(typeof(SComponentModel));
+            ITemplateService templateService = componentModel.GetService<FirstNotNullTemplateService>();
 
             events = dte.Events.SelectionEvents;
             events.OnChange += OnSelectionChanged;
 
-            Content.DataContext = new MainViewModel(new DteFileService(dte, this), new XmlTemplateServiceFactory(), OnItemAdded);
+            Content.DataContext = new MainViewModel(new DteFileService(dte, this), templateService, OnItemAdded);
             OnSelectionChanged();
         }
 
