@@ -5,12 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.ViewModels
+namespace Neptuo.Productivity
 {
     public interface ITemplate
     {
-        Encoding Encoding { get; }
-
-        TemplateContent GetContent(IReadOnlyKeyValueCollection parameters);
     }
 }

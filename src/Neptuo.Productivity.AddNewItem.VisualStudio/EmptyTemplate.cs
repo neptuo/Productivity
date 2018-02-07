@@ -12,7 +12,6 @@ namespace Neptuo.Productivity
     {
         public static EmptyTemplate Instance { get; } = new EmptyTemplate();
 
-        public Encoding Encoding => Encoding.UTF8;
-        public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters) => new TemplateContent(String.Empty);
+        public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters) => new TemplateContent(Encoding.UTF8, String.Empty);
     }
 }

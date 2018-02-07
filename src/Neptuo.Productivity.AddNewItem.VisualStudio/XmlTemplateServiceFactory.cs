@@ -1,8 +1,10 @@
-﻿using Neptuo;
+﻿using Microsoft.VisualStudio.Utilities;
+using Neptuo;
 using Neptuo.FileSystems;
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,8 +12,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
+    [Export(typeof(ITemplateService))]
+    [Name(Name)]
     public class XmlTemplateServiceFactory : ITemplateService
     {
+        public const string Name = "Xml";
+
         public const int ProbeDepth = 10;
         public const string FileName = "AddNewItem.xml";
 

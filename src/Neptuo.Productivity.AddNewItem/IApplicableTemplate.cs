@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.ViewModels
+namespace Neptuo.Productivity
 {
-    public interface IParameterService
+    public interface IApplicableTemplate
     {
-        IReadOnlyKeyValueCollection Get(string filePath);
+        Task ApplyAsync(string path, IReadOnlyKeyValueCollection parameters);
     }
 }

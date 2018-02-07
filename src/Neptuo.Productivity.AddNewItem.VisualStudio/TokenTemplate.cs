@@ -26,7 +26,7 @@ namespace Neptuo.Productivity
 
             TokenWriter writer = new TokenWriter(template);
             string content = writer.Format(parameters);
-            return new TemplateContent(template, cursor);
+            return new TemplateContent(Encoding, template, cursor);
         }
 
         protected abstract string GetContent();

@@ -95,7 +95,7 @@ namespace Neptuo.Productivity.VisualStudio
             return true;
         }
 
-        public void CreateFile(string filePath, ITemplate template)
+        public void CreateFile(string filePath, Encoding encoding, string content)
         {
             FileInfo file = new FileInfo(filePath);
             filePath = file.FullName;
@@ -128,29 +128,37 @@ namespace Neptuo.Productivity.VisualStudio
                 // Activate.
                 dte.ActiveDocument.Activate();
 
-                
-
-                // TODO: Parameters.
-                TemplateContent templateContent = template.GetContent(new KeyValueCollection());
-
                 using (FileStream fileContent = File.Create(filePath))
-                using (StreamWriter writer = new StreamWriter(fileContent, template.Encoding))
-                {
-                        writer.Write(templateContent.Content);
-                }
-
-                // Move cursor into position
-                if (templateContent.Position > 0)
-                {
-                    IWpfTextView view = FindCurentTextView();
-                    if (view != null)
-                        view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, templateContent.Position));
-                }
+                using (StreamWriter writer = new StreamWriter(fileContent, encoding))
+                    writer.Write(content);
             }
             catch (Exception ex)
             {
                 // TODO: Handle exceptions.
                 System.Windows.MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void UpdateContent(string filePath, string content)
+        {
+            if (File.Exists(filePath))
+            {
+                if (VsShellUtilities.IsDocumentOpen(services, filePath, Guid.Empty, out IVsUIHierarchy hierarchy, out uint itemId, out IVsWindowFrame windowFrame))
+                {
+                    // TODO: Update content and save.
+                }
+                else
+                {
+                    using (FileStream fileContent = File.OpenWrite(filePath))
+                    using (StreamWriter writer = new StreamWriter(fileContent))
+                    {
+                        writer.Write(content);
+                    }
+                }
+            }
+            else
+            {
+                // TODO: Create a new file.
             }
         }
 
@@ -261,6 +269,7 @@ namespace Neptuo.Productivity.VisualStudio
             //    return;
             //}
 
+            // TODO: Creating directories.
             throw Ensure.Exception.NotImplemented();
         }
     }

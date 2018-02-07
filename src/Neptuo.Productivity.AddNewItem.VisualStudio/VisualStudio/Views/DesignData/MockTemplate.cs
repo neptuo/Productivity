@@ -10,11 +10,9 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
 {
     public class MockTemplate : ITemplate
     {
-        public Encoding Encoding => Encoding.UTF8;
-
         public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters)
         {
-            return new TemplateContent(String.Empty, 0);
+            return new TemplateContent(Encoding.UTF8, String.Empty, 0);
         }
     }
 }

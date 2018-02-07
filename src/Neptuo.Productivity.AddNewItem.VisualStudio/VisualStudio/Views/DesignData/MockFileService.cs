@@ -14,7 +14,12 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
             throw new NotImplementedException();
         }
 
-        public void CreateFile(string path, ITemplate template)
+        public void CreateFile(string path, IContentTemplate template)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateFile(string path, Encoding encoding, string content)
         {
             throw new NotImplementedException();
         }
@@ -37,6 +42,11 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
         public bool IsValidFileName(string name)
         {
             return true;
+        }
+
+        public void UpdateContent(string path, string content)
+        {
+            throw new NotImplementedException();
         }
     }
 }

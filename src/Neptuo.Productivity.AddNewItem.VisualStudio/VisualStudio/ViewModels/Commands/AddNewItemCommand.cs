@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO;
+using Neptuo.Collections.Specialized;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text;
 
 namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
 {
@@ -15,16 +18,19 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
         private readonly MainViewModel viewModel;
         private readonly IFileService files;
         private readonly ITemplateService templates;
+        private readonly ICursorService cursor;
         private readonly Action executed;
 
-        public AddNewItemCommand(MainViewModel viewModel, IFileService files, ITemplateService templates, Action executed = null)
+        public AddNewItemCommand(MainViewModel viewModel, IFileService files, ITemplateService templates, ICursorService cursor, Action executed = null)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(files, "service");
             Ensure.NotNull(templates, "templates");
+            Ensure.NotNull(cursor, "cursor");
             this.viewModel = viewModel;
             this.files = files;
             this.templates = templates;
+            this.cursor = cursor;
             this.executed = executed;
 
             viewModel.PropertyChanged += OnViewModelPropertyChanged;
@@ -74,8 +80,22 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
                 if (viewModel.IsFile)
                 {
                     ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
-                    files.CreateFile(path, template);
-                    template.Appy()
+                    if (template is IContentTemplate contentTemplate)
+                    {
+                        // TODO: Parameters.
+                        TemplateContent templateContent = contentTemplate.GetContent(new KeyValueCollection());
+
+                        files.CreateFile(path, templateContent.Encoding, templateContent.Content);
+
+                        if (templateContent.Position > 0)
+                            cursor.Move(path, templateContent.Position);
+                    }
+                    //else if (template is IApplicableTemplate applicableTemplate)
+                    //{
+                    //    applicableTemplate.ApplyAsync(path, parameters);
+                    //}
+                    else
+                        throw Ensure.Exception.NotImplemented();
                 }
                 else
                 {

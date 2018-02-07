@@ -17,7 +17,7 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
             {
                 if (main == null)
                 {
-                    main = new MainViewModel(new MockFileService(), new MockTemplateService());
+                    main = new MainViewModel(new MockFileService(), new MockTemplateService(), new MockCursorService());
                     main.Path = "Neptuo.Productivity.AddNewItem/VisualStudio/Commands/";
                     main.Name = "../Views/NewItemView.xaml";
                 }

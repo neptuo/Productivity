@@ -2,17 +2,17 @@
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
+    [Export(typeof(IParameterService))]
     public class DefaultParameterService : IParameterService
     {
-        public IReadOnlyKeyValueCollection Get(string filePath)
-        {
-            return new KeyValueCollection();
-        }
+        public void Add(string filePath, IKeyValueCollection parameters)
+        { }
     }
 }

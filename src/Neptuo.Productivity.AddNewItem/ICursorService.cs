@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.ViewModels
+namespace Neptuo.Productivity
 {
-    public interface ITemplateService
+    public interface ICursorService
     {
-        ITemplate FindTemplate(string path);
+        void Move(string filePath, int position);
     }
 }

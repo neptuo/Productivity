@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio.ViewModels
+namespace Neptuo.Productivity
 {
     public interface IFileService
     {
@@ -14,7 +14,9 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
         bool IsValidFileName(string name);
         bool IsValidDirectoryName(string name);
 
-        void CreateFile(string path, ITemplate template);
+        void CreateFile(string path, Encoding encoding, string content);
         void CreateDirectory(string path);
+
+        void UpdateContent(string path, string content);
     }
 }
