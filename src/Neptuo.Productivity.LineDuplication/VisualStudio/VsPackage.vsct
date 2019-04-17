@@ -18,7 +18,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Duplicate Current Line &amp;Up</ButtonText>
+          <ButtonText>Duplicate Selected Lines &amp;Up</ButtonText>
         </Strings>
       </Button>
       <Button guid="CommandSet" id="DuplicateLineDown" priority="0x011" type="Button">
@@ -27,7 +27,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Duplicate Current Line &amp;Down</ButtonText>
+          <ButtonText>Duplicate Selected Lines &amp;Down</ButtonText>
         </Strings>
       </Button>
     </Buttons>
