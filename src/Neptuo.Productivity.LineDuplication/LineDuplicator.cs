@@ -71,10 +71,8 @@ namespace Neptuo.Productivity
 
                 textDocument.Selection.MoveToPoint(endLine);
                 textDocument.Selection.EndOfLine();
-                textDocument.Selection.NewLine();
-                textDocument.Selection.DeleteWhitespace();
+                textDocument.Selection.NewLineEmpty();
                 textDocument.Selection.Insert(textContent);
-
 
                 // Move original selection to the new text.
                 int lineCount = endLine.Line - startLine.Line + 1;
