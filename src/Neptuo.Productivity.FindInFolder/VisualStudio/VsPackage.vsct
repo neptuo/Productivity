@@ -17,13 +17,13 @@
   </Commands>
 
   <CommandPlacements>
-    <CommandPlacement guid="CommandSet" id="FindInFolder">
+    <CommandPlacement guid="CommandSet" id="FindInFolder" priority="0x0099">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_FOLDER_EXPLORE" />
     </CommandPlacement>
-    <CommandPlacement guid="CommandSet" id="FindInFolder">
+    <CommandPlacement guid="CommandSet" id="FindInFolder" priority="0x0099">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
     </CommandPlacement>
-    <CommandPlacement guid="CommandSet" id="FindInFolder">
+    <CommandPlacement guid="CommandSet" id="FindInFolder" priority="0x0099">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_EXPLORE" />
     </CommandPlacement>
   </CommandPlacements>
