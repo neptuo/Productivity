@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 #endif
 
 [assembly: AssemblyCompany("Neptuo")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
