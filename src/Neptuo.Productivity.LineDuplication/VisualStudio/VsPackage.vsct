@@ -5,15 +5,9 @@
   <Extern href="vsshlids.h"/>
 
   <Commands package="Package">
-    <Groups>
-      <Group guid="CommandSet" id="MainMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EDIT"/>
-      </Group>
-    </Groups>
-
     <Buttons>
-      <Button guid="CommandSet" id="DuplicateLineUp" priority="0x010" type="Button">
-        <Parent guid="CommandSet" id="MainMenuGroup" />
+      <Button guid="CommandSet" id="DuplicateLineUp" priority="0x3001" type="Button">
+        <Parent guid="guidStdEditor" id="IDG_VS_EDITOR_ADVANCED_CMDS" />
         <Icon guid="ImageCatalogGuid" id="CollapseUpGroup" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -21,8 +15,8 @@
           <ButtonText>Duplicate Selected Lines &amp;Up</ButtonText>
         </Strings>
       </Button>
-      <Button guid="CommandSet" id="DuplicateLineDown" priority="0x011" type="Button">
-        <Parent guid="CommandSet" id="MainMenuGroup" />
+      <Button guid="CommandSet" id="DuplicateLineDown" priority="0x3002" type="Button">
+        <Parent guid="guidStdEditor" id="IDG_VS_EDITOR_ADVANCED_CMDS" />
         <Icon guid="ImageCatalogGuid" id="ExpandDownGroup" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -42,8 +36,6 @@
     <GuidSymbol name="Package" value="{6b896283-2b15-4f82-bb4e-186c94784f79}" />
 
     <GuidSymbol name="CommandSet" value="{e4a2c479-8fe3-4778-9dca-6a6f3ef5948c}">
-      <IDSymbol name="MainMenuGroup" value="0x100" />
-
       <IDSymbol name="DuplicateLineDown" value="0x0101" />
       <IDSymbol name="DuplicateLineUp" value="0x0102" />
     </GuidSymbol>
