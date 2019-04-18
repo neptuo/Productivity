@@ -1,7 +1,12 @@
 ﻿using EnvDTE;
+using Neptuo.Productivity.VisualStudio;
 using System;
+using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Neptuo.Productivity.VisualStudio
+namespace Neptuo.Productivity
 {
     /// <summary>
     /// A line duplication service.

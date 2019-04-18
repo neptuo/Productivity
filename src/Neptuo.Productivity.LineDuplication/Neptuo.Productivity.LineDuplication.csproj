@@ -85,6 +85,7 @@
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
     <Compile Include="VisualStudio\_DteExtensions.cs" />
+    <Compile Include="VisualStudio\_TextSelectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudio\VsPackage.resx">

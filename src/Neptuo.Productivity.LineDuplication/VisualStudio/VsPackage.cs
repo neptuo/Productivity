@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Commands;
 using System;
 using System.ComponentModel.Design;
