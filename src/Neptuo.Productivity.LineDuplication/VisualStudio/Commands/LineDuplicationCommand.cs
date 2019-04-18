@@ -15,16 +15,13 @@ namespace Neptuo.Productivity.VisualStudio.Commands
     /// </summary>
     internal class LineDuplicationCommand
     {
-        private readonly VsPackage package;
         private readonly DTE dte;
 
-        private LineDuplicationCommand(VsPackage package, DTE dte, IMenuCommandService commandService)
+        private LineDuplicationCommand(DTE dte, IMenuCommandService commandService)
         {
-            Ensure.NotNull(package, "package");
             Ensure.NotNull(dte, "dte");
             Ensure.NotNull(commandService, "commandService");
             this.dte = dte;
-            this.package = package;
 
             WireUpMenuCommands(commandService);
         }
@@ -51,15 +48,9 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             command.Enabled = dte.ActiveDocument != null && dte.ActiveDocument.GetTextDocument() != null;
         } 
 
-        private void OnDuplicateLineDown(object sender, EventArgs e)
-        {
-            RunLineDuplicator(duplicator => duplicator.DuplicateCurrentLineDown());
-        }
+        private void OnDuplicateLineDown(object sender, EventArgs e) => RunLineDuplicator(duplicator => duplicator.DuplicateCurrentLineDown());
 
-        private void OnDuplicateLineUp(object sender, EventArgs e)
-        {
-            RunLineDuplicator(duplicator => duplicator.DuplicateCurrentLineUp());
-        }
+        private void OnDuplicateLineUp(object sender, EventArgs e) => RunLineDuplicator(duplicator => duplicator.DuplicateCurrentLineUp());
 
         /// <summary>
         /// Tries to create a <see cref="LineDuplicator"/> for current text document.
@@ -86,13 +77,12 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         /// <summary>
         /// Initializes new (singleton) instance if not already created.
         /// </summary>
-        /// <param name="package">An instance of the package.</param>
         /// <param name="dte">A DTE.</param>
         /// <param name="commandService">A menu command service.</param>
-        internal static void Initialize(VsPackage package, DTE dte, IMenuCommandService commandService)
+        internal static void Initialize(DTE dte, IMenuCommandService commandService)
         {
             if (instance == null)
-                instance = new LineDuplicationCommand(package, dte, commandService);
+                instance = new LineDuplicationCommand(dte, commandService);
         }
 
         #endregion

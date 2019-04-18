@@ -1,9 +1,5 @@
 ﻿using EnvDTE;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio
 {
@@ -27,28 +23,16 @@ namespace Neptuo.Productivity.VisualStudio
         /// <summary>
         /// Duplicates current line (or selected lines) down.
         /// </summary>
-        public void DuplicateCurrentLineDown()
-        {
-            DuplicateLineDown(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
-        }
+        public void DuplicateCurrentLineDown() => DuplicateLineDown(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
 
-        public void DuplicateLineDown(TextPoint startPoint, TextPoint endPoint)
-        {
-            DuplicateLine(startPoint, endPoint, true);
-        }
+        public void DuplicateLineDown(TextPoint startPoint, TextPoint endPoint) => DuplicateLine(startPoint, endPoint, true);
 
         /// <summary>
         /// Duplicates current line (or selected lines) up.
         /// </summary>
-        public void DuplicateCurrentLineUp()
-        {
-            DuplicateLineUp(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
-        }
+        public void DuplicateCurrentLineUp() => DuplicateLineUp(textDocument.Selection.TopPoint, textDocument.Selection.BottomPoint);
 
-        public void DuplicateLineUp(TextPoint startPoint, TextPoint endPoint)
-        {
-            DuplicateLine(startPoint, endPoint, false);
-        }
+        public void DuplicateLineUp(TextPoint startPoint, TextPoint endPoint) => DuplicateLine(startPoint, endPoint, false);
 
         private void DuplicateLine(TextPoint startPoint, TextPoint endPoint, bool isDuplicationDown)
         {

@@ -31,7 +31,7 @@ namespace Neptuo.Productivity.VisualStudio
 
             DTE dte = await GetServiceAsync<DTE>();
             IMenuCommandService commandService = await GetServiceAsync<IMenuCommandService>();
-            LineDuplicationCommand.Initialize(this, dte, commandService);
+            LineDuplicationCommand.Initialize(dte, commandService);
         }
 
         private async Task<T> GetServiceAsync<T>() => (T)await GetServiceAsync(typeof(T));
