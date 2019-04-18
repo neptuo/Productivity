@@ -109,16 +109,16 @@
       <Link>Resources\Productivity-Icon.ico</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\..\assets\Productivity-Preview.jpg">
-      <Link>Resources\Productivity-Preview.jpg</Link>
+    <Content Include="..\..\assets\Productivity-Icon.png">
+      <Link>Resources\Productivity-Icon.png</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\assets\Productivity-Preview.png">
+      <Link>Resources\Productivity-Preview.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="..\..\LICENCE">
       <Link>Resources\LICENCE</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="..\..\assets\Productivity-Icon.jpg">
-      <Link>Resources\Productivity-Icon.jpg</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>

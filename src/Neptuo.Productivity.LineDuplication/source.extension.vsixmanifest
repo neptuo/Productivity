@@ -7,8 +7,8 @@
 Provides commands for duplicating current line or selected lines above or under.</Description>
         <MoreInfo>http://www.neptuo.com/project/vsix/lineduplication</MoreInfo>
         <License>Resources\LICENCE</License>
-        <Icon>Resources\Productivity-Icon.jpg</Icon>
-        <PreviewImage>Resources\Productivity-Preview.jpg</PreviewImage>
+        <Icon>Resources\Productivity-Icon.png</Icon>
+        <PreviewImage>Resources\Productivity-Preview.png</PreviewImage>
         <Tags>Neptuo, Productivity, LineDuplication</Tags>
     </Metadata>
     <Installation>
