@@ -29,9 +29,11 @@ namespace Neptuo.Productivity.VisualStudio
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            DTE dte = (DTE)await GetServiceAsync(typeof(DTE));
-            IMenuCommandService commandService = (IMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
+            DTE dte = await GetServiceAsync<DTE>();
+            IMenuCommandService commandService = await GetServiceAsync<IMenuCommandService>();
             LineDuplicationCommand.Initialize(this, dte, commandService);
         }
+
+        private async Task<T> GetServiceAsync<T>() => (T)await GetServiceAsync(typeof(T));
     }
 }
