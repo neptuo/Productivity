@@ -1,6 +1,6 @@
 ﻿using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Neptuo.Productivity.VisualStudio.Commands;
 using System;
 using System.Collections.Generic;
@@ -8,24 +8,34 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Neptuo.Productivity.VisualStudio
 {
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(ProductInfo.Name, ProductInfo.Description, VersionInfo.Version, IconResourceID = 400)]
     [Guid(PackageGuids.PackageString)]
-    [ProvideAutoLoad(UIContextGuids80.NoSolution)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    public class VsPackage : Package
+    public class VsPackage : AsyncPackage
     {
-        protected override void Initialize()
+        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            base.Initialize();
+            await base.InitializeAsync(cancellationToken, progress);
+            await InitializeCommandsAsync(cancellationToken);
+        }
 
-            DTE dte = (DTE)GetService(typeof(DTE));
-            IMenuCommandService commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+        private async Task InitializeCommandsAsync(CancellationToken cancellationToken)
+        {
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            DTE dte = await GetServiceAsync<DTE>();
+            IMenuCommandService commandService = await GetServiceAsync<IMenuCommandService>();
             FindInFolderCommand.Initialize(dte, commandService, () => new FindInFolderService(dte));
         }
+
+        private async Task<T> GetServiceAsync<T>() => (T)await GetServiceAsync(typeof(T));
     }
 }
