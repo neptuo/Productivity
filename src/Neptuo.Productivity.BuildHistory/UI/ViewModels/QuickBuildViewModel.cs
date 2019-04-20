@@ -10,6 +10,7 @@ using Neptuo.Events.Handlers;
 using Neptuo.Observables;
 using Neptuo.Productivity.Events;
 using Neptuo;
+using System.Diagnostics;
 
 namespace Neptuo.Productivity.UI.ViewModels
 {
@@ -82,7 +83,7 @@ namespace Neptuo.Productivity.UI.ViewModels
             get { return projectCount; }
             set
             {
-                if(projectCount != value)
+                if (projectCount != value)
                 {
                     projectCount = value;
                     RaisePropertyChanged();
@@ -145,6 +146,23 @@ namespace Neptuo.Productivity.UI.ViewModels
             events.Add<ProjectCountEstimated>(this);
             events.Add<BuildFinished>(this);
             events.Add<ProjectBuildFinished>(this);
+
+            _ = UpdateCurrentElapsedAsync();
+        }
+
+        private async Task UpdateCurrentElapsedAsync()
+        {
+            if (IsSuccessful != null)
+                return;
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            while (IsSuccessful == null)
+            {
+                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+                PrepareDescription();
+
+                await Task.Delay(1000);
+            }
         }
 
         public Task HandleAsync(ProjectCountEstimated payload)
