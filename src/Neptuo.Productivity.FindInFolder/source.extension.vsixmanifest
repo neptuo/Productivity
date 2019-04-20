@@ -7,8 +7,8 @@
 Add context menu command for selected folder in Solution Explorer that opens "Find in files" dialog with selected folder as "Look in".</Description>
         <MoreInfo>http://www.neptuo.com/project/vsix/findinfolder</MoreInfo>
         <License>Resources\LICENCE</License>
-        <Icon>Resources\Productivity-Icon.jpg</Icon>
-        <PreviewImage>Resources\Productivity-Preview.jpg</PreviewImage>
+        <Icon>Resources\Productivity-Icon.png</Icon>
+        <PreviewImage>Resources\Productivity-Preview.png</PreviewImage>
         <Tags>Neptuo, Productivity, Find in Files, Find, Replace</Tags>
     </Metadata>
     <Installation>
