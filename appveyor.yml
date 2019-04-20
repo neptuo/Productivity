@@ -1,0 +1,8 @@
+version: '{build}'
+image: Visual Studio 2017
+configuration: Release
+before_build:
+- ps: dotnet restore Neptuo.Productivity.sln
+build:
+  project: Neptuo.Productivity.sln
+  verbosity: minimal
