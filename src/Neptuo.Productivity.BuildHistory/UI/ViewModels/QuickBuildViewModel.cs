@@ -105,15 +105,29 @@ namespace Neptuo.Productivity.UI.ViewModels
             }
         }
 
-        private string description;
-        public string Description
+        private string elapsed;
+        public string Elapsed
         {
-            get { return description; }
+            get { return elapsed; }
             set
             {
-                if (description != value)
+                if (elapsed != value)
                 {
-                    description = value;
+                    elapsed = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private string buildState;
+        public string BuildState
+        {
+            get { return buildState; }
+            set
+            {
+                if (buildState != value)
+                {
+                    buildState = value;
                     RaisePropertyChanged();
                 }
             }
@@ -159,7 +173,7 @@ namespace Neptuo.Productivity.UI.ViewModels
             while (IsSuccessful == null)
             {
                 ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                PrepareDescription();
+                UpdateElapsed();
 
                 await Task.Delay(1000);
             }
@@ -170,7 +184,7 @@ namespace Neptuo.Productivity.UI.ViewModels
             if (payload.Key == buildKey)
             {
                 ProjectCount = payload.EstimatedProjectCount;
-                PrepareDescription();
+                UpdateBuildState();
             }
 
             return Task.FromResult(true);
@@ -183,7 +197,7 @@ namespace Neptuo.Productivity.UI.ViewModels
                 if (builtProjectNames.Add(payload.Model.Name))
                 {
                     BuiltProjectCount++;
-                    PrepareDescription();
+                    UpdateBuildState();
                 }
             }
 
@@ -194,31 +208,38 @@ namespace Neptuo.Productivity.UI.ViewModels
         {
             if (buildKey == payload.Key)
             {
-                ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
-                PrepareDescription();
-
                 IsSuccessful = payload.Model.Projects
                     .Where(p => p.IsSuccessful != null)
                     .Select(p => p.IsSuccessful.Value)
                     .All(p => p);
+
+                ElapsedMilliseconds = payload.Model.ElapsedMilliseconds;
+
+                UpdateElapsed();
+                UpdateBuildState();
             }
 
             return Task.FromResult(true);
         }
 
-        public void PrepareDescription()
+        internal void UpdateElapsed()
         {
             long? lengthValue = ElapsedMilliseconds;
-            if (lengthValue == null)
+            Elapsed = buildTimeFormatter.Format(lengthValue.Value);
+        }
+
+        internal void UpdateBuildState()
+        {
+            if (IsSuccessful == null)
             {
                 if (ProjectCount == null)
-                    Description = String.Format("Building {0} of...", BuiltProjectCount + 1);
+                    BuildState = String.Format("({0}/..)", BuiltProjectCount + 1);
                 else
-                    Description = String.Format("Building {0} of {1}...", BuiltProjectCount + 1, ProjectCount);
+                    BuildState = String.Format("({0}/{1})", BuiltProjectCount + 1, ProjectCount);
             }
             else
             {
-                Description = buildTimeFormatter.Format(lengthValue.Value);
+                BuildState = null;
             }
         }
 

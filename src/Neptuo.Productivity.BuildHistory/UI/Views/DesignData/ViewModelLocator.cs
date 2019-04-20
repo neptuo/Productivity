@@ -21,6 +21,12 @@ namespace Neptuo.Productivity.UI.Views.DesignData
             {
                 if (quickMainViewModel == null)
                 {
+                    void Update(QuickBuildViewModel vm)
+                    {
+                        vm.UpdateBuildState();
+                        vm.UpdateElapsed();
+                    }
+
                     quickMainViewModel = new QuickMainViewModel(EventManager, QuickConfiguration);
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
@@ -30,7 +36,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                         DateTime.Today.AddHours(3)
                     ));
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 35050;
-                    quickMainViewModel.Builds.Last().PrepareDescription();
+                    Update(quickMainViewModel.Builds.Last());
 
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
@@ -41,7 +47,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     ));
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 9550;
                     quickMainViewModel.Builds.Last().IsSuccessful = false;
-                    quickMainViewModel.Builds.Last().PrepareDescription();
+                    Update(quickMainViewModel.Builds.Last());
 
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
@@ -52,7 +58,7 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     ));
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 76343;
                     quickMainViewModel.Builds.Last().IsSuccessful = true;
-                    quickMainViewModel.Builds.Last().PrepareDescription();
+                    Update(quickMainViewModel.Builds.Last());
                 }
 
                 return quickMainViewModel;

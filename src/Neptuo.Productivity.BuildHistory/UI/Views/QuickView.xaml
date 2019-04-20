@@ -29,16 +29,21 @@
                                 <Rectangle Fill="{Binding IsSuccessful, Converter={StaticResource TrueToSuccessColorConverter}}" Width="{Binding ElapsedMilliseconds, Converter={StaticResource BuildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
                                 
                                     <Label Grid.Column="0" Content="{Binding StartedAt, Converter={StaticResource DateTimeConverter}}" />
                                     <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Scope }" />
-                                    <Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Action}" />
-                                    <Label Grid.Column="3" Content="{Binding Description}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock>
+                                            <Run Text="{Binding Action}" />
+                                            <Run Text="{Binding BuildState}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Label Grid.Column="3" Content="{Binding Elapsed}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 </Grid>
                             </Grid>
                         </Border>
