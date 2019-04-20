@@ -41,26 +41,15 @@ namespace Neptuo.Productivity
             if (otherKey == null)
                 return -1;
 
-            if (otherKey.IsEmpty)
-            {
-                if (IsEmpty)
-                    return 0;
-                else
-                    return -1;
-            }
-            else
-            {
-                if (IsEmpty)
-                    return -1;
-                else
-                    return 1;
-            }
+            int isEmptyCompare = otherKey.IsEmpty.CompareTo(IsEmpty);
+            if (isEmptyCompare != 0)
+                return isEmptyCompare;
 
             int buildCompare = otherKey.BuildKey.CompareTo(BuildKey);
-            if (buildCompare == 0)
-                return otherKey.ProjectName.CompareTo(ProjectName);
+            if (buildCompare != 0)
+                return buildCompare;
 
-            return buildCompare;
+            return otherKey.ProjectName.CompareTo(ProjectName);
         }
 
         protected override bool Equals(KeyBase other)

@@ -51,7 +51,7 @@ namespace Neptuo.Productivity
             Action = action;
             StartedAt = startedAt;
 
-            events.PublishAsync(new BuildStarted(Key, Scope, Action, StartedAt));
+            _ = events.PublishAsync(new BuildStarted(Key, Scope, Action, StartedAt));
         }
 
         public BuildProjectModel AddProject(string name)
@@ -65,7 +65,7 @@ namespace Neptuo.Productivity
         {
             Ensure.Positive(projectCount, "projectCount");
             EstimatedProjectCount = projectCount;
-            events.PublishAsync(new ProjectCountEstimated(Key, projectCount));
+            _ = events.PublishAsync(new ProjectCountEstimated(Key, projectCount));
         }
 
         public void EstimateUncountableProjectCount()
@@ -75,7 +75,7 @@ namespace Neptuo.Productivity
         {
             FinishedAt = DateTime.Now;
             ElapsedMilliseconds = elapsedMilliseconds;
-            events.PublishAsync(new BuildFinished(this));
+            _ = events.PublishAsync(new BuildFinished(this));
         }
     }
 }

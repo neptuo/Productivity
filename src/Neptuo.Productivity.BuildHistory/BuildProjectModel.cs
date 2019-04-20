@@ -25,14 +25,14 @@ namespace Neptuo.Productivity
             this.events = events;
             Key = ProjectKey.Create(buildKey, name, "Project");
             Name = name;
-            events.PublishAsync(new ProjectBuildStarted(Key, Name));
+            _ = events.PublishAsync(new ProjectBuildStarted(Key, Name));
         }
 
         public void Finish(long elapsedMilliseconds, bool isSuccessful)
         {
             ElapsedMilliseconds = elapsedMilliseconds;
             IsSuccessful = isSuccessful;
-            events.PublishAsync(new ProjectBuildFinished(this));
+            _ = events.PublishAsync(new ProjectBuildFinished(this));
         }
     }
 }
