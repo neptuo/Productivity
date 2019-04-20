@@ -16,7 +16,6 @@ namespace Neptuo.Productivity.VisualStudio.Options
     {
         [DisplayName("Number of builds in build quick history overview.")]
         [Description("Defines number of builds that will be displayed in quick overview window.")]
-        [DefaultValue(3)]
-        public int QuickOverviewCount { get; set; }
+        public int QuickOverviewCount { get; set; } = 3;
     }
 }
