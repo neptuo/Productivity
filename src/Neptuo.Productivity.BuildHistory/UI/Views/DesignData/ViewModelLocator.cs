@@ -24,14 +24,25 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     quickMainViewModel = new QuickMainViewModel(EventManager, QuickConfiguration);
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
+                        Int32Key.Create(1, "Rebuild"),
+                        BuildScope.Project,
+                        BuildType.Rebuild,
+                        DateTime.Today.AddHours(3)
+                    ));
+                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 35050;
+                    quickMainViewModel.Builds.Last().PrepareDescription();
+
+                    quickMainViewModel.Builds.Add(new QuickBuildViewModel(
+                        EventManager,
                         Int32Key.Create(1, "Build"),
                         BuildScope.Project,
                         BuildType.Rebuild,
                         DateTime.Today.AddHours(1)
                     ));
-                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 3550;
+                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 9550;
                     quickMainViewModel.Builds.Last().IsSuccessful = false;
                     quickMainViewModel.Builds.Last().PrepareDescription();
+
                     quickMainViewModel.Builds.Add(new QuickBuildViewModel(
                         EventManager,
                         Int32Key.Create(2, "Build"),

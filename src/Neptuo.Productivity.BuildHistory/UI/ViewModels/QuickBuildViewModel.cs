@@ -118,8 +118,8 @@ namespace Neptuo.Productivity.UI.ViewModels
             }
         }
 
-        private bool isSuccessful;
-        public bool IsSuccessful
+        private bool? isSuccessful;
+        public bool? IsSuccessful
         {
             get { return isSuccessful; }
             set

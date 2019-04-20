@@ -16,7 +16,7 @@
         <converters:BuildLengthConverter x:Key="BuildLengthConverter" />
         <converters:DateTimeConverter x:Key="DateTimeConverter" />
         <converters:FirstLetterConverter x:Key="FirstLetterConverter" />
-        <converters:BoolConverter x:Key="TrueToSuccessColorConverter" TrueValue="#15C23C" FalseValue="#FF4534" />
+        <converters:BoolConverter x:Key="TrueToSuccessColorConverter" TrueValue="#15C23C" FalseValue="#FF4534" NullValue="#007ACC" />
         <converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Hidden" EqualValue="Visible" LowerValue="Visible" />
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">

@@ -16,12 +16,18 @@ namespace Neptuo.Productivity.UI.Views.Converters
 
         public object TrueValue { get; set; }
         public object FalseValue { get; set; }
+        public object NullValue { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool? boolValue = value as bool?;
             if (boolValue == null)
+            {
+                if (NullValue != null)
+                    return NullValue;
+
                 boolValue = false;
+            }
 
             if (Test == boolValue.Value)
                 return TrueValue;
