@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Neptuo;
+using System.ComponentModel;
 
 namespace Neptuo.Productivity.UI.ViewModels
 {
@@ -67,7 +68,9 @@ namespace Neptuo.Productivity.UI.ViewModels
 
         Task IEventHandler<BuildStarted>.HandleAsync(BuildStarted payload)
         {
-            Builds.Insert(0, new QuickBuildViewModel(events, payload.Key, payload.Scope, payload.Action, payload.StartedAt));
+            QuickBuildViewModel build = new QuickBuildViewModel(events, payload.Key, payload.Scope, payload.Action, payload.StartedAt);
+            build.PropertyChanged += OnBuildPropertyChanged;
+            Builds.Insert(0, build);
             buildCount++;
 
             while (Builds.Count > configuration.QuickOverviewCount)
@@ -75,6 +78,22 @@ namespace Neptuo.Productivity.UI.ViewModels
 
             UpdateTitle();
             return Task.FromResult(true);
+        }
+
+        private void OnBuildPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(QuickBuildViewModel.ElapsedMilliseconds))
+                UpdateRelativeDuration();
+        }
+
+        internal void UpdateRelativeDuration()
+        {
+            long? longestElapsedMilliseconds = Builds.Where(b => b.ElapsedMilliseconds != null).Max(b => b.ElapsedMilliseconds);
+            if (longestElapsedMilliseconds != null)
+            {
+                foreach (QuickBuildViewModel item in Builds)
+                    item.UpdateRelativeDuration(longestElapsedMilliseconds.Value);
+            }
         }
 
         Task IEventHandler<BuildFinished>.HandleAsync(BuildFinished payload)

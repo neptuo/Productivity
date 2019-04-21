@@ -13,7 +13,6 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
         </Style>
-        <converters:BuildLengthConverter x:Key="BuildLengthConverter" />
         <converters:DateTimeConverter x:Key="DateTimeConverter" />
         <converters:FirstLetterConverter x:Key="FirstLetterConverter" />
         <converters:BoolConverter x:Key="TrueToSuccessColorConverter" TrueValue="#15C23C" FalseValue="#FF4534" NullValue="#007ACC" />
@@ -26,7 +25,11 @@
                     <DataTemplate>
                         <Border BorderThickness="0 0 0 1" BorderBrush="{DynamicResource {x:Static shell:VsBrushes.PanelSeparatorKey}}">
                             <Grid Margin="0 5 0 5">
-                                <Rectangle Fill="{Binding IsSuccessful, Converter={StaticResource TrueToSuccessColorConverter}}" Width="{Binding ElapsedMilliseconds, Converter={StaticResource BuildLengthConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+                                <ProgressBar Value="{Binding RelativeDuration}" Maximum="100" VerticalAlignment="Stretch" Foreground="{Binding IsSuccessful, Converter={StaticResource TrueToSuccessColorConverter}}" Background="Transparent" BorderThickness="0">
+                                    <ProgressBar.LayoutTransform>
+                                        <RotateTransform Angle="180" />
+                                    </ProgressBar.LayoutTransform>
+                                </ProgressBar>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />

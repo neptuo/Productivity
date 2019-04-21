@@ -77,6 +77,20 @@ namespace Neptuo.Productivity.UI.ViewModels
             }
         }
 
+        private double relativeDuration;
+        public double RelativeDuration
+        {
+            get { return relativeDuration; }
+            set
+            {
+                if (relativeDuration != value)
+                {
+                    relativeDuration = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private int? projectCount;
         public int? ProjectCount
         {
@@ -241,6 +255,12 @@ namespace Neptuo.Productivity.UI.ViewModels
             {
                 BuildState = null;
             }
+        }
+
+        internal void UpdateRelativeDuration(long longestElapsedMilliseconds)
+        {
+            if (ElapsedMilliseconds != null)
+                RelativeDuration = (double)100 / longestElapsedMilliseconds * ElapsedMilliseconds.Value;
         }
 
         #region IDisposable

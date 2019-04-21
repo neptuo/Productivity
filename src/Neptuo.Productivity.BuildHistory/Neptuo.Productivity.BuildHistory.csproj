@@ -90,7 +90,6 @@
     <Compile Include="UI\Views\ServiceFactory.cs" />
     <Compile Include="VisualStudio\BuildService.cs" />
     <Compile Include="VisualStudio\Commands\OverviewCommand.cs" />
-    <Compile Include="UI\Views\Converters\BuildLengthConverter.cs" />
     <Compile Include="UI\Views\Converters\DateTimeConverter.cs" />
     <Compile Include="UI\Views\Converters\FirstLetterConverter.cs" />
     <Compile Include="VisualStudio\Options\ConfigurationPage.cs">

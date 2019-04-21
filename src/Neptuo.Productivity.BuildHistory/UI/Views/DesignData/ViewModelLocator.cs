@@ -59,6 +59,8 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     quickMainViewModel.Builds.Last().ElapsedMilliseconds = 76343;
                     quickMainViewModel.Builds.Last().IsSuccessful = true;
                     Update(quickMainViewModel.Builds.Last());
+
+                    quickMainViewModel.UpdateRelativeDuration();
                 }
 
                 return quickMainViewModel;
