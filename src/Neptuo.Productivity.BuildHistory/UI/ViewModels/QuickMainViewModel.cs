@@ -38,6 +38,7 @@ namespace Neptuo.Productivity.UI.ViewModels
 
         private int buildCount;
         private long totalElapsedMilliseconds;
+        private long longestElapsedMilliseconds;
 
         public event Action<QuickMainViewModel, string> TitleChanged;
 
@@ -91,8 +92,11 @@ namespace Neptuo.Productivity.UI.ViewModels
             long? longestElapsedMilliseconds = Builds.Where(b => b.ElapsedMilliseconds != null).Max(b => b.ElapsedMilliseconds);
             if (longestElapsedMilliseconds != null)
             {
+                if (longestElapsedMilliseconds.Value > this.longestElapsedMilliseconds)
+                    this.longestElapsedMilliseconds = longestElapsedMilliseconds.Value;
+
                 foreach (QuickBuildViewModel item in Builds)
-                    item.UpdateRelativeDuration(longestElapsedMilliseconds.Value);
+                    item.UpdateRelativeDuration(this.longestElapsedMilliseconds);
             }
         }
 
