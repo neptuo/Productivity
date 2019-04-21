@@ -13,26 +13,25 @@ namespace Neptuo.Productivity.UI.ViewModels
             long length = elapsedMilliseconds;
             StringBuilder result = new StringBuilder();
 
-            if (length > 60 * 1000)
-            {
-                AppendFormat(result, Math.Round(length / (60 * 1000D)), "m");
-                length = length % (60 * 1000);
-            }
-
-            if (length > 1000)
-            {
-                AppendFormat(result, Math.Round(length / 1000D), "s");
-                length = length % 1000;
-            }
-
-            AppendFormat(result, length, "ms");
+            Append(result, ref length, 60 * 1000, "m", 2);
+            Append(result, ref length, 1000, "s", 2);
+            AppendFormat(result, length, "ms", 3);
             return result.ToString();
         }
 
-        private void AppendFormat(StringBuilder result, double value, string suffix)
+        private void Append(StringBuilder result, ref long length, long divisor, string suffix, int leadingZeros)
+        {
+            if (length > divisor || result.Length > 0)
+            {
+                AppendFormat(result, Math.Round(length / (double)divisor), suffix, leadingZeros);
+                length %= divisor;
+            }
+        }
+
+        private void AppendFormat(StringBuilder result, double value, string suffix, int leadingZeros)
         {
             if (result.Length > 0)
-                result.Append(value.ToString("000"));
+                result.Append(value.ToString(new String('0', leadingZeros)));
             else
                 result.Append(value.ToString());
 
