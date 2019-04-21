@@ -1,5 +1,6 @@
 ﻿using Neptuo.Events;
 using Neptuo.Models.Keys;
+using Neptuo.Productivity.Events;
 using Neptuo.Productivity.UI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -28,39 +29,26 @@ namespace Neptuo.Productivity.UI.Views.DesignData
                     }
 
                     quickMainViewModel = new QuickMainViewModel(EventManager, QuickConfiguration);
-                    quickMainViewModel.Builds.Add(new QuickBuildViewModel(
-                        EventManager,
-                        Int32Key.Create(1, "Rebuild"),
-                        BuildScope.Project,
-                        BuildType.Rebuild,
-                        DateTime.Today.AddHours(3)
-                    ));
-                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 35050;
-                    Update(quickMainViewModel.Builds.Last());
 
-                    quickMainViewModel.Builds.Add(new QuickBuildViewModel(
-                        EventManager,
-                        Int32Key.Create(1, "Build"),
-                        BuildScope.Project,
-                        BuildType.Rebuild,
-                        DateTime.Today.AddHours(1)
-                    ));
-                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 9550;
-                    quickMainViewModel.Builds.Last().IsSuccessful = false;
-                    Update(quickMainViewModel.Builds.Last());
+                    var model = new BuildModel(EventManager, BuildScope.Project, BuildType.Rebuild, DateTime.Today.AddHours(3));
+                    model.EstimateProjectCount(3);
+                    model.AddProject("A");
+                    model.Projects.Last().Finish(4000, true);
+                    model.AddProject("B");
+                    model.Projects.Last().Finish(1000, true);
+                    model.AddProject("C");
+                    model.Projects.Last().Finish(1050, true);
+                    model.Finish(5050);
 
-                    quickMainViewModel.Builds.Add(new QuickBuildViewModel(
-                        EventManager,
-                        Int32Key.Create(2, "Build"),
-                        BuildScope.Solution,
-                        BuildType.Build,
-                        DateTime.Today.AddHours(5)
-                    ));
-                    quickMainViewModel.Builds.Last().ElapsedMilliseconds = 76343;
-                    quickMainViewModel.Builds.Last().IsSuccessful = true;
-                    Update(quickMainViewModel.Builds.Last());
+                    model = new BuildModel(EventManager, BuildScope.Project, BuildType.Build, DateTime.Today.AddHours(5));
+                    model.EstimateProjectCount(2);
+                    model.AddProject("A");
+                    model.Projects.Last().Finish(9550, false);
+                    model.Finish(9550);
 
-                    quickMainViewModel.UpdateRelativeDuration();
+                    model = new BuildModel(EventManager, BuildScope.Project, BuildType.Rebuild, DateTime.Today.AddHours(7).AddMinutes(30));
+                    model.EstimateProjectCount(2);
+                    model.AddProject("A");
                 }
 
                 return quickMainViewModel;
