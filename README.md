@@ -8,5 +8,6 @@ Neptuo Productivity Visual Studio extensions.
 
 ## Marketplace
 
-- [Line Duplication](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityLineDuplication).
+- [Build History](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityBuildHistory).
 - [Find In Folder](https://marketplace.visualstudio.com/items?itemName=Neptuo.NeptuoProductivityFindInFolder).
+- [Line Duplication](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityLineDuplication).
