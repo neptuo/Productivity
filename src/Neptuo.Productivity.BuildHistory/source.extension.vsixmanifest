@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ab2c08a6-62f0-44b2-a346-f616530b96dc" Version="1.1.0" Language="en-US" Publisher="Neptuo" />
+        <Identity Id="ff76ea64-a0b3-407a-a7f4-46c88a3b0216" Version="1.1.0" Language="en-US" Publisher="Neptuo" />
         <DisplayName>Neptuo.Productivity.BuildHistory</DisplayName>
         <Description xml:space="preserve">Productivity tools by Neptuo: Build History.
 Logging build process. Showing last build times.</Description>
