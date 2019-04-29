@@ -14,6 +14,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.Productivity</RootNamespace>
     <AssemblyName>Neptuo.Productivity.AddNewItem.VisualStudio</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <UseCodebase>true</UseCodebase>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
