@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783CCBB2-8E5A-4F80-8D46-BE636A9BAD9B}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.AddNewItem.VisualStudio", "src\Neptuo.Productivity.AddNewItem.VisualStudio\Neptuo.Productivity.AddNewItem.VisualStudio.csproj", "{28DB07DF-3897-4628-B635-CC9089B3624A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.AddNewItem", "src\Neptuo.Productivity.AddNewItem\Neptuo.Productivity.AddNewItem.csproj", "{81070FF4-3B6D-46AC-92B5-62A5F802A2AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Productivity.Snippets", "src\Neptuo.Productivity.Snippets\Neptuo.Productivity.Snippets.csproj", "{1C1DB7FF-6A9C-4760-9FE4-0797560D5951}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{81070FF4-3B6D-46AC-92B5-62A5F802A2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81070FF4-3B6D-46AC-92B5-62A5F802A2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81070FF4-3B6D-46AC-92B5-62A5F802A2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1DB7FF-6A9C-4760-9FE4-0797560D5951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1DB7FF-6A9C-4760-9FE4-0797560D5951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1DB7FF-6A9C-4760-9FE4-0797560D5951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1DB7FF-6A9C-4760-9FE4-0797560D5951}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
