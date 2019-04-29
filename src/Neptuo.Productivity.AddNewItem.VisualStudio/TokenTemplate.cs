@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
-    public abstract class TokenTemplate : ITemplate
+    public abstract class TokenTemplate : ITemplate, IContentTemplate
     {
         public const string CursorEndToken = "{Cursor.End}";
 

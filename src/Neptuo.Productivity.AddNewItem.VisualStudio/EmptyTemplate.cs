@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
-    public class EmptyTemplate : ITemplate
+    public class EmptyTemplate : ITemplate, IContentTemplate
     {
         public static EmptyTemplate Instance { get; } = new EmptyTemplate();
 

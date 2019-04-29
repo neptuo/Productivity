@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.VisualStudio.Views.DesignData
 {
-    public class MockTemplate : ITemplate
+    public class MockTemplate : ITemplate, IContentTemplate
     {
         public TemplateContent GetContent(IReadOnlyKeyValueCollection parameters)
         {
