@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Internal constructor with two not null parameter saved in readonly field.</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Creates readonly field and internal constructor with not null check and value assign.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>ictor2</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>Neptuo</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="false">
+                    <ID>classname</ID>
+                    <ToolTip>Class name</ToolTip>
+                    <Function>ClassName()</Function>
+                    <Default>ClassNamePlaceholder</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type1</ID>
+                    <ToolTip>Type of the first parameter.</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name1</ID>
+                    <ToolTip>Name of the first parameter.</ToolTip>
+                    <Default>value</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type2</ID>
+                    <ToolTip>Type of the second parameter.</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name2</ID>
+                    <ToolTip>Name of the second parameter.</ToolTip>
+                    <Default>value</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[private readonly $type1$ $name1$;
+private readonly $type2$ $name2$;
+
+internal $classname$($type1$ $name1$, $type2$ $name2$)
+{
+    Ensure.NotNull($name1$, "$name1$");
+    Ensure.NotNull($name2$, "$name2$");
+    this.$name1$ = $name1$;
+    this.$name2$ = $name2$;
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

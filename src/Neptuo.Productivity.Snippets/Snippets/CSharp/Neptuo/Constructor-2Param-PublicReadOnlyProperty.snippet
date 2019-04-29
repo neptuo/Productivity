@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Constructor with two not null parameters saved in public readonly (get-only) property.</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Creates readonly field and constructor with not null check and value assign.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>ctor2urp</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>Neptuo</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="false">
+                    <ID>classname</ID>
+                    <ToolTip>Class name</ToolTip>
+                    <Function>ClassName()</Function>
+                    <Default>ClassNamePlaceholder</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type1</ID>
+                    <ToolTip>Type of the first parameter.</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name1</ID>
+                    <ToolTip>Name of the first parameter.</ToolTip>
+                    <Default>value</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>property1</ID>
+                    <ToolTip>Name of the first property.</ToolTip>
+                    <Default>Value</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type2</ID>
+                    <ToolTip>Type of the second parameter.</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name2</ID>
+                    <ToolTip>Name of the second parameter.</ToolTip>
+                    <Default>value</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>property2</ID>
+                    <ToolTip>Name of the second property.</ToolTip>
+                    <Default>Value</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[public $type1$ $property1$ { get; }
+public $type2$ $property2$ { get; }
+
+public $classname$($type1$ $name1$, $type2$ $name2$)
+{
+    Ensure.NotNull($name1$, "$name1$");
+    Ensure.NotNull($name2$, "$name2$");
+    $property1$ = $name1$;
+    $property2$ = $name2$;
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

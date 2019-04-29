@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Constructor with one not null parameter saved in public readonly (get-only) property.</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Creates readonly field and constructor with not null check and value assign.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>ctor1urp</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>Neptuo</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="false">
+                    <ID>classname</ID>
+                    <ToolTip>Class name</ToolTip>
+                    <Function>ClassName()</Function>
+                    <Default>ClassNamePlaceholder</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>Type of the parameter.</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name</ID>
+                    <ToolTip>Name of the parameter.</ToolTip>
+                    <Default>value</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>property</ID>
+                    <ToolTip>Name of the property.</ToolTip>
+                    <Default>Value</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[public $type$ $property$ { get; }
+
+public $classname$($type$ $name$)
+{
+    Ensure.NotNull($name$, "$name$");
+    $property$ = $name$;
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

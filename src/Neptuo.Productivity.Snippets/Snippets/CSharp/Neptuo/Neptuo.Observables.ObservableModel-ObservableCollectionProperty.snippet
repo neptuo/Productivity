@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>ObservableModel ObservableCollection Property</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Property declaration of type ObservableCollection.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>ompropoc</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>Neptuo.Observables.Collections</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>PropertyName</ID>
+                    <ToolTip>Property name</ToolTip>
+                    <Default>Property</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>Field type</ToolTip>
+                    <Default>string</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[public ObservableCollection<$type$> $PropertyName$ { get; }$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

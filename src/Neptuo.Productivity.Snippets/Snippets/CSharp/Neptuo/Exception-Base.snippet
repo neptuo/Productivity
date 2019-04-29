@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>The exception definition</Title>
+            <Author>Marek Fišera</Author>
+            <Description>The definition of the exception class.</Description>
+            <HelpUrl></HelpUrl>
+            <Shortcut>exbase</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>System.Runtime.Serialization</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>name</ID>
+                    <ToolTip>The name of the exception.</ToolTip>
+                    <Default>My</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>summary</ID>
+                    <ToolTip>The summary description of the exception.</ToolTip>
+                    <Default>This is my exception!</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>defaultctorvisibility</ID>
+                    <ToolTip>The visibility of the default (parameter-less) constructor.</ToolTip>
+                    <Default>protected</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[/// <summary>
+/// $summary$
+/// </summary>
+[Serializable]
+public class $name$Exception : Exception
+{
+    /// <summary>
+    /// Creates new empty instance.
+    /// </summary>
+    $defaultctorvisibility$ $name$Exception() 
+    { }
+
+    /// <summary>
+    /// Creates new instance with the <paramref name="message"/>.
+    /// </summary>
+    /// <param name="message">The text description of the problem.</param>
+    public $name$Exception(string message) 
+        : base(message) 
+    { }
+
+    /// <summary>
+    /// Creates new instance with the <paramref name="message"/> and <paramref name="inner"/> exception.
+    /// </summary>
+    /// <param name="message">The text description of the problem.</param>
+    /// <param name="inner">The inner cause of the exceptional state.</param>
+    public $name$Exception(string message, Exception inner) 
+        : base(message, inner) 
+    { }
+
+    /// <summary>
+    /// Creates new instance for deserialization.
+    /// </summary>
+    /// <param name="info">The serialization info.</param>
+    /// <param name="context">The streaming context.</param>
+    protected $name$Exception(SerializationInfo info, StreamingContext context)
+        : base(info, context) 
+    { }
+}$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

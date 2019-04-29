@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>ObservableModel Property</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Property declaration with RaisePropertyChanged call.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>omproprpc</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>fieldName</ID>
+                    <ToolTip>Field name</ToolTip>
+                    <Default>field</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>PropertyName</ID>
+                    <ToolTip>Property name</ToolTip>
+                    <Default>Property</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>Field type</ToolTip>
+                    <Default>string</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[private $type$ $fieldName$;
+public $type$ $PropertyName$
+{
+    get { return $fieldName$; }
+    set
+    {
+        if ($fieldName$ != value)
+        {
+            $fieldName$ = value;
+            RaisePropertyChanged();
+        }
+    }
+}
+$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

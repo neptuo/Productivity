@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>const</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Constant definition.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>const</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>modifier</ID>
+                    <ToolTip>The visibility modifier of the constant.</ToolTip>
+                    <Default>public</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>The type of the constant.</ToolTip>
+                    <Default>string</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>name</ID>
+                    <ToolTip>The name of the constant.</ToolTip>
+                    <Default>constant</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>value</ID>
+                    <ToolTip>The name of the constant.</ToolTip>
+                    <Default>"default"</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[$modifier$ const $type$ $name$ = $value$;$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

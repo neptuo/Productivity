@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>ObservableModel class</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Declaration of class inheriting from ObservableModel.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>omclass</Shortcut>
+        </Header>
+        <Snippet>
+            <Imports>
+                <Import>
+                    <Namespace>Neptuo.Observables</Namespace>
+                </Import>
+            </Imports>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>ClassName</ID>
+                    <ToolTip>Class name</ToolTip>
+                    <Default>ViewModel</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[public class $ClassName$ : ObservableModel
+{
+$end$
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

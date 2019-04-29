@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Feature model</Title>
+            <Author>Marek Fišera</Author>
+            <Description>Extension method for feature.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>fw</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>name</ID>
+                    <ToolTip>Name of feature interface, without 'I' prefix.</ToolTip>
+                    <Default>Feature</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>Type of feature model.</ToolTip>
+                    <Default>IFeatureModel</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[#region $name$
+      
+public static bool TryWith$name$(this $type$ model, out I$name$ feature)
+{
+    Ensure.NotNull(model, "model");
+    return model.TryWith<I$name$>(out feature);
+}
+
+public static I$name$ With$name$(this $type$ model) 
+{
+    Ensure.NotNull(model, "model");
+    return model.With<I$name$>();
+}
+
+#endregion$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

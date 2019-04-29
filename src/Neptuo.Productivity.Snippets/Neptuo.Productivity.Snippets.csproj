@@ -53,35 +53,65 @@
     <Compile Include="Properties\VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\LICENCE">
-      <Link>Resources\LICENCE</Link>
+    <Content Include="snippets.pkgdef">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Snippets\CSharp\Neptuo\Constant-String.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constant.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Exception-Base.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Exception-SerializationConstructor.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotEmptyKey.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotNull.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotNullOrEmpty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Envelope-MetadataExtension.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Models.Features-TryWith.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-ObservableCollectionProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-RaisePropertyChanged.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel.snippet" IncludeInVSIX="true" />
+    <Content Include="Snippets\CSharp\Neptuo\Property-ReadOnly.snippet" IncludeInVSIX="true" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="15.9.3" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.0.2268" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\assets\Productivity-Icon.ico">
       <Link>Resources\Productivity-Icon.ico</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="..\..\assets\Productivity-Icon.png">
       <Link>Resources\Productivity-Icon.png</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="..\..\assets\Productivity-Preview.png">
       <Link>Resources\Productivity-Preview.png</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\..\LICENCE">
+      <Link>Resources\LICENCE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="15.9.3" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.0.2268" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Envelope metadata extension</Title>
+            <Author>Marek Fišera</Author>
+            <Description>The metadata extension setter and getter.</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>envelopem</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>name</ID>
+                    <ToolTip>The name.</ToolTip>
+                    <Default>Name</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>The type.</ToolTip>
+                    <Default>string</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Kind="method decl">
+                <![CDATA[#region $name$
+
+/// <summary>
+/// Sets '$name$' to the metadata of the <paramref name="envelope"/>.
+/// </summary>
+/// <typeparam name="T">The type of the envelope body.</typeparam>
+/// <param name="envelope">The envelope which metadata to extend.</param>
+/// <param name="value">The vale of the '$name$'.</param>
+/// <returns><paramref name="envelope"/>(for fluency).</returns>
+public static Envelope<T> Add$name$<T>(this Envelope<T> envelope, $type$ value)
+{
+    Ensure.NotNull(envelope, "envelope");
+    envelope.Metadata.Add("$name$", value);
+    return envelope;
+}
+
+/// <summary>
+/// Tries to read '$name$' from the metadata of the <paramref name="envelope"/>.
+/// </summary>
+/// <typeparam name="T">The type of the envelope body.</typeparam>
+/// <param name="envelope">The envelope to read the metadata from.</param>
+/// <param name="value">The value of the '$name$'.</param>
+/// <returns><c>true</c> if '$name$' can is contained in the <paramref name="envelope"/>; <c>false</c> otherwise.</returns>
+public static bool TryGet$name$<T>(this Envelope<T> envelope, out $type$ value)
+{
+    Ensure.NotNull(envelope, "envelope");
+    return envelope.Metadata.TryGet("$name$", out value);
+}
+
+/// <summary>
+/// Reads '$name$' from the metadata of the <paramref name="envelope"/> or throws <see cref="InvalidOperationException"/>.
+/// </summary>
+/// <typeparam name="T">The type of the envelope body.</typeparam>
+/// <param name="envelope">The envelope to read the metadata from.</param>
+/// <returns>The value associated with the '$name$' or throws <see cref="InvalidOperationException"/>.</returns>
+/// <exception cref="InvalidOperationException">When the '$name$' is not contained in the metadata of the <paramref name="envelope"/>.</exception>
+public static $type$ Get$name$<T>(this Envelope<T> envelope)
+{
+    Ensure.NotNull(envelope, "envelope");
+    return envelope.Metadata.Get<$type$>("$name$");
+}
+
+#endregion
+$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
