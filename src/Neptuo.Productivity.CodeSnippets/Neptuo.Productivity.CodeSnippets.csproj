@@ -53,39 +53,39 @@
     <Compile Include="Properties\VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="snippets.pkgdef">
+    <Content Include="CodeSnippets.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\Neptuo\Constant-String.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constant.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-PublicProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-1Param.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-PublicProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-2Param.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-PublicProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-3Param.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Constructor-Internal.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Exception-Base.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Exception-SerializationConstructor.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotEmptyKey.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotNull.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Ensure-NotNullOrEmpty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Envelope-MetadataExtension.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Models.Features-TryWith.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-ObservableCollectionProperty.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-RaisePropertyChanged.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel.snippet" IncludeInVSIX="true" />
-    <Content Include="Snippets\CSharp\Neptuo\Property-ReadOnly.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constant-String.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constant.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-1Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-1Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-1Param.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-2Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-2Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-2Param.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-3Param-PublicProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-3Param-PublicReadOnlyProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-3Param.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-Internal-1Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-Internal-2Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-Internal-3Param-ReadOnlyField.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Constructor-Internal.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Exception-Base.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Exception-SerializationConstructor.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Ensure-NotEmptyKey.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Ensure-NotNull.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Ensure-NotNullOrEmpty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Envelope-MetadataExtension.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Models.Features-TryWith.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-ObservableCollectionProperty.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel-RaisePropertyChanged.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Neptuo.Observables.ObservableModel.snippet" IncludeInVSIX="true" />
+    <Content Include="CodeSnippets\CSharp\Neptuo\Property-ReadOnly.snippet" IncludeInVSIX="true" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
