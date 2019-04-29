@@ -15,7 +15,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.Productivity</RootNamespace>
-    <AssemblyName>Neptuo.Productivity.Snippets</AssemblyName>
+    <AssemblyName>Neptuo.Productivity.CodeSnippets</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>

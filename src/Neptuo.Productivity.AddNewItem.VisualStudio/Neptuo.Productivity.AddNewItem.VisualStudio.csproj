@@ -269,7 +269,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Productivity.AddNewItem\Neptuo.Productivity.AddNewItem.csproj">
       <Project>{81070ff4-3b6d-46ac-92b5-62a5f802a2ab}</Project>
-      <Name>Neptuo.Productivity.AddNewItem.v1</Name>
+      <Name>Neptuo.Productivity.AddNewItem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
