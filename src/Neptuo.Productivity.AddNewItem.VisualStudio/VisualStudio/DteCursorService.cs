@@ -26,7 +26,6 @@ namespace Neptuo.Productivity.VisualStudio
 
         public void Move(string filePath, int position)
         {
-            // TODO: Update position.
             IWpfTextView view = FindCurentTextView();
             if (view != null)
                 view.Caret.MoveTo(new SnapshotPoint(view.TextBuffer.CurrentSnapshot, position));

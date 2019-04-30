@@ -28,11 +28,11 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         private void WireUpMenuCommands(IMenuCommandService commandService)
         {
             CommandID commandId = new CommandID(PackageGuids.CommandSet, PackageIds.AddNewItem);
-            MenuCommand command = new MenuCommand(OnExecute, commandId);
+            MenuCommand command = new MenuCommand(OnExecuteAsync, commandId);
             commandService.AddCommand(command);
         }
 
-        private async void OnExecute(object sender, EventArgs e)
+        private async void OnExecuteAsync(object sender, EventArgs e)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -46,6 +46,8 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             SetWindowOwner(dte, wnd);
 
             wnd.ShowDialog();
+
+            dte.ActiveDocument.Activate();
         }
 
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
