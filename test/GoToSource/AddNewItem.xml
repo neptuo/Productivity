@@ -6,6 +6,18 @@
         </Content>
     </Template>
     <Template>
+        <Selector FileName="I*.cs" />
+        <Content>
+            <![CDATA[public interface IMyInterface{Cursor.End}]]>
+        </Content>
+    </Template>
+    <Template>
+        <Selector FileName="*.cs" />
+        <Content>
+            <![CDATA[public class MyClass{Cursor.End}]]>
+        </Content>
+    </Template>
+    <Template>
         <Selector FileName="*Exception.cs" />
         <Snippet Shortcut="exbase" />
     </Template>
