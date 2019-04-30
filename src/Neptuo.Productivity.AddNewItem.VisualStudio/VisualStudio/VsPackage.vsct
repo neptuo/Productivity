@@ -15,9 +15,9 @@
     </Buttons>
   </Commands>
 
-  <!--<KeyBindings>
-    <KeyBinding guid="CommandSet" id="AddNewItem" mod1="Shift" mod2="Alt" key1="F" editor="guidVSStd97"/>
-  </KeyBindings>-->
+  <KeyBindings>
+    <KeyBinding guid="CommandSet" id="AddNewItem" mod1="Shift Alt" key1="F" editor="guidVSStd97"/>
+  </KeyBindings>
 
   <Symbols>
     <GuidSymbol name="Package" value="{65b8ccaf-e638-4bdd-9508-3e153ffa115b}" />
