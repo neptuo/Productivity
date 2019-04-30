@@ -47,7 +47,8 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
             wnd.ShowDialog();
 
-            dte.ActiveDocument.Activate();
+            if (dte.ActiveDocument != null)
+                dte.ActiveDocument.Activate();
         }
 
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
