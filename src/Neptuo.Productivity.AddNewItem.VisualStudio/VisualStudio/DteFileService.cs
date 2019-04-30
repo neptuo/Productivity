@@ -95,7 +95,31 @@ namespace Neptuo.Productivity.VisualStudio
             return true;
         }
 
+        public void CreateDirectory(string path)
+        {
+            ProjectItem projectItem = CreateProjectItem(Path.Combine(path, "__dummy__"), Encoding.UTF8, String.Empty);
+            if (projectItem != null)
+                projectItem.Delete();
+        }
+
         public void CreateFile(string filePath, Encoding encoding, string content)
+        {
+            try
+            {
+                CreateProjectItem(filePath, encoding, content);
+
+                // Open document.
+                VsShellUtilities.OpenDocument(services, filePath);
+                dte.ActiveDocument.Activate();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Handle exceptions.
+                System.Windows.MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private ProjectItem CreateProjectItem(string filePath, Encoding encoding, string content)
         {
             FileInfo file = new FileInfo(filePath);
             filePath = file.FullName;
@@ -108,32 +132,21 @@ namespace Neptuo.Productivity.VisualStudio
 
             PackageUtilities.EnsureOutputPath(folderPath);
 
-            try
+            ProjectItem projectItem = null;
+
+            using (FileStream fileContent = File.Create(filePath))
             {
+                if (selectedItem is ProjectItem parentItem && EnvDTE.Constants.vsProjectItemKindVirtualFolder == parentItem.Kind)
+                    projectItem = parentItem.ProjectItems.AddFromFile(filePath);
+
+                if (projectItem == null)
+                    projectItem = project.ProjectItems.AddFromFile(filePath);
+
                 // Create file and write content.
-                using (FileStream fileContent = File.Create(filePath))
-                {
-                    ProjectItem projectItem = null;
-
-                    if (selectedItem is ProjectItem parentItem && EnvDTE.Constants.vsProjectItemKindVirtualFolder == parentItem.Kind)
-                        projectItem = parentItem.ProjectItems.AddFromFile(filePath);
-
-                    if (projectItem == null)
-                        projectItem = project.ProjectItems.AddFromFile(filePath);
-                }
-
-                using (FileStream fileContent = File.Create(filePath))
                 using (StreamWriter writer = new StreamWriter(fileContent, encoding))
                     writer.Write(content);
 
-                // Open document.
-                VsShellUtilities.OpenDocument(services, filePath);
-                dte.ActiveDocument.Activate();
-            }
-            catch (Exception ex)
-            {
-                // TODO: Handle exceptions.
-                System.Windows.MessageBox.Show(ex.ToString());
+                return projectItem;
             }
         }
 
@@ -258,17 +271,5 @@ namespace Neptuo.Productivity.VisualStudio
         }
 
         #endregion
-
-        public void CreateDirectory(string path)
-        {
-            //if (file.FullName.EndsWith("__dummy__"))
-            //{
-            //    projectItem?.Delete();
-            //    return;
-            //}
-
-            // TODO: Creating directories.
-            throw Ensure.Exception.NotImplemented();
-        }
     }
 }
