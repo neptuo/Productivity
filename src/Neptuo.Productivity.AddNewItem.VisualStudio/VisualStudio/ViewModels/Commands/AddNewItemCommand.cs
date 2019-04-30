@@ -19,9 +19,10 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
         private readonly IFileService files;
         private readonly ITemplateService templates;
         private readonly ICursorService cursor;
-        private readonly Action executed;
 
-        public AddNewItemCommand(MainViewModel viewModel, IFileService files, ITemplateService templates, ICursorService cursor, Action executed = null)
+        public event Action Executed;
+
+        public AddNewItemCommand(MainViewModel viewModel, IFileService files, ITemplateService templates, ICursorService cursor)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(files, "service");
@@ -31,7 +32,6 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
             this.files = files;
             this.templates = templates;
             this.cursor = cursor;
-            this.executed = executed;
 
             viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -102,7 +102,7 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
                     files.CreateDirectory(path);
                 }
 
-                executed();
+                Executed?.Invoke();
             }
         }
     }

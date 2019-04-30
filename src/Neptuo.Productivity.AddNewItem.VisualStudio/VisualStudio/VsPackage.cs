@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Neptuo.Productivity.VisualStudio.Commands;
 using Neptuo.Productivity.VisualStudio.Views;
@@ -20,7 +21,6 @@ namespace Neptuo.Productivity.VisualStudio
     [Guid(PackageGuids.PackageString)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(AddNewItemWindow), Width = 400, Height = 200, Transient = true)]
     public class VsPackage : AsyncPackage
     {
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
@@ -40,6 +40,14 @@ namespace Neptuo.Productivity.VisualStudio
             AddNewItemCommand.Initialize(this, commandService);
         }
 
-        private async Task<T> GetServiceAsync<T>() => (T)await GetServiceAsync(typeof(T));
+        public async Task<T> GetComponentServiceAsync<T>()
+            where T : class
+        {
+            IComponentModel componentModel = await GetServiceAsync<SComponentModel, IComponentModel>();
+            return componentModel.GetService<T>();
+        }
+
+        public async Task<T> GetServiceAsync<T>() => (T)await GetServiceAsync(typeof(T));
+        public async Task<TContract> GetServiceAsync<TService, TContract>() => (TContract)await GetServiceAsync(typeof(TService));
     }
 }

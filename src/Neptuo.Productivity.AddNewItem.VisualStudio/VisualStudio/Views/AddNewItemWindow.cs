@@ -1,144 +1,59 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Utilities;
+﻿using Microsoft.VisualStudio.Shell;
 using Neptuo.Productivity.VisualStudio.ViewModels;
-using Neptuo.Productivity.VisualStudio.Views.DesignData;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Interop;
-using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Neptuo.Productivity.VisualStudio.Views
 {
-    [Guid("088f3f0e-a9e1-4e31-b77b-69e6d0fa5294")]
-    public class AddNewItemWindow : ToolWindowPane
+    public class AddNewItemWindow : Window
     {
-        private const int VK_ESCAPE = 0x1b;
-        private const int WM_KEYDOWN = 0x100;
+        public MainViewModel ViewModel => (MainViewModel)DataContext;
 
-        private IntPtr handle;
-        private DTE dte;
-        private SelectionEvents events;
-
-        public new AddNewItemView Content
+        public AddNewItemWindow(MainViewModel viewModel)
         {
-            get { return (AddNewItemView)base.Content; }
-            set { base.Content = value; }
-        }
+            Ensure.NotNull(viewModel, "viewModel");
 
-        public MainViewModel ViewModel
-        {
-            get { return Content.ViewModel; }
-        }
-
-        public AddNewItemWindow()
-        {
-            Caption = "Add new item...";
+            Title = "Add new item...";
             Content = new AddNewItemView();
+            DataContext = viewModel;
+            SizeToContent = SizeToContent.WidthAndHeight;
+            ResizeMode = ResizeMode.NoResize;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            SetResourceReference(BackgroundProperty, VsBrushes.BackgroundKey);
+
+            ViewModel.Add.Executed += OnAddExecuted;
         }
 
-        public override void OnToolWindowCreated()
-        {
-            base.OnToolWindowCreated();
-
-            dte = (DTE)GetService(typeof(DTE));
-            IComponentModel componentModel = (IComponentModel)GetService(typeof(SComponentModel));
-            ITemplateService templateService = componentModel.GetService<FirstNotNullTemplateService>();
-
-            events = dte.Events.SelectionEvents;
-            events.OnChange += OnSelectionChanged;
-
-            Content.DataContext = new MainViewModel(new DteFileService(dte, this), templateService, new DteCursorService(dte), OnItemAdded);
-            OnSelectionChanged();
-        }
-
-        private void OnItemAdded()
+        private void OnAddExecuted()
         {
             ViewModel.Name = null;
-            Hide();
+            Close();
         }
 
-        private void OnSelectionChanged()
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if (dte.SelectedItems.Count == 1)
-            {
-                SelectedItem item = dte.SelectedItems.Item(1);
-                string path = null;
-                if (item.ProjectItem != null)
-                    path = item.ProjectItem.FileNames[0];
-                else if (item.Project != null)
-                    path = Path.GetDirectoryName(item.Project.FileName);
-                else if (dte.Solution != null)
-                    path = Path.GetDirectoryName(dte.Solution.FileName);
+            base.OnPreviewKeyDown(e);
 
-                if (path != null)
-                {
-                    if (File.Exists(path))
-                        path = Path.GetDirectoryName(path);
-
-                    ViewModel.Path = path;
-                }
-            }
-        }
-
-        private void EnsureHandle()
-        {
-            if (handle == IntPtr.Zero)
-            {
-                HwndSource source = (HwndSource)PresentationSource.FromVisual(Content);
-                if (source != null)
-                    handle = source.Handle;
-            }
-        }
-
-        protected override bool PreProcessMessage(ref Message m)
-        {
-            //EnsureHandle();
-            if (((IVsWindowFrame)Frame).IsVisible() == 0 && m.Msg == WM_KEYDOWN && m.WParam.ToInt32() == VK_ESCAPE)
+            if (e.Key == Key.Escape)
             {
                 if (String.IsNullOrEmpty(ViewModel.Name))
-                {
-                    Hide();
-                }
+                    Close();
                 else
-                {
                     ViewModel.Name = null;
-                    Show();
-                }
-
-                return true;
-            }
-            else
-            {
-                return base.PreProcessMessage(ref m);
             }
         }
 
-        public void Show()
+        protected override void OnClosed(EventArgs e)
         {
-            ((IVsWindowFrame)Frame).Show();
-        }
+            base.OnClosed(e);
 
-        public void Hide()
-        {
-            ((IVsWindowFrame)Frame).Hide();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            events.OnChange -= OnSelectionChanged;
+            ViewModel.Add.Executed -= OnAddExecuted;
         }
     }
 }

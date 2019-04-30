@@ -1,8 +1,13 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Threading;
+using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Productivity.VisualStudio.Views;
 using System;
 using System.ComponentModel.Design;
+using System.IO;
+using System.Windows.Interop;
+using Window = System.Windows.Window;
 
 namespace Neptuo.Productivity.VisualStudio.Commands
 {
@@ -27,13 +32,51 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             commandService.AddCommand(command);
         }
 
-        private void OnExecute(object sender, EventArgs e)
+        private async void OnExecute(object sender, EventArgs e)
         {
-            AddNewItemWindow window = (AddNewItemWindow)package.FindToolWindow(typeof(AddNewItemWindow), 0, true);
-            if (window != null && window.Frame != null)
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+            DTE dte = await package.GetServiceAsync<DTE>();
+            ITemplateService templateService = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
+
+            var viewModel = new MainViewModel(new DteFileService(dte, package), templateService, new DteCursorService(dte));
+            SetViewModelPath(dte, viewModel);
+
+            var wnd = new AddNewItemWindow(viewModel);
+            SetWindowOwner(dte, wnd);
+
+            wnd.ShowDialog();
+        }
+
+        private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var ownerHwnd = new IntPtr(dte.MainWindow.HWnd);
+            wnd.Owner = (Window)HwndSource.FromHwnd(ownerHwnd).RootVisual;
+        }
+
+        private static void SetViewModelPath(DTE dte, MainViewModel viewModel)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (dte.SelectedItems.Count == 1)
             {
-                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
-                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+                SelectedItem item = dte.SelectedItems.Item(1);
+                string path = null;
+                if (item.ProjectItem != null)
+                    path = item.ProjectItem.FileNames[0];
+                else if (item.Project != null)
+                    path = Path.GetDirectoryName(item.Project.FileName);
+                else if (dte.Solution != null)
+                    path = Path.GetDirectoryName(dte.Solution.FileName);
+
+                if (path != null)
+                {
+                    if (File.Exists(path))
+                        path = Path.GetDirectoryName(path);
+
+                    viewModel.Path = path;
+                }
             }
         }
 

@@ -6,7 +6,7 @@
     xmlns:dd="clr-namespace:Neptuo.Productivity.VisualStudio.Views.DesignData"
     xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400" d:DataContext="{x:Static dd:ViewModelLocator.Main}"
-    Background="White" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
+    Background="{DynamicResource {x:Static shell:VsBrushes.BackgroundKey}}" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
