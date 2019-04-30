@@ -29,5 +29,7 @@ namespace Neptuo.Productivity.VisualStudio.Views
             InitializeComponent();
             Background = null;
         }
+
+        public void AutoFocus() => tbxName.Focus();
     }
 }

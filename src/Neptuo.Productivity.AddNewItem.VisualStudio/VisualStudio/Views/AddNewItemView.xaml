@@ -6,7 +6,7 @@
     xmlns:dd="clr-namespace:Neptuo.Productivity.VisualStudio.Views.DesignData"
     xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400" d:DataContext="{x:Static dd:ViewModelLocator.Main}"
-    Background="{DynamicResource {x:Static shell:VsBrushes.BackgroundKey}}" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
+    Background="White" Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}" />
@@ -23,7 +23,7 @@
             <TextBlock Text="{Binding ActivePath}" FontWeight="Bold" />
             <TextBlock Text="{Binding InactivePath}" />
         </StackPanel>
-        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Padding="4,2" Margin="0,0,0,8" />
+        <TextBox x:Name="tbxName" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Padding="4,2" Margin="0,0,0,8" />
         <Grid>
             <CheckBox Content="Is file" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding IsFile}" />
             <Button Content="Add" Command="{Binding Add}" IsDefault="True" HorizontalAlignment="Right" />

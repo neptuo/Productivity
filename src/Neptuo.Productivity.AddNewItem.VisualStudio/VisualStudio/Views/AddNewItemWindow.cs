@@ -13,6 +13,7 @@ namespace Neptuo.Productivity.VisualStudio.Views
 {
     public class AddNewItemWindow : Window
     {
+        public AddNewItemView View => (AddNewItemView)Content;
         public MainViewModel ViewModel => (MainViewModel)DataContext;
 
         public AddNewItemWindow(MainViewModel viewModel)
@@ -34,6 +35,13 @@ namespace Neptuo.Productivity.VisualStudio.Views
         {
             ViewModel.Name = null;
             Close();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            View.AutoFocus();
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
