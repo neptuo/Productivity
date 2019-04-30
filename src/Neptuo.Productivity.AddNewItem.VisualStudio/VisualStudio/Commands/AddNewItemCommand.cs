@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Threading;
+using Neptuo.Collections.Specialized;
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Productivity.VisualStudio.Views;
 using System;
@@ -8,6 +9,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Windows.Interop;
 using Window = System.Windows.Window;
+using Task = System.Threading.Tasks.Task;
 
 namespace Neptuo.Productivity.VisualStudio.Commands
 {
@@ -37,18 +39,20 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             DTE dte = await package.GetServiceAsync<DTE>();
-            ITemplateService templateService = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
+            ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
+            IFileService files = new DteFileService(dte, package);
+            ICursorService cursor = new DteCursorService(dte);
 
-            var viewModel = new MainViewModel(new DteFileService(dte, package), templateService, new DteCursorService(dte));
+            var viewModel = new MainViewModel(files);
             SetViewModelPath(dte, viewModel);
 
             var wnd = new AddNewItemWindow(viewModel);
             SetWindowOwner(dte, wnd);
 
-            wnd.ShowDialog();
+            if (wnd.ShowDialog() != true)
+                return;
 
-            if (dte.ActiveDocument != null)
-                dte.ActiveDocument.Activate();
+            await CreateItemAsync(templates, files, cursor, viewModel);
         }
 
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
@@ -80,6 +84,37 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
                     viewModel.Path = path;
                 }
+            }
+        }
+
+        private static async Task CreateItemAsync(ITemplateService templates, IFileService files, ICursorService cursor, MainViewModel viewModel)
+        {
+            string path = Path.Combine(viewModel.Path, viewModel.Name);
+            if (viewModel.IsFile)
+            {
+                ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
+                if (template is IContentTemplate contentTemplate)
+                {
+                    // TODO: Parameters.
+                    TemplateContent templateContent = contentTemplate.GetContent(new KeyValueCollection());
+
+                    files.CreateFile(path, templateContent.Encoding, templateContent.Content);
+
+                    if (templateContent.Position > 0)
+                        cursor.Move(path, templateContent.Position);
+                }
+                else if (template is IApplicableTemplate applicableTemplate)
+                {
+                    await applicableTemplate.ApplyAsync(path, new KeyValueCollection());
+                }
+                else
+                {
+                    throw Ensure.Exception.NotImplemented();
+                }
+            }
+            else
+            {
+                files.CreateDirectory(path);
             }
         }
 

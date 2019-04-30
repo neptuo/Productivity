@@ -31,9 +31,9 @@ namespace Neptuo.Productivity.VisualStudio.Views
             ViewModel.Add.Executed += OnAddExecuted;
         }
 
-        private void OnAddExecuted()
+        private void OnAddExecuted(bool isSuccess)
         {
-            ViewModel.Name = null;
+            DialogResult = isSuccess;
             Close();
         }
 

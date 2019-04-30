@@ -85,10 +85,10 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 
         public AddNewItemCommand Add { get; private set; }
 
-        public MainViewModel(IFileService files, ITemplateService templates, ICursorService cursor)
+        public MainViewModel(IFileService files)
         {
             IsFile = true;
-            Add = new AddNewItemCommand(this, files, templates, cursor);
+            Add = new AddNewItemCommand(this, files);
         }
 
         private void RecomputeActivePath()

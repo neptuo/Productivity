@@ -9,21 +9,27 @@ namespace Neptuo.Productivity.VisualStudio.Views.DesignData
 {
     public class ViewModelLocator
     {
-        private static MainViewModel main;
+        #region Infrastructure
 
-        public static MainViewModel Main
+        private static readonly Dictionary<object, object> storage = new Dictionary<object, object>();
+
+        private static T Get<T>(Func<T> factory)
         {
-            get
-            {
-                if (main == null)
-                {
-                    main = new MainViewModel(new MockFileService(), new MockTemplateService(), new MockCursorService());
-                    main.Path = "Neptuo.Productivity.AddNewItem/VisualStudio/Commands/";
-                    main.Name = "../Views/NewItemView.xaml";
-                }
+            object key = factory.Method.GetHashCode();
+            if (!storage.TryGetValue(key, out object instance))
+                storage[key] = instance = factory();
 
-                return main;
-            }
+            return (T)instance;
         }
+
+        #endregion
+
+        public static IFileService FileService => Get(() => new MockFileService());
+
+        public static MainViewModel Main => Get(() => new MainViewModel(FileService)
+        {
+            Path = "Neptuo.Productivity.AddNewItem/VisualStudio/Commands/",
+            Name = "../Views/NewItemView.xaml"
+        });
     }
 }
