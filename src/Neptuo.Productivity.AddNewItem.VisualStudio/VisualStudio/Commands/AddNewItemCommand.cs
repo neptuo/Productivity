@@ -109,7 +109,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 }
                 else
                 {
-                    throw Ensure.Exception.NotImplemented();
+                    throw Ensure.Exception.NotSupported($"We don't know how to apply the template of type '{template.GetType().FullName}'.");
                 }
             }
             else
