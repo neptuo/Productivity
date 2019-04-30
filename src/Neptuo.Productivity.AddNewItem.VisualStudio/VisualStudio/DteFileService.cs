@@ -122,15 +122,13 @@ namespace Neptuo.Productivity.VisualStudio
                         projectItem = project.ProjectItems.AddFromFile(filePath);
                 }
 
-                // Open document.
-                VsShellUtilities.OpenDocument(services, filePath);
-
-                // Activate.
-                dte.ActiveDocument.Activate();
-
                 using (FileStream fileContent = File.Create(filePath))
                 using (StreamWriter writer = new StreamWriter(fileContent, encoding))
                     writer.Write(content);
+
+                // Open document.
+                VsShellUtilities.OpenDocument(services, filePath);
+                dte.ActiveDocument.Activate();
             }
             catch (Exception ex)
             {
