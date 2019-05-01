@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-    <Metadata>
-        <Identity Id="ff76ea64-a0b3-407a-a7f4-46c88a3b0216" Version="1.1.0" Language="en-US" Publisher="Neptuo" />
-        <DisplayName>Neptuo.Productivity.BuildHistory</DisplayName>
-        <Description xml:space="preserve">Productivity tools by Neptuo: Build History.
+  <Metadata>
+    <Identity Id="ff76ea64-a0b3-407a-a7f4-46c88a3b0216" Version="1.1.0" Language="en-US" Publisher="Neptuo" />
+    <DisplayName>Neptuo.Productivity.BuildHistory</DisplayName>
+    <Description xml:space="preserve">Productivity tools by Neptuo: Build History.
 Logging build process. Showing last build times.</Description>
-        <MoreInfo>http://www.neptuo.com/project/vsix/buildhistory</MoreInfo>
-        <License>Resources\LICENCE</License>
-        <Icon>Resources\Productivity-Icon.png</Icon>
-        <PreviewImage>Resources\Productivity-Preview.png</PreviewImage>
-        <Tags>Neptuo, Productivity, BuildHistory, Build, Cancel</Tags>
-    </Metadata>
-    <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 17.0)" />
-        <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
-        <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
-    </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    </Dependencies>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    </Assets>
-    <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,)" DisplayName="Visual Studio core editor" />
-    </Prerequisites>
+    <MoreInfo>http://www.neptuo.com/project/vsix/buildhistory</MoreInfo>
+    <License>Resources\LICENCE</License>
+    <Icon>Resources\Productivity-Icon.png</Icon>
+    <PreviewImage>Resources\Productivity-Preview.png</PreviewImage>
+    <Tags>Neptuo, Productivity, BuildHistory, Build, Cancel</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 17.0)" />
+    <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
 </PackageManifest>
