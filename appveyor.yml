@@ -5,11 +5,12 @@ branches:
 image: Visual Studio 2017
 configuration: Release
 before_build:
-- ps: dotnet restore Neptuo.Productivity.sln
+- ps: >-
+    dotnet restore Neptuo.Productivity.sln
+
+    .\tools\Vsix-SetVersion.ps1
 build:
   project: Neptuo.Productivity.sln
   verbosity: minimal
-before_package:
-- ps: .\tools\Vsix-SetVersion.ps1
 artifacts:
 - path: '*.vsix'
