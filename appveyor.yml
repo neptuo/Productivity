@@ -1,4 +1,7 @@
 version: '{build}'
+branches:
+  only:
+  - master
 image: Visual Studio 2017
 configuration: Release
 before_build:
@@ -6,3 +9,7 @@ before_build:
 build:
   project: Neptuo.Productivity.sln
   verbosity: minimal
+before_package:
+- ps: .\tools\Vsix-SetVersion.ps1
+artifacts:
+- path: '*.vsix'
