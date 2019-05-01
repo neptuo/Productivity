@@ -13,4 +13,4 @@ build:
   project: Neptuo.Productivity.sln
   verbosity: minimal
 after_build:
-- ps: Get-ChildItem .\*.vsix -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+- ps: Get-ChildItem .\*.vsix -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.BaseName)-v0.0.$($env:APPVEYOR_BUILD_NUMBER)$($_.Extension)" }
