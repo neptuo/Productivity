@@ -12,5 +12,5 @@ before_build:
 build:
   project: Neptuo.Productivity.sln
   verbosity: minimal
-artifacts:
-- path: '*.vsix'
+after_build:
+- ps: Get-ChildItem .\*.vsix -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
