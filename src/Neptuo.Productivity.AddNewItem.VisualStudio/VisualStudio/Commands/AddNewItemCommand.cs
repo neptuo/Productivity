@@ -40,7 +40,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
             DTE dte = await package.GetServiceAsync<DTE>();
             ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
-            IParameterService parameterProvider = await package.GetComponentServiceAsync<IParameterService>(); // TODO: ImportMany parameter providers.
+            IParameterService parameterProvider = await package.GetComponentServiceAsync<ManyParameterService>();
             IFileService files = new DteFileService(dte, package);
             ICursorService cursor = new DteCursorService(dte);
 

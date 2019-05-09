@@ -15,14 +15,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Productivity
 {
     [Export(typeof(IParameterService))]
-    public class DteParameterService : IParameterService
+    public class CSharpParameterService : IParameterService
     {
         private readonly DTE dte;
 
-        public DteParameterService()
-        {
-            dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-        }
+        public CSharpParameterService() => dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
 
         public void Add(string filePath, IKeyValueCollection parameters)
         {
@@ -34,12 +31,7 @@ namespace Neptuo.Productivity
                 {
                     string relative = PackageUtilities.MakeRelative(project.FindRootFolder(), Path.GetDirectoryName(filePath));
                     string rootNamespace = project.FindRootNamespace();
-
-                    string ns = rootNamespace;
-                    if (!String.IsNullOrEmpty(ns))
-                        ns += ".";
-
-                    ns += ProjectExtensions.CleanNamespace(relative);
+                    string ns = ConcatNamespace(rootNamespace, ProjectExtensions.CleanNamespace(relative));
 
                     parameters.Add("namespace", ns);
                 }

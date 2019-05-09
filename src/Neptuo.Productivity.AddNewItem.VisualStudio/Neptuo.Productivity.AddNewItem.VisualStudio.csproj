@@ -50,10 +50,11 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DteParameterService.cs" />
+    <Compile Include="CSharpParameterService.cs" />
     <Compile Include="EmptyTemplate.cs" />
     <Compile Include="FileTemplate.cs" />
     <Compile Include="FirstNotNullTemplateService.cs" />
+    <Compile Include="ManyParameterService.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="StringTemplate.cs" />
