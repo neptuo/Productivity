@@ -40,6 +40,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
             DTE dte = await package.GetServiceAsync<DTE>();
             ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
+            IParameterService parameterProvider = await package.GetComponentServiceAsync<IParameterService>(); // TODO: ImportMany parameter providers.
             IFileService files = new DteFileService(dte, package);
             ICursorService cursor = new DteCursorService(dte);
 
@@ -52,7 +53,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             if (wnd.ShowDialog() != true)
                 return;
 
-            await CreateItemAsync(templates, files, cursor, viewModel);
+            await CreateItemAsync(templates, files, parameterProvider, cursor, viewModel);
         }
 
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
@@ -87,7 +88,19 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             }
         }
 
-        private static async Task CreateItemAsync(ITemplateService templates, IFileService files, ICursorService cursor, MainViewModel viewModel)
+        private static Project FindSelectedProject(DTE dte)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (dte.SelectedItems.Count == 1)
+            {
+                SelectedItem item = dte.SelectedItems.Item(1);
+                return item.Project;
+            }
+
+            return null;
+        }
+
+        private static async Task CreateItemAsync(ITemplateService templates, IFileService files, IParameterService parameterProvider, ICursorService cursor, MainViewModel viewModel)
         {
             string path = Path.Combine(viewModel.Path, viewModel.Name);
             if (viewModel.IsFile)
@@ -95,8 +108,10 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
                 if (template is IContentTemplate contentTemplate)
                 {
-                    // TODO: Parameters.
-                    TemplateContent templateContent = contentTemplate.GetContent(new KeyValueCollection());
+                    KeyValueCollection parameters = new KeyValueCollection();
+                    parameterProvider.Add(path, parameters);
+
+                    TemplateContent templateContent = contentTemplate.GetContent(parameters);
 
                     files.CreateFile(path, templateContent.Encoding, templateContent.Content);
 

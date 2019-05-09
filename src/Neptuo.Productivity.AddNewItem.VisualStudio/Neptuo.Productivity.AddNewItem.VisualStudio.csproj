@@ -50,7 +50,7 @@
     <Compile Include="..\_AssemblyInfo.cs">
       <Link>Properties\_AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DefaultParameterService.cs" />
+    <Compile Include="DteParameterService.cs" />
     <Compile Include="EmptyTemplate.cs" />
     <Compile Include="FileTemplate.cs" />
     <Compile Include="FirstNotNullTemplateService.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="VisualStudio\Commands\AddNewItemCommand.cs" />
     <Compile Include="VisualStudio\DteCursorService.cs" />
     <Compile Include="VisualStudio\DteFileService.cs" />
+    <Compile Include="VisualStudio\ProjectExtensions.cs" />
     <Compile Include="VisualStudio\ViewModels\Commands\AddNewItemCommand.cs" />
     <Compile Include="VisualStudio\ViewModels\MainViewModel.cs" />
     <Compile Include="VisualStudio\Views\AddNewItemView.xaml.cs">
