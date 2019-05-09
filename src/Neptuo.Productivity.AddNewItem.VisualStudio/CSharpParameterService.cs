@@ -46,7 +46,10 @@ namespace Neptuo.Productivity
             if (dte.SelectedItems.Count == 1)
             {
                 SelectedItem item = dte.SelectedItems.Item(1);
-                return item.ProjectItem.ContainingProject;
+                if (item.Project != null)
+                    return item.Project;
+                else if (item.ProjectItem != null)
+                    return item.ProjectItem.ContainingProject;
             }
 
             return null;
@@ -54,10 +57,10 @@ namespace Neptuo.Productivity
 
         private string ConcatNamespace(string ns1, string ns2)
         {
-            if (!String.IsNullOrEmpty(ns1))
+            if (String.IsNullOrEmpty(ns1))
                 return ns2;
 
-            if (!String.IsNullOrEmpty(ns2))
+            if (String.IsNullOrEmpty(ns2))
                 return ns1;
 
             return ns1 + "." + ns2;
