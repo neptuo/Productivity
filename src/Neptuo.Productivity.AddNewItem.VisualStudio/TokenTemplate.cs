@@ -1,5 +1,4 @@
 ﻿using Neptuo.Collections.Specialized;
-using Neptuo.Productivity.VisualStudio.ViewModels;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;

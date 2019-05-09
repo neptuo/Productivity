@@ -8,13 +8,25 @@
     <Template>
         <Selector FileName="I*.cs" />
         <Content>
-            <![CDATA[public interface IMyInterface{Cursor.End}]]>
+<![CDATA[namespace $namespace$
+{
+    public interface $itemname$
+    {
+        $end$
+    }
+}]]>
         </Content>
     </Template>
     <Template>
         <Selector FileName="*.cs" />
         <Content>
-            <![CDATA[public class MyClass{Cursor.End}]]>
+<![CDATA[namespace $namespace$
+{
+    public class $itemname$
+    {
+        $end$
+    }
+}]]>
         </Content>
     </Template>
     <Template>

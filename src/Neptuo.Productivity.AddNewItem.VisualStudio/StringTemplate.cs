@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
-    public class StringTemplate : TokenTemplate
+    public class StringTemplate : SnippetTemplate
     {
         private string content;
 

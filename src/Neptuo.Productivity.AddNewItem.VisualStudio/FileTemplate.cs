@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity
 {
-    public class FileTemplate : TokenTemplate
+    public class FileTemplate : SnippetTemplate
     {
         private readonly string filePath;
         private readonly string content;
