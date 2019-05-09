@@ -57,6 +57,7 @@
     <Compile Include="ManyParameterService.cs" />
     <Compile Include="Properties\ProductInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="SnippetTemplate.cs" />
     <Compile Include="StringTemplate.cs" />
     <Compile Include="TokenTemplate.cs" />
     <Compile Include="VisualStudio\Commands\AddNewItemCommand.cs" />
