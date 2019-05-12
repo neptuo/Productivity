@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.Utilities;
-using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -19,7 +18,7 @@ namespace Neptuo.Productivity
 
         public ITemplate FindTemplate(string path)
         {
-            if(!isOrdered)
+            if (!isOrdered)
             {
                 Services = Orderer.Order(Services);
                 isOrdered = true;

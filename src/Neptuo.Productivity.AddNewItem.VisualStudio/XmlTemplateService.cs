@@ -2,6 +2,7 @@
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace Neptuo.Productivity
             string fileName = Path.GetFileName(path);
             foreach (TemplateNode templateNode in list)
             {
-                foreach (SelectorNode selectorNode in templateNode.Selector)
+                foreach (SelectorNode selectorNode in templateNode.Selectors)
                 {
                     if (selectorNode.IsMatched(fileName))
                         return CreateTemplate(templateNode);
@@ -64,7 +65,7 @@ namespace Neptuo.Productivity
         public class TemplateNode
         {
             [XmlElement("Selector")]
-            public List<SelectorNode> Selector { get; set; }
+            public List<SelectorNode> Selectors { get; set; }
 
             [XmlElement]
             public string Content { get; set; }
@@ -86,13 +87,34 @@ namespace Neptuo.Productivity
             [XmlAttribute]
             public string FileName { get; set; }
 
+            [XmlAttribute]
+            public MatchSyntaxMode FileNameSyntax { get; set; }
+
             public bool IsMatched(string fileName)
             {
                 if (regex == null)
-                    regex = new Regex("^" + FileName.Replace("*", "(.*)") + "$");
+                {
+                    switch (FileNameSyntax)
+                    {
+                        case MatchSyntaxMode.Glob:
+                            regex = new Regex("^" + FileName.Replace("*", "(.*)") + "$");
+                            break;
+                        case MatchSyntaxMode.Regex:
+                            regex = new Regex(FileName);
+                            break;
+                        default:
+                            throw Ensure.Exception.NotSupported($"Not supported value '{FileNameSyntax}' for '{nameof(FileNameSyntax)}'.");
+                    }
+                }
 
                 return regex.IsMatch(fileName);
             }
+        }
+
+        public enum MatchSyntaxMode
+        {
+            Glob,
+            Regex
         }
 
         public class SnippetNode
