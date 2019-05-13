@@ -74,21 +74,27 @@ namespace Neptuo.Productivity.VisualStudio
             if (project == null)
                 return null;
 
-            string ns = project.Name ?? string.Empty;
+            string result = FindProperty(project, "RootNamespace") ?? project.Name ?? string.Empty;
 
+            return CleanNamespace(result, stripPeriods: false);
+        }
+
+        public static string FindProperty(this Project project, string propertName)
+        {
             try
             {
-                Property prop = project.Properties.Item("RootNamespace");
+                Property property = project.Properties.Item(propertName);
+                string propertyValue = property.Value.ToString();
 
-                if (prop != null && prop.Value != null && !string.IsNullOrEmpty(prop.Value.ToString()))
-                    ns = prop.Value.ToString();
+                if (property != null && property.Value != null && !string.IsNullOrEmpty(propertyValue))
+                    return propertyValue;
             }
             catch
-            { 
+            {
                 /* Project doesn't have a root namespace */
             }
-            
-            return CleanNamespace(ns, stripPeriods: false);
+
+            return null;
         }
 
         public static string CleanNamespace(string ns, bool stripPeriods = true)

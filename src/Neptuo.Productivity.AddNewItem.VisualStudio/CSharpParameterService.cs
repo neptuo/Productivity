@@ -33,6 +33,8 @@ namespace Neptuo.Productivity
                     string rootNamespace = project.FindRootNamespace();
                     string ns = ConcatNamespace(rootNamespace, ProjectExtensions.CleanNamespace(relative));
 
+                    parameters.Add("projectname", project.Name);
+                    parameters.Add("assemblyname", project.FindProperty("AssemblyName") ?? project.Name);
                     parameters.Add("namespace", ns);
                 }
 
