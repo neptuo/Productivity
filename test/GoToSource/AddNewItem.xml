@@ -6,7 +6,7 @@
         </Content>
     </Template>
     <Template>
-        <Selector FileName="I*.cs" />
+        <Selector FileName="I[A-Z]+.*\.cs" FileNameSyntax="Regex" />
         <Content>
 <![CDATA[namespace $namespace$
 {
