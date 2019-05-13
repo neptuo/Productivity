@@ -2,31 +2,47 @@
     <Template>
         <Selector FileName="*.js" />
         <Content>
-            <![CDATA[// javascript file.{Cursor.End}]]>
+            <![CDATA[// javascript file.$end$]]>
         </Content>
     </Template>
     <Template>
         <Selector FileName="I[A-Z]+.*\.cs" FileNameSyntax="Regex" />
         <Content>
-<![CDATA[namespace $namespace$
+<![CDATA[using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace $namespace$
 {
     public interface $itemname$
     {
         $end$
     }
-}]]>
+}
+]]>
         </Content>
     </Template>
     <Template>
         <Selector FileName="*.cs" />
         <Content>
-<![CDATA[namespace $namespace$
+<![CDATA[using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace $namespace$
 {
     public class $itemname$
     {
         $end$
     }
-}]]>
+}
+]]>
         </Content>
     </Template>
     <Template>
