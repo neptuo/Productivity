@@ -38,7 +38,17 @@ namespace Neptuo.Productivity
                     parameters.Add("namespace", ns);
                 }
 
-                parameters.Add("itemname", Path.GetFileNameWithoutExtension(filePath));
+                string itemName = Path.GetFileNameWithoutExtension(filePath);
+                string[] parts = itemName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 1)
+                {
+                    itemName = parts[parts.Length - 1];
+                    parameters.Add("itemcontainername", parts[parts.Length - 2]);
+                    if (parts.Length > 2)
+                        parameters.Add("itemcontainer2name", parts[parts.Length - 2]);
+                }
+
+                parameters.Add("itemname", itemName);
             }
         }
 

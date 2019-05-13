@@ -28,6 +28,29 @@ namespace $namespace$
         </Content>
     </Template>
     <Template>
+        <Selector FileName="[^.]+\.(.)*\.cs" FileNameSyntax="Regex" />
+        <Content>
+<![CDATA[using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace $namespace$
+{
+    partial class $itemcontainername$
+    {
+        public class $itemname$
+        {
+            $end$
+        }
+    }
+}
+]]>
+        </Content>
+    </Template>
+    <Template>
         <Selector FileName="*.cs" />
         <Content>
 <![CDATA[using System;
