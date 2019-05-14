@@ -59,7 +59,7 @@ namespace Neptuo.Productivity
 
         #region Xml Nodes
 
-        [XmlRoot("Templates")]
+        [XmlRoot("Templates", Namespace = "http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd")]
         public class TemplateRoot
         {
             [XmlAttribute]
