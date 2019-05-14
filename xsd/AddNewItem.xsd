@@ -1,0 +1,53 @@
+<xs:schema id="PresentationModels.ModelDefinition"
+    targetNamespace="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="MatchSyntaxMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Glob" />
+      <xs:enumeration value="Regex" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="Templates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Template" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Selector" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="FileName" type="xs:string" use="required" />
+                  <xs:attribute name="FileNameSyntax" type="MatchSyntaxMode" use="optional" default="Glob" />
+                </xs:complexType>
+              </xs:element>
+              <xs:choice>
+                <xs:element name="Content" type="xs:string" />
+                <!--<xs:element name="File">
+                  <xs:complexType>
+                    <xs:attribute name="Path" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>-->
+                <!--<xs:element name="Snippet">
+                  <xs:complexType>
+                    <xs:attribute name="Shortcut" type="xs:string" use="required" />
+                    <xs:attribute name="Path" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>-->
+                <!--<xs:element name="VsTemplate">
+                  <xs:complexType>
+                    <xs:attribute name="Guid" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>-->
+              </xs:choice>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="IsStandalone" type="xs:boolean" use="optional" default="false" />
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

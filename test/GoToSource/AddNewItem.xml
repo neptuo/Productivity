@@ -1,4 +1,4 @@
-<Templates>
+<Templates xmlns="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd">
     <Template>
         <Selector FileName="*.js" />
         <Content>
