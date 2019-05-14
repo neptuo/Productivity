@@ -25,11 +25,11 @@
               </xs:element>
               <xs:choice>
                 <xs:element name="Content" type="xs:string" />
-                <!--<xs:element name="File">
+                <xs:element name="File">
                   <xs:complexType>
                     <xs:attribute name="Path" type="xs:string" use="required" />
                   </xs:complexType>
-                </xs:element>-->
+                </xs:element>
                 <!--<xs:element name="Snippet">
                   <xs:complexType>
                     <xs:attribute name="Shortcut" type="xs:string" use="required" />

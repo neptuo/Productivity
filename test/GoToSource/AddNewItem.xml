@@ -1,9 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <Templates xmlns="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd">
     <Template>
         <Selector FileName="*.js" />
-        <Content>
-            <![CDATA[// javascript file.$end$]]>
-        </Content>
+        <File Path="../templates/JavaScript.js" />
     </Template>
     <Template>
         <Selector FileName="I[A-Z]+.*\.cs" FileNameSyntax="Regex" />
@@ -77,10 +76,6 @@ namespace $namespace$
     <Template>
         <Selector FileName="*Model.cs" />
         <Snippet File="Snippets/Model.snippet" />
-    </Template>
-    <Template>
-        <Selector FileName="*.cs" />
-        <File Path="ClassTemplate.cs" />
     </Template>
     <Template>
         <Selector FileName="*Control.xaml" />
