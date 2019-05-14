@@ -19,15 +19,12 @@ namespace Neptuo.Productivity.VisualStudio.Views
 {
     public partial class AddNewItemView : UserControl
     {
-        public MainViewModel ViewModel
-        {
-            get { return (MainViewModel)DataContext; }
-        }
+        public MainViewModel ViewModel => (MainViewModel)DataContext; 
 
         public AddNewItemView()
         {
             InitializeComponent();
-            Background = null;
+            SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
         }
 
         public void AutoFocus() => tbxName.Focus();

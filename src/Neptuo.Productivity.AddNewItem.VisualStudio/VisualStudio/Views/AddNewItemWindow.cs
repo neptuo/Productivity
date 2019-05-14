@@ -26,7 +26,6 @@ namespace Neptuo.Productivity.VisualStudio.Views
             SizeToContent = SizeToContent.WidthAndHeight;
             ResizeMode = ResizeMode.NoResize;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            SetResourceReference(BackgroundProperty, VsBrushes.BackgroundKey);
 
             ViewModel.Add.Executed += OnAddExecuted;
         }
