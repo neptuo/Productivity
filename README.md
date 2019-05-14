@@ -4,7 +4,8 @@ Neptuo Productivity Visual Studio extensions.
 
 ## Appveyor 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/4pxebvxjmiikg5n0?svg=true)](https://ci.appveyor.com/project/Neptuo/productivity)
+[![Build status](https://ci.appveyor.com/api/projects/status/4pxebvxjmiikg5n0?svg=true)](https://ci.appveyor.com/project/Neptuo/productivity)<br>
+[Nightly build artifacts](https://ci.appveyor.com/project/Neptuo/productivity/build/artifacts)
 
 ## Marketplace
 
