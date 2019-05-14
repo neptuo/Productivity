@@ -42,6 +42,9 @@ namespace Neptuo.Productivity
                             ITemplate template = service.FindTemplate(path);
                             if (template != null)
                                 return template;
+
+                            if (service.IsStandalone)
+                                break;
                         }
                     }
                 }

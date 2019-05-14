@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Neptuo.Productivity
@@ -15,7 +16,7 @@ namespace Neptuo.Productivity
     public class XmlTemplateService : ITemplateService
     {
         private readonly string directoryPath;
-        private readonly TemplateList list;
+        private readonly TemplateRoot root;
 
         public XmlTemplateService(string sourcePath)
         {
@@ -23,15 +24,17 @@ namespace Neptuo.Productivity
 
             directoryPath = Path.GetDirectoryName(sourcePath);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(TemplateList));
+            XmlSerializer serializer = new XmlSerializer(typeof(TemplateRoot));
             using (FileStream sourceContent = new FileStream(sourcePath, FileMode.Open))
-                list = (TemplateList)serializer.Deserialize(sourceContent);
+                root = (TemplateRoot)serializer.Deserialize(sourceContent);
         }
+
+        public bool IsStandalone => root.IsStandalone;
 
         public ITemplate FindTemplate(string path)
         {
             string fileName = Path.GetFileName(path);
-            foreach (TemplateNode templateNode in list)
+            foreach (TemplateNode templateNode in root.Templates)
             {
                 foreach (SelectorNode selectorNode in templateNode.Selectors)
                 {
@@ -57,8 +60,14 @@ namespace Neptuo.Productivity
         #region Xml Nodes
 
         [XmlRoot("Templates")]
-        public class TemplateList : List<TemplateNode>
-        { }
+        public class TemplateRoot
+        {
+            [XmlAttribute]
+            public bool IsStandalone { get; set; }
+
+            [XmlElement("Template")]
+            public List<TemplateNode> Templates { get; set; }
+        }
 
         [XmlType("Template")]
         [XmlRoot("Template")]
