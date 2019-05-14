@@ -31,18 +31,24 @@ namespace Neptuo.Productivity
             directoryPath = directoryPath.ToLowerInvariant();
             for (int i = 0; i < ProbeDepth; i++)
             {
-                if (!Directory.Exists(directoryPath))
+                if (String.IsNullOrEmpty(directoryPath))
                     break;
 
-                string filePath = Path.Combine(directoryPath, FileName);
-                if (!storage.TryGetValue(filePath, out XmlTemplateService service) && File.Exists(filePath))
-                    service = new XmlTemplateService(filePath);
-
-                if (service != null)
+                if (Directory.Exists(directoryPath))
                 {
-                    ITemplate template = service.FindTemplate(path);
-                    if (template != null)
-                        return template;
+                    string filePath = Path.Combine(directoryPath, FileName);
+                    if (File.Exists(filePath))
+                    {
+                        if (!storage.TryGetValue(filePath, out XmlTemplateService service))
+                            service = new XmlTemplateService(filePath);
+
+                        if (service != null)
+                        {
+                            ITemplate template = service.FindTemplate(path);
+                            if (template != null)
+                                return template;
+                        }
+                    }
                 }
 
                 directoryPath = Path.GetDirectoryName(directoryPath);
