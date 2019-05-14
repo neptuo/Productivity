@@ -17,8 +17,6 @@ namespace Neptuo.Productivity
     public class XmlTemplateServiceFactory : ITemplateService
     {
         public const string Name = "Xml";
-
-        public const int ProbeDepth = 10;
         public const string FileName = "AddNewItem.xml";
 
         private static Dictionary<string, XmlTemplateService> storage = new Dictionary<string, XmlTemplateService>();
@@ -29,11 +27,8 @@ namespace Neptuo.Productivity
             string directoryPath = Path.GetDirectoryName(path);
 
             directoryPath = directoryPath.ToLowerInvariant();
-            for (int i = 0; i < ProbeDepth; i++)
+            while (!String.IsNullOrEmpty(directoryPath))
             {
-                if (String.IsNullOrEmpty(directoryPath))
-                    break;
-
                 if (Directory.Exists(directoryPath))
                 {
                     string filePath = Path.Combine(directoryPath, FileName);
