@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.Utilities;
-using Neptuo;
-using Neptuo.FileSystems;
-using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -24,6 +21,28 @@ namespace Neptuo.Productivity
         public ITemplate FindTemplate(string path)
         {
             Ensure.NotNullOrEmpty(path, "path");
+
+            foreach (string filePath in GetConfigurationFilePaths(path))
+            {
+                if (!storage.TryGetValue(filePath, out XmlTemplateService service))
+                    service = new XmlTemplateService(filePath);
+
+                if (service != null)
+                {
+                    ITemplate template = service.FindTemplate(path);
+                    if (template != null)
+                        return template;
+
+                    if (service.IsStandalone)
+                        break;
+                }
+            }
+
+            return null;
+        }
+
+        private IEnumerable<string> GetConfigurationFilePaths(string path)
+        {
             string directoryPath = Path.GetDirectoryName(path);
 
             directoryPath = directoryPath.ToLowerInvariant();
@@ -33,26 +52,11 @@ namespace Neptuo.Productivity
                 {
                     string filePath = Path.Combine(directoryPath, FileName);
                     if (File.Exists(filePath))
-                    {
-                        if (!storage.TryGetValue(filePath, out XmlTemplateService service))
-                            service = new XmlTemplateService(filePath);
-
-                        if (service != null)
-                        {
-                            ITemplate template = service.FindTemplate(path);
-                            if (template != null)
-                                return template;
-
-                            if (service.IsStandalone)
-                                break;
-                        }
-                    }
+                        yield return filePath;
                 }
 
                 directoryPath = Path.GetDirectoryName(directoryPath);
             }
-
-            return null;
         }
     }
 }
