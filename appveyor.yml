@@ -5,12 +5,9 @@ branches:
 image: Visual Studio 2017
 configuration: Release
 before_build:
-- ps: >-
-    dotnet restore Neptuo.Productivity.sln
-
-    .\tools\Vsix-SetVersion.ps1
+- ps: .\tools\AppVeyor-BeforeBuild.ps1
 build:
   project: Neptuo.Productivity.sln
   verbosity: minimal
 after_build:
-- ps: Get-ChildItem .\*.vsix -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.BaseName)-v0.0.$($env:APPVEYOR_BUILD_NUMBER)$($_.Extension)" }
+- ps: .\tools\AppVeyor-PushArtifacts.ps1

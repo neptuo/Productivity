@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <title type="text" />
+  <id>uuid:24fb7e2e-6e27-4fb1-b02d-ffa720a647e2;id=1</id>
+  <updated>{CurrentDateTime}</updated>
+  <entry>
+    <id>{Id}</id>
+    <title type="text">{Name}</title>
+    <summary type="text" xsi:nil="true" />
+    <published>{CurrentDateTime}</published>
+    <updated>{CurrentDateTime}</updated>
+    <author>
+      <name>Neptuo</name>
+    </author>
+    <content type="application/octet-stream" src="https://ci.appveyor.com/api/buildjobs/{JobId}/artifacts/{FileName}" />
+    <Vsix xmlns="http://schemas.microsoft.com/developer/vsx-syndication-schema/2010" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <Id>{Id}</Id>
+      <Version>{Version}</Version>
+    </Vsix>
+  </entry>
+</feed>
