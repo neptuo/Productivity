@@ -10,6 +10,9 @@ if (-not($jobId))
     Throw "Parameter -JobId is required";
 }
 
+Push-Location $PSScriptRoot;
+. ".\Vsix-GetId.ps1";
+
 # Feed file paths.
 $templatePath = Resolve-Path -Path "..\NightlyFeedTemplate.xml";
 $outputPath = "..\NightlyFeed.xml";
@@ -17,9 +20,6 @@ Set-Content $outputPath "";
 $outputPath = Resolve-Path -Path $outputPath;
 
 $targetVersion = "0.0.$version";
-
-Push-Location $PSScriptRoot;
-. ".\Vsix-GetId.ps1";
 
 $timestamp = Get-Date -Format o;
 [xml]$xml = Get-Content $templatePath;
