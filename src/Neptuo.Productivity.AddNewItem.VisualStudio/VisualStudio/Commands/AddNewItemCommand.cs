@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
     /// </summary>
     internal sealed class AddNewItemCommand
     {
-        private VsPackage package;
+        private readonly VsPackage package;
 
         private AddNewItemCommand(VsPackage package, IMenuCommandService commandService)
         {
@@ -42,7 +42,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
             IParameterService parameterProvider = await package.GetComponentServiceAsync<ManyParameterService>();
             IFileService files = new DteFileService(dte, package);
-            ICursorService cursor = new DteCursorService(dte);
+            ICursorService cursor = new DteCursorService();
 
             var viewModel = new MainViewModel(files);
             SetViewModelPath(dte, viewModel);
@@ -86,18 +86,6 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                     viewModel.Path = path;
                 }
             }
-        }
-
-        private static Project FindSelectedProject(DTE dte)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            if (dte.SelectedItems.Count == 1)
-            {
-                SelectedItem item = dte.SelectedItems.Item(1);
-                return item.Project;
-            }
-
-            return null;
         }
 
         private static async Task CreateItemAsync(ITemplateService templates, IFileService files, IParameterService parameterProvider, ICursorService cursor, MainViewModel viewModel)

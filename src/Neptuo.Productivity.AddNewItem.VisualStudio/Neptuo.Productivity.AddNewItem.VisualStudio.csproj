@@ -64,6 +64,7 @@
     <Compile Include="VisualStudio\DteCursorService.cs" />
     <Compile Include="VisualStudio\DteFileService.cs" />
     <Compile Include="VisualStudio\ProjectExtensions.cs" />
+    <Compile Include="VisualStudio\ServiceProviderExtensions.cs" />
     <Compile Include="VisualStudio\ViewModels\Commands\AddNewItemCommand.cs" />
     <Compile Include="VisualStudio\ViewModels\MainViewModel.cs" />
     <Compile Include="VisualStudio\Views\AddNewItemView.xaml.cs">

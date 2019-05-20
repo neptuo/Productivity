@@ -19,10 +19,16 @@ namespace Neptuo.Productivity
     {
         private readonly DTE dte;
 
-        public CSharpParameterService() => dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+        public CSharpParameterService()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            dte = ServiceProvider.GlobalProvider.GetService<DTE>();
+        }
 
         public void Add(string filePath, IKeyValueCollection parameters)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             string fileExtension = Path.GetExtension(filePath);
             if (fileExtension == ".cs")
             {

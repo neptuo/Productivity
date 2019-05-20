@@ -12,6 +12,7 @@ using Neptuo.Collections.Specialized;
 using Neptuo.Productivity.VisualStudio.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -35,6 +36,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         private bool TryGetSolutionPath(out string solutionPath)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (dte.Solution == null)
             {
                 solutionPath = null;
@@ -47,6 +50,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public bool DirectoryExists(string path)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (TryGetSolutionPath(out string solutionPath))
                 return Directory.Exists(Path.Combine(solutionPath, path));
 
@@ -55,6 +60,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public bool FileExists(string path)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (TryGetSolutionPath(out string solutionPath))
                 return File.Exists(Path.Combine(solutionPath, path));
 
@@ -97,6 +104,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public void CreateDirectory(string path)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             ProjectItem projectItem = CreateProjectItem(Path.Combine(path, "__dummy__"), Encoding.UTF8, String.Empty);
             if (projectItem != null)
                 projectItem.Delete();
@@ -104,6 +113,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public void CreateFile(string filePath, Encoding encoding, string content)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             try
             {
                 CreateProjectItem(filePath, encoding, content);
@@ -121,13 +132,14 @@ namespace Neptuo.Productivity.VisualStudio
 
         private ProjectItem CreateProjectItem(string filePath, Encoding encoding, string content)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             FileInfo file = new FileInfo(filePath);
             filePath = file.FullName;
 
             object selectedItem = GetSelectedItem();
             Project project = GetSelectedProject(selectedItem);
 
-            string fileName = Path.GetFileName(filePath);
             string folderPath = Path.GetDirectoryName(filePath);
 
             PackageUtilities.EnsureOutputPath(folderPath);
@@ -152,9 +164,20 @@ namespace Neptuo.Productivity.VisualStudio
 
         public void UpdateContent(string filePath, string content)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (File.Exists(filePath))
             {
-                if (VsShellUtilities.IsDocumentOpen(services, filePath, Guid.Empty, out IVsUIHierarchy hierarchy, out uint itemId, out IVsWindowFrame windowFrame))
+                bool isOpened = VsShellUtilities.IsDocumentOpen(
+                    services, 
+                    filePath, 
+                    Guid.Empty, 
+                    out IVsUIHierarchy hierarchy, 
+                    out uint itemId, 
+                    out IVsWindowFrame windowFrame
+                );
+
+                if (isOpened)
                 {
                     // TODO: Update content and save.
                 }
@@ -177,27 +200,29 @@ namespace Neptuo.Productivity.VisualStudio
 
         private Project GetSelectedProject(object rawSelectedItem)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             ProjectItem selectedItem = rawSelectedItem as ProjectItem;
             Project selectedProject = rawSelectedItem as Project;
-            Project project = selectedItem?.ContainingProject ?? selectedProject ?? GetActiveProject();
+            Project project = selectedItem?.ContainingProject ?? selectedProject ?? FindActiveProject();
 
             return project;
         }
 
-        private Project GetActiveProject()
+        private Project FindActiveProject()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             try
             {
-                var activeSolutionProjects = dte.ActiveSolutionProjects as Array;
-
-                if (activeSolutionProjects != null && activeSolutionProjects.Length > 0)
+                if (dte.ActiveSolutionProjects is Array activeSolutionProjects && activeSolutionProjects.Length > 0)
                     return activeSolutionProjects.GetValue(0) as Project;
 
                 var doc = dte.ActiveDocument;
 
                 if (doc != null && !string.IsNullOrEmpty(doc.FullName))
                 {
-                    var item = (dte.Solution != null) ? dte.Solution.FindProjectItem(doc.FullName) : null;
+                    var item = dte.Solution?.FindProjectItem(doc.FullName);
 
                     if (item != null)
                         return item.ContainingProject;
@@ -213,42 +238,39 @@ namespace Neptuo.Productivity.VisualStudio
 
         public static object GetSelectedItem()
         {
-            IntPtr hierarchyPointer, selectionContainerPointer;
-            object selectedObject = null;
-            IVsMultiItemSelect multiItemSelect;
-            uint itemId;
+            ThreadHelper.ThrowIfNotOnUIThread();
 
+            object selectedObject = null;
             var monitorSelection = (IVsMonitorSelection)Package.GetGlobalService(typeof(SVsShellMonitorSelection));
 
             try
             {
-                monitorSelection.GetCurrentSelection(out hierarchyPointer,
-                                                 out itemId,
-                                                 out multiItemSelect,
-                                                 out selectionContainerPointer);
+                monitorSelection.GetCurrentSelection(
+                    out IntPtr hierarchyPointer,
+                    out uint itemId,
+                    out IVsMultiItemSelect multiItemSelect,
+                    out IntPtr selectionContainerPointer
+                );
 
-                IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(
-                                                     hierarchyPointer,
-                                                     typeof(IVsHierarchy)) as IVsHierarchy;
-
+                IVsHierarchy selectedHierarchy = (IVsHierarchy)Marshal.GetTypedObjectForIUnknown(hierarchyPointer, typeof(IVsHierarchy));
                 if (selectedHierarchy != null)
-                {
                     ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_ExtObject, out selectedObject));
-                }
 
                 Marshal.Release(hierarchyPointer);
                 Marshal.Release(selectionContainerPointer);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.Write(ex);
+                Debug.Write(ex);
             }
 
             return selectedObject;
         }
 
-        public static IWpfTextView FindCurentTextView()
+        public IWpfTextView FindCurentTextView()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var componentModel = GetComponentModel();
             if (componentModel == null) return null;
             var editorAdapter = componentModel.GetService<IVsEditorAdaptersFactoryService>();
@@ -256,19 +278,16 @@ namespace Neptuo.Productivity.VisualStudio
             return editorAdapter.GetWpfTextView(GetCurrentNativeTextView());
         }
 
-        public static IVsTextView GetCurrentNativeTextView()
+        public IVsTextView GetCurrentNativeTextView()
         {
-            var textManager = (IVsTextManager)ServiceProvider.GlobalProvider.GetService(typeof(SVsTextManager));
+            ThreadHelper.ThrowIfNotOnUIThread();
 
-            IVsTextView activeView = null;
-            ErrorHandler.ThrowOnFailure(textManager.GetActiveView(1, null, out activeView));
+            var textManager = (IVsTextManager)Package.GetGlobalService(typeof(SVsTextManager));
+            ErrorHandler.ThrowOnFailure(textManager.GetActiveView(1, null, out IVsTextView activeView));
             return activeView;
         }
 
-        public static IComponentModel GetComponentModel()
-        {
-            return (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-        }
+        public static IComponentModel GetComponentModel() => (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
 
         #endregion
     }

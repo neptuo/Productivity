@@ -71,6 +71,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public static string FindRootNamespace(this Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (project == null)
                 return null;
 
@@ -81,6 +83,8 @@ namespace Neptuo.Productivity.VisualStudio
 
         public static string FindProperty(this Project project, string propertName)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             try
             {
                 Property property = project.Properties.Item(propertName);
