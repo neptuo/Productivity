@@ -90,7 +90,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
 
         private static async Task CreateItemAsync(ITemplateService templates, IFileService files, IParameterService parameterProvider, ICursorService cursor, MainViewModel viewModel)
         {
-            string path = Path.Combine(viewModel.Path, viewModel.Name);
+            string path = Path.GetFullPath(Path.Combine(viewModel.Path, viewModel.Name));
             if (viewModel.IsFile)
             {
                 ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
