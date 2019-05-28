@@ -96,9 +96,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;
                 if (template is IContentTemplate contentTemplate)
                 {
-                    KeyValueCollection parameters = new KeyValueCollection();
-                    parameterProvider.Add(path, parameters);
-
+                    KeyValueCollection parameters = PrepareParameters(parameterProvider, path);
                     TemplateContent templateContent = contentTemplate.GetContent(parameters);
 
                     files.CreateFile(path, templateContent.Encoding, templateContent.Content);
@@ -108,7 +106,8 @@ namespace Neptuo.Productivity.VisualStudio.Commands
                 }
                 else if (template is IApplicableTemplate applicableTemplate)
                 {
-                    await applicableTemplate.ApplyAsync(path, new KeyValueCollection());
+                    KeyValueCollection parameters = PrepareParameters(parameterProvider, path);
+                    await applicableTemplate.ApplyAsync(path, parameters);
                 }
                 else
                 {
@@ -119,6 +118,13 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             {
                 files.CreateDirectory(path);
             }
+        }
+
+        private static KeyValueCollection PrepareParameters(IParameterService parameterProvider, string path)
+        {
+            KeyValueCollection parameters = new KeyValueCollection();
+            parameterProvider.Add(path, parameters);
+            return parameters;
         }
 
         #region Singleton
