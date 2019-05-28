@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Templates xmlns="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd">
+  <Template>
+    <Selector FileName="*.css" />
+    <Content>
+      <![CDATA[//Stylesheet $itemname$.css
+$end$
+]]>
+    </Content>
+  </Template>
+</Templates>

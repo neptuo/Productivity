@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Templates xmlns="http://schemas.neptuo.com/xsd/productivity/vsix/AddNewItem.xsd">
+    <Include Path="../templates/AdditionalTemplates.xml" />
     <Template>
         <Selector FileName="*.js" />
         <File Path="../templates/JavaScript.js" />

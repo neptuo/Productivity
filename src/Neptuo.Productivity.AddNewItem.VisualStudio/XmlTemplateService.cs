@@ -26,14 +26,43 @@ namespace Neptuo.Productivity
 
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(TemplateRoot));
-                using (FileStream sourceContent = new FileStream(sourcePath, FileMode.Open))
-                    root = (TemplateRoot)serializer.Deserialize(sourceContent);
+                HashSet<string> processedPaths = new HashSet<string>();
+                processedPaths.Add(sourcePath);
+                root = LoadFile(sourcePath, processedPaths);
             }
             catch (Exception e)
             {
                 throw new XmlTemplateException(e, sourcePath);
             }
+        }
+
+        private TemplateRoot LoadFile(string sourcePath, HashSet<string> processedPaths)
+        {
+            TemplateRoot root;
+            XmlSerializer serializer = new XmlSerializer(typeof(TemplateRoot));
+            using (FileStream sourceContent = new FileStream(sourcePath, FileMode.Open))
+                root = (TemplateRoot)serializer.Deserialize(sourceContent);
+
+            if (root.Includes != null)
+            {
+                foreach (IncludeNode include in root.Includes)
+                {
+                    string includePath = Path.Combine(Path.GetDirectoryName(sourcePath), include.Path);
+                    includePath = Path.GetFullPath(includePath);
+                    includePath = includePath.ToLowerInvariant();
+
+                    if (processedPaths.Add(includePath))
+                    {
+                        TemplateRoot includeRoot = LoadFile(includePath, processedPaths);
+                        if (includeRoot != null)
+                        {
+                            root.Templates.AddRange(includeRoot.Templates);
+                        }
+                    }
+                }
+            }
+
+            return root;
         }
 
         public bool IsStandalone => root.IsStandalone;
@@ -74,6 +103,16 @@ namespace Neptuo.Productivity
 
             [XmlElement("Template")]
             public List<TemplateNode> Templates { get; set; }
+
+            [XmlElement("Include")]
+            public List<IncludeNode> Includes { get; set; }
+        }
+
+        [XmlType("Include")]
+        public class IncludeNode
+        {
+            [XmlAttribute]
+            public string Path { get; set; }
         }
 
         [XmlType("Template")]
