@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Interop;
 using Window = System.Windows.Window;
 using Task = System.Threading.Tasks.Task;
+using Process = System.Diagnostics.Process;
 
 namespace Neptuo.Productivity.VisualStudio.Commands
 {
@@ -38,22 +39,44 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            DTE dte = await package.GetServiceAsync<DTE>();
-            ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
-            IParameterService parameterProvider = await package.GetComponentServiceAsync<ManyParameterService>();
-            IFileService files = new DteFileService(dte, package);
-            ICursorService cursor = new DteCursorService();
+            try
+            {
+                DTE dte = await package.GetServiceAsync<DTE>();
+                ITemplateService templates = await package.GetComponentServiceAsync<FirstNotNullTemplateService>();
+                IParameterService parameterProvider = await package.GetComponentServiceAsync<ManyParameterService>();
+                IFileService files = new DteFileService(dte, package);
+                ICursorService cursor = new DteCursorService();
 
-            var viewModel = new MainViewModel(files);
-            SetViewModelPath(dte, viewModel);
+                var viewModel = new MainViewModel(files);
+                SetViewModelPath(dte, viewModel);
 
-            var wnd = new AddNewItemWindow(viewModel);
-            SetWindowOwner(dte, wnd);
+                var wnd = new AddNewItemWindow(viewModel);
+                SetWindowOwner(dte, wnd);
 
-            if (wnd.ShowDialog() != true)
-                return;
+                if (wnd.ShowDialog() != true)
+                    return;
 
-            await CreateItemAsync(templates, files, parameterProvider, cursor, viewModel);
+                await CreateItemAsync(templates, files, parameterProvider, cursor, viewModel);
+            }
+            catch (Exception ex)
+            {
+                ProcessException(ex);
+            }
+        }
+
+        private void ProcessException(Exception e)
+        {
+            string fileName = Path.GetTempFileName();
+            File.WriteAllText(fileName, e.ToString());
+
+            try
+            {
+                VsShellUtilities.OpenDocument(package, fileName);
+            }
+            catch (Exception)
+            {
+                Process.Start(fileName);
+            }
         }
 
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
