@@ -24,9 +24,16 @@ namespace Neptuo.Productivity
 
             directoryPath = Path.GetDirectoryName(sourcePath);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(TemplateRoot));
-            using (FileStream sourceContent = new FileStream(sourcePath, FileMode.Open))
-                root = (TemplateRoot)serializer.Deserialize(sourceContent);
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(TemplateRoot));
+                using (FileStream sourceContent = new FileStream(sourcePath, FileMode.Open))
+                    root = (TemplateRoot)serializer.Deserialize(sourceContent);
+            }
+            catch (Exception e)
+            {
+                throw new XmlTemplateException(e, sourcePath);
+            }
         }
 
         public bool IsStandalone => root.IsStandalone;

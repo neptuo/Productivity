@@ -82,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VsPackage.vsct</DependentUpon>
     </Compile>
+    <Compile Include="XmlTemplateException.cs" />
     <Compile Include="XmlTemplateService.cs" />
     <Compile Include="XmlTemplateServiceFactory.cs" />
   </ItemGroup>
