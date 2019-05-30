@@ -88,10 +88,12 @@ namespace Neptuo.Productivity
                 return new FileTemplate(Path.Combine(directoryPath, node.File.Path));
 
             if (node.Content != null)
-                return new StringTemplate(node.Content);
+                return new StringTemplate(EncodeXmlLines(node));
 
             return null;
         }
+
+        private string EncodeXmlLines(TemplateNode node) => node.Content.Replace("\n", "\r\n");
 
         #region Xml Nodes
 
