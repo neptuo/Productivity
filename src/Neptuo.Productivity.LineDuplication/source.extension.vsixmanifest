@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="bcd84a12-8669-43fb-8af0-a2933dd03d25" Version="1.1.0" Language="en-US" Publisher="Neptuo" />
+    <Identity Id="bcd84a12-8669-43fb-8af0-a2933dd03d25" Version="2.0.0" Language="en-US" Publisher="Neptuo" />
     <DisplayName>Neptuo.Productivity.LineDuplication</DisplayName>
     <Description xml:space="preserve">Productivity tools by Neptuo: Line duplication.
 Provides commands for duplicating current line or selected lines above or under.</Description>
@@ -12,9 +12,15 @@ Provides commands for duplicating current line or selected lines above or under.
     <Tags>Neptuo, Productivity, LineDuplication</Tags>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0)" />
-    <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
-    <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+		<ProductArchitecture>amd64</ProductArchitecture>
+	</InstallationTarget>
+    <InstallationTarget Version="[17.0, 18.0)" Id="Microsoft.VisualStudio.Pro">
+		<ProductArchitecture>amd64</ProductArchitecture>
+	</InstallationTarget>
+    <InstallationTarget Version="[17.0, 18.0)" Id="Microsoft.VisualStudio.Enterprise">
+		<ProductArchitecture>amd64</ProductArchitecture>
+	</InstallationTarget>
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
@@ -23,6 +29,6 @@ Provides commands for duplicating current line or selected lines above or under.
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
   <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,)" DisplayName="Visual Studio core editor" />
+	<Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
   </Prerequisites>
 </PackageManifest>
