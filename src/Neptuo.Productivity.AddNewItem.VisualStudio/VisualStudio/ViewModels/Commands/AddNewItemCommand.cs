@@ -40,10 +40,15 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
             if (String.IsNullOrEmpty(viewModel.Path))
                 return false;
 
-            string path = Path.Combine(viewModel.Path, viewModel.Name);
+            if (!viewModel.TryEvaluate(out var newItem))
+                return false;
+
+            (string path, string name) = newItem;
+
+            path = Path.Combine(viewModel.Path, name);
             if (viewModel.IsFile)
             {
-                if (!files.IsValidFileName(viewModel.Name))
+                if (!files.IsValidFileName(name))
                     return false;
 
                 if (files.FileExists(path))
@@ -51,7 +56,7 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels.Commands
             }
             else
             {
-                if (!files.IsValidDirectoryName(viewModel.Name))
+                if (!files.IsValidDirectoryName(name))
                     return false;
 
                 if (files.DirectoryExists(path))

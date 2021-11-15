@@ -92,26 +92,41 @@ namespace Neptuo.Productivity.VisualStudio.Commands
             {
                 SelectedItem item = dte.SelectedItems.Item(1);
                 string path = null;
+                string projectPath = null;
+
                 if (item.ProjectItem != null)
+                {
                     path = item.ProjectItem.FileNames[0];
+                    projectPath = Path.GetDirectoryName(item.ProjectItem.ContainingProject.FileName);
+                }
                 else if (item.Project != null)
+                {
                     path = Path.GetDirectoryName(item.Project.FileName);
+                    projectPath = path;
+                }
                 else if (dte.Solution != null)
+                {
                     path = Path.GetDirectoryName(dte.Solution.FileName);
+                }
 
                 if (path != null)
                 {
                     if (File.Exists(path))
                         path = Path.GetDirectoryName(path);
 
-                    viewModel.Path = path;
+                    viewModel.SetPaths(path, projectPath);
                 }
             }
         }
 
         private static async Task CreateItemAsync(ITemplateService templates, IFileService files, IParameterService parameterProvider, ICursorService cursor, MainViewModel viewModel)
         {
-            string path = Path.GetFullPath(Path.Combine(viewModel.Path, viewModel.Name));
+            if (!viewModel.TryEvaluate(out var newItem))
+                return;
+
+            (string path, string name) = newItem;
+
+            path = Path.GetFullPath(Path.Combine(path, name));
             if (viewModel.IsFile)
             {
                 ITemplate template = templates.FindTemplate(path) ?? EmptyTemplate.Instance;

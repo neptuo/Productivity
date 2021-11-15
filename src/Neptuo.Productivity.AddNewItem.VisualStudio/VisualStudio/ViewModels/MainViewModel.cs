@@ -26,6 +26,21 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
             }
         }
 
+        private string projectPath;
+        public string ProjectPath
+        {
+            get { return projectPath; }
+            set
+            {
+                if (projectPath != value)
+                {
+                    projectPath = value;
+                    RaisePropertyChanged();
+                    RecomputeActivePath();
+                }
+            }
+        }
+
         private string inactivePath;
         public string InactivePath
         {
@@ -102,8 +117,17 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
 
             if (!String.IsNullOrEmpty(activePath))
             {
+                if (!TryEvaluate(out var newItem))
+                    return;
+
+                activePath = newItem.path;
+                name = newItem.name;
+
                 if (activePath.EndsWith("/") || activePath.EndsWith(@"\"))
                     activePath = activePath.Substring(0, activePath.Length - 1);
+
+                if (activePath.Length > newItem.path.Length)
+                    inactivePath = activePath.Substring(newItem.path.Length);
 
                 while (name.StartsWith("../") || name.StartsWith(@"..\"))
                 {
@@ -142,6 +166,36 @@ namespace Neptuo.Productivity.VisualStudio.ViewModels
             IsFile = !(Name ?? String.Empty).EndsWith("/") && !(Name ?? String.Empty).EndsWith(@"\");
             ActivePath = activePath.Replace(@"\", "/");
             InactivePath = inactivePath.Replace(@"\", "/");
+        }
+
+        public void SetPaths(string path, string projectPath)
+        {
+            this.path = path;
+            this.projectPath = projectPath;
+            RecomputeActivePath();
+        }
+
+        public bool TryEvaluate(out (string path, string name) result)
+        {
+            result = default;
+
+            string name = Name;
+            string path = Path;
+
+            if (name == null)
+                name = String.Empty;
+
+            if (name.StartsWith("~/"))
+            {
+                if (String.IsNullOrEmpty(ProjectPath))
+                    return false;
+
+                name = name.Substring(2);
+                path = ProjectPath;
+            }
+
+            result = (path, name);
+            return true;
         }
     }
 }
