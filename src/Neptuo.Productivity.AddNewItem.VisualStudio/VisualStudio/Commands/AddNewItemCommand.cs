@@ -82,9 +82,7 @@ namespace Neptuo.Productivity.VisualStudio.Commands
         private static void SetWindowOwner(DTE dte, AddNewItemWindow wnd)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
-            var ownerHwnd = new IntPtr(dte.MainWindow.HWnd);
-            wnd.Owner = (Window)HwndSource.FromHwnd(ownerHwnd).RootVisual;
+            wnd.Owner = (Window)HwndSource.FromHwnd(dte.MainWindow.HWnd).RootVisual;
         }
 
         private static void SetViewModelPath(DTE dte, MainViewModel viewModel)
