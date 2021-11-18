@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="9e49c69d-322a-4f68-8e41-f10c61a5efc4" Version="1.0.0" Language="en-US" Publisher="Neptuo" />
+        <Identity Id="9e49c69d-322a-4f68-8e41-f10c61a5efc4" Version="2.0.0" Language="en-US" Publisher="Neptuo" />
         <DisplayName>Neptuo.Productivity.AddNewItem</DisplayName>
         <Description xml:space="preserve">Productivity tools by Neptuo: Add new item.
 Easily create any type of file or folder and include it in project.</Description>
