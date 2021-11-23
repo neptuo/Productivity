@@ -10,8 +10,9 @@ Neptuo Productivity Visual Studio extensions.
 
 ## Marketplace
 
-- [Add New Item](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityAddNewItem).
+- [Add New Item](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityAddNewItem) (VS 2022).
 - [Build History](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityBuildHistory).
+- [Code Snippets](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityCodeSnippets) (VS 2022).
 - [Find In Folder](https://marketplace.visualstudio.com/items?itemName=Neptuo.NeptuoProductivityFindInFolder).
-- [Line Duplication](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityLineDuplication).
-- [IntelliSense for inserting GUIDs](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityIntelliSenseGuid).
+- [Line Duplication](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityLineDuplication) (VS 2022).
+- [IntelliSense for inserting GUIDs](https://marketplace.visualstudio.com/items?itemName=Neptuo.ProductivityIntelliSenseGuid) (VS 2022).
